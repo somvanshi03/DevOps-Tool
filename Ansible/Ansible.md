@@ -1,161 +1,161 @@
 # Ansible:
 
 
-## 1.Install Ansible on Ubuntu:
+	## 1.Install Ansible on Ubuntu:
 
 
-sudo apt update  -y
-sudo apt install software-properties-common -y 
-sudo apt-add-repository ppa:ansible/ansible
-sudo apt install python -y 
-sudo apt install python3 -y 
-sudo apt update -y
-sudo apt install ansible -y
+		sudo apt update  -y
+		sudo apt install software-properties-common -y 
+		sudo apt-add-repository ppa:ansible/ansible
+		sudo apt install python -y 
+		sudo apt install python3 -y 
+		sudo apt update -y
+		sudo apt install ansible -y
 
-## Passwordless authentication.
+	## Passwordless authentication.
 
-ssh-keygen
-cat .ssh/id_rsa.pub
-and paste it in to target machine in below file.
-vi .ssh/authorized_keys
-
-
-## Add target machine in hostfile.
-
-vi /etc/ansible/hosts
-[app]
-IP_Address
-
-ansible all --list-hosts
-
-## Adhoc Commands:
-------------------
-
-### Ping Module.
-
-ansible-doc ping 
-ansible -m ping app
-
-### Command Module:
---------------------------
-
-ansible-doc command
-ansible app -m command -a "uptime"
-ansible app -m command -a "df -hT"
-ansible app -m command -a "who -b"
-ansible app -m command -a "df -hT"
-ansible app -m command -a "ls -l /"
-
-if you need to provide password. then use -k or --ask-password
-
-ansible app -m command -a "uptime" -k
-ansible app -m command -a "df -hT" -k
-ansible app -m command -a "who -b" -k
-ansible app -m command -a "df -hT" -k
-
-ansible app -m command -a "uptime" --ask-pass
-ansible app -m command -a "df -hT" --ask-pass
-ansible app -m command -a "who -b" --ask-pass
-ansible app -m command -a "df -hT" --ask-pass
+		ssh-keygen
+		cat .ssh/id_rsa.pub
+		and paste it in to target machine in below file.
+		vi .ssh/authorized_keys
 
 
-### Raw Module:
+	## Add target machine in hostfile.
 
-ansible-doc raw
-We can use multiple command in single line.
+		vi /etc/ansible/hosts
+		[app]
+		IP_Address
 
-ansible app -m command -a "date;uptime;ls -l;who -b"
-ansible app -m raw -a "date;uptime;ls -l;who -b"
+		ansible all --list-hosts
 
-###  Copy Module: File
-
-ansible-doc copy
-
-ansible app -m copy -a "src=/etc/passwd dest=/tmp/ owner=root group=root mode=777"
-ansible app -m command -a "ls /tmp"
-
-### Copy Module: Dir:
+	## Adhoc Commands:
 
 
-ansible app -m copy -a "src=/etc dest=/tmp owner=root group=root mode=777"
-ansible app -m command -a "ls /tmp"
+	### Ping Module.
 
-### Copy Module with Backup:
+		ansible-doc ping 
+		ansible -m ping app
 
-
-ansible app -m copy -a "src=/root/file1 backup=yes dest=/tmp"
-
-### Copy Module: source & target on target machine
+	### Command Module:
 
 
-ansible app -m copy -a "src=/tmp/file1 remote_src=yes dest=/root owner=root group=root mode=777"
+		ansible-doc command
+		ansible app -m command -a "uptime"
+		ansible app -m command -a "df -hT"
+		ansible app -m command -a "who -b"
+		ansible app -m command -a "df -hT"
+		ansible app -m command -a "ls -l /"
 
-### Copy Module:  Content
+	if you need to provide password. then use -k or --ask-password
 
-ansible app -m copy -a content= "Welcome to ansible" "dest=/tmp/file1" backup=yes
+		ansible app -m command -a "uptime" -k
+		ansible app -m command -a "df -hT" -k
+		ansible app -m command -a "who -b" -k
+		ansible app -m command -a "df -hT" -k
 
-### Fetch Module:
-
-Ansible-doc fetch
-
-ansible app -m fetch -a "src=/tmp/file1 dest=/tmp"
-
-### File Module: Directory
-
-Ansible-doc file
-
-ansible app -m file -a "path=/tmp/dir101 state=directory owner=root group=root mode=777"
-ansible app -m command -a "ls -l /tmp"
-
-### File Module: File
+		ansible app -m command -a "uptime" --ask-pass
+		ansible app -m command -a "df -hT" --ask-pass
+		ansible app -m command -a "who -b" --ask-pass
+		ansible app -m command -a "df -hT" --ask-pass
 
 
-Ansible-doc file
-ansible app -m file -a "path=/tmp/file101 state=touch owner=root group=root mode=777"
-ansible app -m command -a "ls -l /tmp"
+	### Raw Module:
 
-### Shell Module:
+		ansible-doc raw
+		We can use multiple command in single line.
 
+		ansible app -m command -a "date;uptime;ls -l;who -b"
+		ansible app -m raw -a "date;uptime;ls -l;who -b"
 
-Ansible-doc shell
-ansible app -m shell -a "sh /root/workerdir/file.sh"
+	###  Copy Module: File
 
+		ansible-doc copy
 
-### Package Module:
+		ansible app -m copy -a "src=/etc/passwd dest=/tmp/ owner=root group=root mode=777"
+		ansible app -m command -a "ls /tmp"
 
-
-Ansible-doc package
-
-ansible app -m package -a "name=httpd state=present"
-ansible app -m package -a "name=httpd state=installed"
-ansible app -m package -a "name=httpd state=latest"
-ansible app -m package -a "name=samba state=latest use=yum"
-
-###  Remove Package:
+	### Copy Module: Dir:
 
 
-Ansible-doc package
-ansible app -m package -a "name=httpd state=absent"
-ansible app -m package -a "name=httpd state=removed"
+		ansible app -m copy -a "src=/etc dest=/tmp owner=root group=root mode=777"
+		ansible app -m command -a "ls /tmp"
+
+	### Copy Module with Backup:
 
 
-### Service Module:
+		ansible app -m copy -a "src=/root/file1 backup=yes dest=/tmp"
+
+	### Copy Module: source & target on target machine
 
 
-ansible-doc service
-ansible app -m service -a "name=httpd state=started"
-ansible app -m service -a "name=httpd state=restarted"
-ansible app -m service -a "name=httpd state=reloaded"
-ansible app -m service -a "name=httpd state=started enabled=yes"
+		ansible app -m copy -a "src=/tmp/file1 remote_src=yes dest=/root owner=root group=root mode=777"
 
-### Group Module:
+	### Copy Module:  Content
+
+		ansible app -m copy -a content= "Welcome to ansible" "dest=/tmp/file1" backup=yes
+
+	### Fetch Module:
+
+		Ansible-doc fetch
+
+		ansible app -m fetch -a "src=/tmp/file1 dest=/tmp"
+
+	### File Module: Directory
+
+		Ansible-doc file
+
+		ansible app -m file -a "path=/tmp/dir101 state=directory owner=root group=root mode=777"
+		ansible app -m command -a "ls -l /tmp"
+
+	### File Module: File
 
 
-ansible-doc group
-ansible app -m group -a "name=mridul state=present"
+		Ansible-doc file
+		ansible app -m file -a "path=/tmp/file101 state=touch owner=root group=root mode=777"
+		ansible app -m command -a "ls -l /tmp"
+
+	### Shell Module:
 
 
-### User Module:
+		Ansible-doc shell
+		ansible app -m shell -a "sh /root/workerdir/file.sh"
+
+
+	### Package Module:
+
+
+		Ansible-doc package
+
+		ansible app -m package -a "name=httpd state=present"
+		ansible app -m package -a "name=httpd state=installed"
+		ansible app -m package -a "name=httpd state=latest"
+		ansible app -m package -a "name=samba state=latest use=yum"
+
+	###  Remove Package:
+
+
+		Ansible-doc package
+		ansible app -m package -a "name=httpd state=absent"
+		ansible app -m package -a "name=httpd state=removed"
+
+
+	### Service Module:
+
+
+		ansible-doc service
+		ansible app -m service -a "name=httpd state=started"
+		ansible app -m service -a "name=httpd state=restarted"
+		ansible app -m service -a "name=httpd state=reloaded"
+		ansible app -m service -a "name=httpd state=started enabled=yes"
+
+	### Group Module:
+
+
+		ansible-doc group
+		ansible app -m group -a "name=mridul state=present"
+
+
+	### User Module:
 
 
 
