@@ -126,7 +126,7 @@
 		git tag --delete V-1.0.0
 		git show V-1.0.0
 
-.gitignore
+## .gitignore
 
 
 
