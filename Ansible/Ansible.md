@@ -31,12 +31,12 @@
 ## Adhoc Commands:
 
 
-	### Ping Module.
+### Ping Module.
 
 		ansible-doc ping 
 		ansible -m ping app
 
-	### Command Module:
+### Command Module:
 
 
 		ansible-doc command
@@ -59,7 +59,7 @@
 		ansible app -m command -a "df -hT" --ask-pass
 
 
-	### Raw Module:
+### Raw Module:
 
 		ansible-doc raw
 		We can use multiple command in single line.
@@ -67,61 +67,61 @@
 		ansible app -m command -a "date;uptime;ls -l;who -b"
 		ansible app -m raw -a "date;uptime;ls -l;who -b"
 
-	###  Copy Module: File
+###  Copy Module: File
 
 		ansible-doc copy
 
 		ansible app -m copy -a "src=/etc/passwd dest=/tmp/ owner=root group=root mode=777"
 		ansible app -m command -a "ls /tmp"
 
-	### Copy Module: Dir:
+### Copy Module: Dir:
 
 
 		ansible app -m copy -a "src=/etc dest=/tmp owner=root group=root mode=777"
 		ansible app -m command -a "ls /tmp"
 
-	### Copy Module with Backup:
+### Copy Module with Backup:
 
 
 		ansible app -m copy -a "src=/root/file1 backup=yes dest=/tmp"
 
-	### Copy Module: source & target on target machine
+### Copy Module: source & target on target machine
 
 
 		ansible app -m copy -a "src=/tmp/file1 remote_src=yes dest=/root owner=root group=root mode=777"
 
-	### Copy Module:  Content
+### Copy Module:  Content
 
 		ansible app -m copy -a content= "Welcome to ansible" "dest=/tmp/file1" backup=yes
 
-	### Fetch Module:
+### Fetch Module:
 
 		Ansible-doc fetch
 
 		ansible app -m fetch -a "src=/tmp/file1 dest=/tmp"
 
-	### File Module: Directory
+### File Module: Directory
 
 		Ansible-doc file
 
 		ansible app -m file -a "path=/tmp/dir101 state=directory owner=root group=root mode=777"
 		ansible app -m command -a "ls -l /tmp"
 
-	### File Module: File
+### File Module: File
 
 
 		Ansible-doc file
 		ansible app -m file -a "path=/tmp/file101 state=touch owner=root group=root mode=777"
 		ansible app -m command -a "ls -l /tmp"
 
-	### Shell Module:
+### Shell Module:
 
 
 		Ansible-doc shell
 		ansible app -m shell -a "sh /root/workerdir/file.sh"
 
 
-	### Package Module:
+### Package Module:
 
 
 		Ansible-doc package
@@ -131,7 +131,7 @@
 		ansible app -m package -a "name=httpd state=latest"
 		ansible app -m package -a "name=samba state=latest use=yum"
 
-	###  Remove Package:
+###  Remove Package:
 
 
 		Ansible-doc package
@@ -139,7 +139,7 @@
 		ansible app -m package -a "name=httpd state=removed"
 
 
-	### Service Module:
+### Service Module:
 
 
 		ansible-doc service
@@ -148,14 +148,14 @@
 		ansible app -m service -a "name=httpd state=reloaded"
 		ansible app -m service -a "name=httpd state=started enabled=yes"
 
-	### Group Module:
+### Group Module:
 
 
 		ansible-doc group
 		ansible app -m group -a "name=mridul state=present"
 
 
-	### User Module:
+### User Module:
 
 
 
