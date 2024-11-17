@@ -1,7 +1,7 @@
 # Ansible:
 
 
-	## 1.Install Ansible on Ubuntu:
+## Install Ansible on Ubuntu:
 
 
 		sudo apt update  -y
@@ -12,7 +12,7 @@
 		sudo apt update -y
 		sudo apt install ansible -y
 
-	## Passwordless authentication.
+## Passwordless authentication.
 
 		ssh-keygen
 		cat .ssh/id_rsa.pub
@@ -20,7 +20,7 @@
 		vi .ssh/authorized_keys
 
 
-	## Add target machine in hostfile.
+## Add target machine in hostfile.
 
 		vi /etc/ansible/hosts
 		[app]
@@ -28,7 +28,7 @@
 
 		ansible all --list-hosts
 
-	## Adhoc Commands:
+## Adhoc Commands:
 
 
 	### Ping Module.
