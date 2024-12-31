@@ -224,22 +224,22 @@ ADD command helps in copying data into a Docker image
 		MAINTAINER Mridul
 		RUN yum -y install httpd
 		RUN echo "Hello Apache server on Ubuntu Docker" > /var/www/html/index.html
-		#COPY index.html /var/www/html/
+		///#COPY index.html /var/www/html/
 		#workdir /var/www/html
 		CMD [ "/usr/sbin/httpd" , "-D", "FOREGROUND"]
 		EXPOSE 80 
 
-docker build . -t mridul08/httpd22:v1
+		docker build . -t mridul08/httpd22:v1
 
-docker run -itd -p 9090:80 mridul08/bootstrapimage101:v1.1
+		docker run -itd -p 9090:80 mridul08/bootstrapimage101:v1.1
 
-http://13.233.92.103:9090/
+		http://13.233.92.103:9090/
 
 
-http://52.91.177.16:9090/startbootstrap-grayscale/dist/
+		http://52.91.177.16:9090/startbootstrap-grayscale/dist/
 
-http://52.91.177.16:8090/dist/
-docker run -itd -p 9090:80 mridul08/mycentos0409:v3
+		http://52.91.177.16:8090/dist/
+		docker run -itd -p 9090:80 mridul08/mycentos0409:v3
 ----------------------------------------------
 
 ## Docker Swarm
