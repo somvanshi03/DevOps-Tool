@@ -302,10 +302,10 @@ ADD command helps in copying data into a Docker image
 ## Docker Compose
 
 	curl -L https://github.com/docker/compose/releases/download/1.24.0/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose
-chmod +x /usr/local/bin/docker-compose
-docker-compose -v
-mkdir  ~/wordpress-compose && cd ~/wordpress-compose
-https://gist.github.com/Devopshangout/ecbc18089c595d931b5218d59d235de7
+	chmod +x /usr/local/bin/docker-compose
+	docker-compose -v
+	mkdir  ~/wordpress-compose && cd ~/wordpress-compose
+	https://gist.github.com/Devopshangout/ecbc18089c595d931b5218d59d235de7
 
 
 
