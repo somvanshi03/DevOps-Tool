@@ -1,0 +1,8 @@
+FROM ubuntu:22.04
+MAINTAINER Mridul
+RUN apt update -y
+RUN apt install apache2 -y
+COPY index.html /var/www/html/
+#CMD [ "/usr/sbin/httpd" , "-D", "FOREGROUND"]
+CMD ["apache2ctl", "-D", "FOREGROUND"]
+EXPOSE 80
