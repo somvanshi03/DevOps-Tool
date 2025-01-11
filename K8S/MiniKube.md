@@ -6,7 +6,7 @@
 
 ## Install Docker and modify user group
 
-	sudo apt install -y && sudo apt install docker.io
+	sudo apt install docker.io
 	sudo usermod -aG docker $USER
 	newgrp docker
 
