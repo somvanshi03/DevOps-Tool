@@ -110,7 +110,7 @@
 ### Paste the join command you got from the master node and append `--v=5` at the end but first use sudo su command to become root (avoid using sudo your-token).
 
    sudo su
-   <your-token --v=5>
+   your-token --v=5
 
 
 ## Verify Cluster Connection and run below command on master 
