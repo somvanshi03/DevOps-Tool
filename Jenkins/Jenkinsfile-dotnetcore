@@ -1,0 +1,30 @@
+pipeline {
+    agent any
+		options {
+				buildDiscarder(logRotator(numToKeepStr:'3'))
+			//	retry(3)
+			//	timeout(time: 5, unit: 'SECONDS') 
+				timestamps()
+				disableConcurrentBuilds()
+		}
+    stages {
+        stage('CleanWorkSpace') {
+            steps {
+                sh "rm -rf /var/lib/jenkins/workspace/Dotnet/Dotnet8/*"
+            }
+        }
+		stage('CloneRepo') {
+            steps {
+                git url: 'https://github.com/mridulsingh8390/dotnet8.git',branch: 'master'
+				echo "Repo Cloned"
+            }
+        }
+		
+		stage('PackageAPP') {
+            steps {
+                sh 'dotnet publish -p:EngageEnvironment="linux" HelloWorldApp.sln -c Release -f net8.0 --no-self-contained -o HelloWorldApp'
+				sh 'zip -r HelloWorldApp.zip HelloWorldApp/*'
+            }
+        }
+    }
+}
