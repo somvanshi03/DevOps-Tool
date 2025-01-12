@@ -1,0 +1,75 @@
+pipeline {
+    agent none  // Start with no default agent, so we can define specific agents for each stage
+
+    environment {
+        DOCKER_HUB_REPO = "yourusername/yourapp" // Docker Hub repository name
+    }
+
+    stages {
+        stage('Checkout') {
+            agent { label 'master' }  // Use the master node for checking out the code
+            steps {
+                checkout scm
+            }
+        }
+
+        stage('Build') {
+            agent { label 'linux' }  // Use a Linux-based slave for the build
+            steps {
+                script {
+                    // Build the application here (example for Java)
+                    sh './gradlew build'
+                }
+            }
+        }
+
+        stage('Unit Test') {
+            agent { label 'windows' }  // Use a Windows-based slave for running unit tests
+            steps {
+                script {
+                    // Example for running tests on a Windows slave
+                    bat 'dotnet test MyProject.Tests'
+                }
+            }
+        }
+
+        stage('Build Docker Image') {
+            agent { label 'docker' }  // Use a slave with Docker installed for building the image
+            steps {
+                script {
+                    // Build the Docker image
+                    sh 'docker build -t $DOCKER_HUB_REPO:$BUILD_NUMBER .'
+                }
+            }
+        }
+
+        stage('Push Docker Image to Docker Hub') {
+            agent { label 'docker' }  // Same Docker slave for pushing the image
+            steps {
+                script {
+                    // Push the Docker image to Docker Hub
+                    withCredentials([usernamePassword(credentialsId: 'docker-hub-credentials', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
+                        sh 'echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin'
+                        sh 'docker push $DOCKER_HUB_REPO:$BUILD_NUMBER'
+                    }
+                }
+            }
+        }
+
+        stage('Deploy to Kubernetes') {
+            agent { label 'k8s' }  // Use a slave with kubectl set up for deployment
+            steps {
+                script {
+                    // Deploy to Kubernetes
+                    sh ''' kubectl apply -f /root/kube-manifests/ '''
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+            cleanWs() // Clean up workspace
+        }
+    }
+}
