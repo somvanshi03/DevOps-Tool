@@ -5,82 +5,82 @@
 
 ### Download Prometheus AlertManager:
 
-			wget https://github.com/prometheus/alertmanager/releases/download/v0.21.0/alertmanager-0.21.0.linux-amd64.tar.gz
+	wget https://github.com/prometheus/alertmanager/releases/download/v0.21.0/alertmanager-0.21.0.linux-amd64.tar.gz
 
 ### Create User:
 
 
-			sudo groupadd -f alertmanager
-			sudo useradd -g alertmanager --no-create-home --shell /bin/false alertmanager
-			sudo mkdir -p /etc/alertmanager/templates
-			sudo mkdir /var/lib/alertmanager
-			sudo chown alertmanager:alertmanager /etc/alertmanager
-			sudo chown alertmanager:alertmanager /var/lib/alertmanager
+	sudo groupadd -f alertmanager
+	sudo useradd -g alertmanager --no-create-home --shell /bin/false alertmanager
+	sudo mkdir -p /etc/alertmanager/templates
+	sudo mkdir /var/lib/alertmanager
+	sudo chown alertmanager:alertmanager /etc/alertmanager
+	sudo chown alertmanager:alertmanager /var/lib/alertmanager
 
 ### Unpack Prometheus AlertManager Binary:
 
 
-			tar -xvf alertmanager-0.21.0.linux-amd64.tar.gz
-			mv alertmanager-0.21.0.linux-amd64 alertmanager-files
+	tar -xvf alertmanager-0.21.0.linux-amd64.tar.gz
+	mv alertmanager-0.21.0.linux-amd64 alertmanager-files
 
 
 
 ### Install Prometheus AlertManager:
 
 
-			sudo cp alertmanager-files/alertmanager /usr/bin/
-			sudo cp alertmanager-files/amtool /usr/bin/
-			sudo chown alertmanager:alertmanager /usr/bin/alertmanager
-			sudo chown alertmanager:alertmanager /usr/bin/amtool
+	sudo cp alertmanager-files/alertmanager /usr/bin/
+	sudo cp alertmanager-files/amtool /usr/bin/
+	sudo chown alertmanager:alertmanager /usr/bin/alertmanager
+	sudo chown alertmanager:alertmanager /usr/bin/amtool
 
 
 ### Install Prometheus AlertManager Configuration File:
 
 
-			sudo cp alertmanager-files/alertmanager.yml /etc/alertmanager/alertmanager.yml
-			sudo chown alertmanager:alertmanager /etc/alertmanager/alertmanager.yml
+	sudo cp alertmanager-files/alertmanager.yml /etc/alertmanager/alertmanager.yml
+	sudo chown alertmanager:alertmanager /etc/alertmanager/alertmanager.yml
 
 
 ### Setup Prometheus AlertManager Service:
 
 
-			sudo vi /usr/lib/systemd/system/alertmanager.service
+	sudo vi /usr/lib/systemd/system/alertmanager.service
 
-			[Unit]
-			Description=AlertManager
-			Wants=network-online.target
-			After=network-online.target
+	[Unit]
+	Description=AlertManager
+	Wants=network-online.target
+	After=network-online.target
 
-			[Service]
-			User=alertmanager
-			Group=alertmanager
-			Type=simple
-			ExecStart=/usr/bin/alertmanager \
-				--config.file /etc/alertmanager/alertmanager.yml \
-				--storage.path /var/lib/alertmanager/
+	[Service]
+	User=alertmanager
+	Group=alertmanager
+	Type=simple
+	ExecStart=/usr/bin/alertmanager \
+	--config.file /etc/alertmanager/alertmanager.yml \
+	--storage.path /var/lib/alertmanager/
 
-			[Install]
-			WantedBy=multi-user.target
+	[Install]
+	WantedBy=multi-user.target
 
 ### Change Service mod
 			
-			sudo chmod 664 /usr/lib/systemd/system/alertmanager.service
+	sudo chmod 664 /usr/lib/systemd/system/alertmanager.service
 
 
 ### Reload systemd and Register Prometheus AlertManager:
 
 
-			sudo systemctl daemon-reload
-			sudo systemctl start alertmanager
-			sudo systemctl status alertmanager
-			sudo systemctl enable alertmanager.service
+	sudo systemctl daemon-reload
+	sudo systemctl start alertmanager
+	sudo systemctl status alertmanager
+	sudo systemctl enable alertmanager.service
 
 
 
 ### Access Prometheus AlertManager UI:
 
 
-			http://<alertmanager-ip>:9093
+	http://<alertmanager-ip>:9093
 
 
 Setup a Prometheus AlertManager Test Alert:
