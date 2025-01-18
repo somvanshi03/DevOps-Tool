@@ -59,7 +59,7 @@
 	--web.external-url=
 
 	SyslogIdentifier=prometheus
-			Restart=always
+	Restart=always
 
 	[Install]
 	WantedBy=multi-user.target
