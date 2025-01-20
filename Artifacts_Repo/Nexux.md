@@ -13,6 +13,7 @@
 
 
 	sudo apt update
+	sudo apt upgrade -y
 	sudo apt install openjdk-11-jdk -y
 
 
@@ -28,7 +29,8 @@
 	
 	For security purposes, it’s a good practice to create a dedicated user for running Nexus.
 
-	sudo useradd -r -m -U -d /opt/nexus -s /bin/bash nexus
+	sudo useradd -r -m -d /opt/nexus -s /bin/bash nexus
+	sudo passwd Nexus
 
 	This will create a user named `nexus` and set the home directory to `/opt/nexus`.
 
@@ -36,7 +38,11 @@
 
 	Go to the official Sonatype Nexus download page or use `wget` to download the latest version of Nexus Repository Manager.
 
-
+	vi /etc/security/limits.d/nexus.conf 
+	
+	nexus soft nofile 65536
+	nexus hard nofile 65536 
+	
 	cd /opt
 	sudo wget https://download.sonatype.com/nexus/3/latest-unix.tar.gz
 
@@ -58,11 +64,15 @@
 
 ### Step 5: Configure Nexus as a Service
 
+	vi /opt/nexus/bin/nexus.rc
+	
+	run_as_user="nexus"
+
 	To run Nexus as a service, we need to create a systemd service file.
 
 	Create a new service file for Nexus:
 
-	sudo nano /etc/systemd/system/nexus.service
+	sudo vi /etc/systemd/system/nexus.service
 
 	Add the following content to the file:
 
@@ -87,7 +97,7 @@
 	WantedBy=multi-user.target
 
 
-	Save and exit (press `CTRL+X`, then `Y` to confirm).
+	
 
 ### Step 6: Start and Enable Nexus
 
