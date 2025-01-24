@@ -30,7 +30,7 @@
 	For security purposes, it’s a good practice to create a dedicated user for running Nexus.
 
 	sudo useradd -r -m -d /opt/nexus -s /bin/bash nexus
-	sudo passwd Nexus
+	sudo passwd nexus
 
 	This will create a user named `nexus` and set the home directory to `/opt/nexus`.
 
