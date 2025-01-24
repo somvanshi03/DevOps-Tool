@@ -19,7 +19,7 @@
 
 	oc create -f https://k8s.io/examples/pods/simple-pod.yaml
 	
-### Step 5: Verify the Pod
+### Step 4: Verify the Pod
 
 	oc get pods
 
