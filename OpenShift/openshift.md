@@ -23,6 +23,8 @@
 
 	oc get pods
 
+# Day - 2 - OpenShift 
+
 
 ## Create Deployment
 
@@ -50,3 +52,4 @@
 	oc expose deployment nginx-deployment --port=80 --target-port=80
 	oc expose svc nginx-deployment
 
+ 
