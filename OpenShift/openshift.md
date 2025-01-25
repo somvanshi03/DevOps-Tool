@@ -52,4 +52,14 @@
 	oc expose deployment nginx-deployment --port=80 --target-port=80
 	oc expose svc nginx-deployment
 
+ # Day - 2 - OpenShift Troubleshooting
  
+ ## Check Node status
+	
+	oc get nodes 
+	oc get nodes -o wide
+	
+	Please Install Matrics 
+	
+	oc adm top node 
+	oc adm top pod 

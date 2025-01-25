@@ -1,0 +1,85 @@
+Minishift is a tool that helps you run OpenShift locally by launching a single-node OpenShift cluster inside a virtual machine. Here's a step-by-step guide to install Minishift on Ubuntu:
+
+Step 1: Install KVM and Libvirt
+Minishift requires a hypervisor to run the virtual machine. On Ubuntu, KVM (Kernel-based Virtual Machine) along with libvirt can be used.
+
+Update the package index:
+
+
+sudo apt update
+Install KVM, libvirt, and other required packages:
+
+
+sudo apt install -y qemu-kvm libvirt-daemon-system libvirt-clients bridge-utils
+Add your user to the libvirt and kvm groups:
+
+
+sudo usermod -aG libvirt $(whoami)
+sudo usermod -aG kvm $(whoami)
+Start and enable the libvirtd service:
+
+
+sudo systemctl enable --now libvirtd
+Verify the installation:
+
+
+virsh list --all
+Step 2: Install Minishift
+Download the latest Minishift release:
+
+
+wget https://github.com/minishift/minishift/releases/download/v1.34.3/minishift-1.34.3-linux-amd64.tgz
+Extract the tarball:
+
+
+tar -xvf minishift-1.34.3-linux-amd64.tgz
+Move the minishift binary to a directory in your PATH:
+
+
+sudo mv minishift-1.34.3-linux-amd64/minishift /usr/local/bin/
+Verify the installation:
+
+
+minishift version
+Step 3: Start Minishift
+Set the KVM driver:
+
+
+minishift config set vm-driver kvm
+Start Minishift:
+
+
+minishift start
+Wait for Minishift to download the necessary files and start the OpenShift cluster. This might take some time.
+
+Step 4: Access OpenShift
+Once Minishift has started, you can access the OpenShift web console:
+
+
+minishift console
+This command will open the OpenShift web console in your default web browser.
+
+You can log in with the default username and password:
+
+Username: developer
+Password: developer
+Step 5: Using OpenShift CLI (oc)
+To interact with your OpenShift cluster using the oc CLI tool, you need to add the oc binary to your PATH. Minishift provides an easy way to do this:
+
+
+eval $(minishift oc-env)
+You can now use the oc command to interact with your OpenShift cluster:
+
+
+oc login -u developer -p developer
+Step 6: Stop and Delete Minishift
+To stop the Minishift VM:
+
+
+minishift stop
+To delete the Minishift VM:
+
+
+minishift delete
+Summary
+This guide walks you through installing and setting up Minishift on Ubuntu, which includes installing the necessary dependencies, downloading and setting up Minishift, starting the OpenShift cluster, and accessing the OpenShift web console and CLI. With Minishift, you can easily create a local OpenShift environment for development and testing purposes.

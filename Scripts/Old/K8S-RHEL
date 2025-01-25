@@ -1,0 +1,154 @@
+Steps to Install Kuberantives On RHEL 8
+
+on 3 nodes make the host file entries 
+
+vi /etc/hosts
+192.168.121.138   master
+192.168.121.139   worker1
+192.168.121.140   worker2
+
+and name the virtual machines are per the host file entries 
+
+
+1) install docker Engine
+ -sudo yum remove docker \
+                  docker-client \
+                  docker-client-latest \
+                  docker-common \
+                  docker-latest \
+                  docker-latest-logrotate \
+                  docker-logrotate \
+                  docker-engine
+
+
+For RHEL configure the local repository
+attached the cd and mount it on /mnt
+ 
+# mount /dev/sr1 /mnt
+Create a repository file 
+#vi /etc/yum.repos.d/local.repo
+[dvd-BaseOS]
+name=DVD for RHEL - BaseOS
+baseurl=file:///mnt/BaseOS
+enabled=1
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release
+
+[dvd-AppStream]
+name=DVD for RHEL - AppStream
+baseurl=file:///mnt/AppStream
+enabled=1
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release
+
+# verify the repository 
+# yum repolist -v 
+
+sudo yum install -y yum-utils
+sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+sudo yum install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+
+
+2) Remove the config.toml file from /etc/containerd/ Folder and run reload your system daemon
+
+rm -f /etc/containerd/config.toml
+systemctl daemon-reload
+systemctl restart containerd
+
+3) Disable Swap
+echo '1' > /proc/sys/net/ipv4/ip_forward
+modprobe bridge
+modprobe br_netfilter
+
+vi /etc/sysctl.conf
+net.ipv4.ip_forward=1
+
+sysctl -p 
+
+4)Set SELinux in permissive mode (effectively disabling it)
+sudo setenforce 0
+sudo sed -i 's/^SELINUX=enforcing$/SELINUX=permissive/' /etc/selinux/config
+
+5) This overwrites any existing configuration in /etc/yum.repos.d/kubernetes.repo
+
+cat <<EOF | sudo tee /etc/yum.repos.d/kubernetes.repo
+[kubernetes]
+name=Kubernetes
+baseurl=https://pkgs.k8s.io/core:/stable:/v1.30/rpm/
+enabled=1
+gpgcheck=1
+gpgkey=https://pkgs.k8s.io/core:/stable:/v1.30/rpm/repodata/repomd.xml.key
+exclude=kubelet kubeadm kubectl cri-tools kubernetes-cni
+EOF
+
+
+6) Install kubelet, kubeadm and kubectl
+sudo yum install -y kubelet kubeadm kubectl --disableexcludes=kubernetes
+
+sudo systemctl enable --now kubelet
+
+
+#iptables -F
+
+7) Only on Master node 
+
+#kubeadm init  --apiserver-advertise-address=192.168.121.138  --pod-network-cidr=172.0.0.0/16 --ignore-preflight-errors=all
+#export KUBECONFIG=/etc/kubernetes/admin.conf
+#kubeadm token create --print-join-command
+
+
+To regenrate the tokens
+#kubeadm token create --print-join-command
+
+install calico network
+#kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.28.0/manifests/tigera-operator.yaml
+#kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.28.0/manifests/custom-resources.yaml
+
+Confirm that you now have a node in your cluster with the following command
+
+#kubectl get nodes -o wide
+[root@master /]# kubectl get nodes
+NAME     STATUS     ROLES           AGE   VERSION
+master   NotReady   control-plane   31m   v1.30.2
+
+You will see that the status for the control plane is showing not ready execute the below command and then check the status.
+
+#kubectl apply -f https://github.com/weaveworks/weave/releases/download/v2.8.1/weave-daemonset-k8s.yaml
+
+#[root@master /]# kubectl get nodes
+NAME     STATUS   ROLES           AGE   VERSION
+master   Ready    control-plane   31m   v1.30.2
+
+
+
+8) On the worker node you need to follow till step number 6 then jump to step number 8
+
+ On the master node execute this command 
+ #kubeadm token create --print-join-command
+
+[root@master /]# kubeadm token create --print-join-command
+kubeadm join 192.168.121.138:6443 --token jgkwke.v138sljxcgseefa9 --discovery-token-ca-cert-hash sha256:ccd97b7bebdc05bd7261073ed1c01804458093351683cc28a1c4aff973ee5011
+
+Execute this command on worker nodes and it should join the cluster
+#kubeadm join 192.168.121.138:6443 --token jgkwke.v138sljxcgseefa9 --discovery-token-ca-cert-hash sha256:ccd97b7bebdc05bd7261073ed1c01804458093351683cc28a1c4aff973ee5011
+
+[root@master /]# kubectl get pods -n kube-system
+NAME                             READY   STATUS    RESTARTS      AGE
+coredns-7db6d8ff4d-5rsnx         1/1     Running   0             91m
+coredns-7db6d8ff4d-vd2n7         1/1     Running   0             91m
+etcd-master                      1/1     Running   0             108m
+kube-apiserver-master            1/1     Running   0             109m
+kube-controller-manager-master   1/1     Running   0             109m
+kube-proxy-86stk                 1/1     Running   0             45m
+kube-proxy-h8488                 1/1     Running   0             5m16s
+kube-proxy-mdt29                 1/1     Running   0             91m
+kube-scheduler-master            1/1     Running   0             109m
+weave-net-4ggdn                  2/2     Running   1 (77m ago)   78m
+weave-net-kg2h8                  2/2     Running   0             5m16s
+weave-net-t2pdl                  2/2     Running   0             45m
+
+[root@master /]# kubectl get nodes
+NAME      STATUS   ROLES           AGE    VERSION
+master    Ready    control-plane   105m   v1.30.2
+worker1   Ready    <none>          41m    v1.30.2
+worker2   Ready    <none>          73s    v1.30.2

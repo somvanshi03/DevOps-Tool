@@ -1,0 +1,96 @@
+To install and configure Samba as an Active Directory (AD) domain controller on Ubuntu, follow these steps:
+
+### Prerequisites
+1. *Update the system:*
+   bash
+   sudo apt update
+   sudo apt upgrade -y
+   
+
+2. *Install necessary packages:*
+   bash
+   sudo apt install samba krb5-user krb5-config winbind libpam-winbind libnss-winbind -y
+   
+
+   During the installation, you will be prompted to configure Kerberos. Enter your domain's information:
+   - Default realm: EXAMPLE.COM
+   - Kerberos server: kdc.example.com
+   - Administrative server: adminserver.example.com
+
+### Configuration
+
+1. *Provision Samba as an AD DC:*
+   bash
+   sudo samba-tool domain provision --use-rfc2307 --interactive
+   
+
+   Follow the prompts to set up your domain. You will need to provide:
+   - Realm: EXAMPLE.COM
+   - Domain: example
+   - Server Role: dc
+   - DNS backend: SAMBA_INTERNAL
+   - DNS forwarder: e.g., 8.8.8.8 (or another DNS server)
+
+2. *Update /etc/krb5.conf:*
+   Replace the contents of the file with:
+   ini
+   [libdefaults]
+       default_realm = EXAMPLE.COM
+       dns_lookup_realm = false
+       dns_lookup_kdc = true
+   
+
+3. *Edit /etc/samba/smb.conf:*
+   Ensure it contains something similar to:
+   ini
+   [global]
+       workgroup = EXAMPLE
+       realm = EXAMPLE.COM
+       netbios name = YOUR_SERVER_NAME
+       server role = active directory domain controller
+       idmap_ldb:use rfc2307 = yes
+
+   [netlogon]
+       path = /var/lib/samba/sysvol/example.com/scripts
+       read only = no
+
+   [sysvol]
+       path = /var/lib/samba/sysvol
+       read only = no
+   
+
+4. *Start and enable the Samba services:*
+   bash
+   sudo systemctl start smbd nmbd winbind samba-ad-dc
+   sudo systemctl enable smbd nmbd winbind samba-ad-dc
+   
+
+5. *Configure DNS:*
+   Update the /etc/resolv.conf file to use the Samba internal DNS server:
+   ini
+   nameserver 127.0.0.1
+   
+
+6. *Test the AD DC:*
+   Verify the Samba AD DC is working correctly by running:
+   bash
+   sudo samba-tool domain level show
+   
+
+   You should see output indicating the domain and forest function levels.
+
+7. *Configure Kerberos:*
+   Test the Kerberos configuration:
+   bash
+   kinit administrator@EXAMPLE.COM
+   klist
+   
+
+   If successful, you should see a ticket listing.
+
+### Notes
+- Replace EXAMPLE, EXAMPLE.COM, and YOUR_SERVER_NAME with your actual domain and server details.
+- Ensure your firewall settings allow necessary Samba and AD ports.
+- If using Samba as a DNS server, configure clients to use the Samba server's IP as their primary DNS server.
+
+This setup should configure Samba as an AD DC on Ubuntu. Adjust configurations as needed for your specific environment.

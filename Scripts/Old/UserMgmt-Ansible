@@ -1,0 +1,99 @@
+o create a local user with no password in Linux using a Jenkins pipeline with an Ansible playbook, follow these steps:
+
+### Step 1: Set Up Jenkins
+
+1. *Install Jenkins*: Ensure Jenkins is installed and configured.
+2. *Install Required Plugins*: Make sure you have the "Pipeline" and "Ansible" plugins installed.
+
+### Step 2: Install Ansible
+
+Ensure Ansible is installed on the Jenkins server or the agent node where the playbook will be executed.
+
+sh
+sudo apt update
+sudo apt install ansible
+
+
+### Step 3: Create Ansible Playbook
+
+Create an Ansible playbook that will add a local user without a password. Save this playbook in your version control system or directly on the Jenkins server.
+
+*Ansible Playbook (create_user_no_password.yml):*
+
+yaml
+---
+- name: Create a new local user without a password
+  hosts: localhost
+  become: yes
+  tasks:
+    - name: Ensure the user is present with no password
+      user:
+        name: "{{ username }}"
+        state: present
+        shell: /bin/bash
+        groups: "users"
+        password: "*"
+
+
+The password: "*" line ensures that the user is created with no password. The asterisk (*) is a special character in /etc/shadow that effectively disables the password.
+
+### Step 4: Configure Jenkins Job
+
+1. *Create a New Pipeline Job*: In Jenkins, create a new pipeline job.
+2. *Configure the Pipeline Script*: Add a pipeline script that will execute the Ansible playbook.
+
+### Step 5: Use Jenkins Pipeline to Run Ansible Playbook
+
+Here’s an example Jenkins pipeline script to run the Ansible playbook:
+
+groovy
+pipeline {
+    agent any
+
+    environment {
+        // Define environment variable for the username
+        USERNAME = "newuser"
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                // Checkout the repository containing the Ansible playbook
+                git 'https://your-repository-url.git'
+            }
+        }
+
+        stage('Run Ansible Playbook') {
+            steps {
+                // Run the Ansible playbook
+                ansiblePlaybook(
+                    playbook: 'create_user_no_password.yml',
+                    extras: '-e "username=${USERNAME}"'
+                )
+            }
+        }
+    }
+}
+
+
+### Step 6: Secure Jenkins
+
+1. *Use Jenkins Credentials*: Instead of hardcoding sensitive information directly into your pipeline, use Jenkins credentials if needed. Since we are not setting a password for the user, the use of credentials is minimal.
+
+### Step 7: Execute the Pipeline
+
+1. *Run the Job*: Start the Jenkins job and monitor its progress. The pipeline script will execute the Ansible playbook, creating the new user on the target Linux system without a password.
+2. *Verify User Creation*: After the job completes, verify that the new user has been created on the target Linux system.
+
+### Example Execution Steps
+
+1. *Set Up Jenkins Job*: In the Jenkins dashboard, create a new pipeline job.
+2. *Configure Pipeline Script*: Paste the provided pipeline script into the pipeline configuration.
+3. *Run the Pipeline*: Execute the pipeline job.
+4. *Verify the User*: SSH into the target machine and check the user list.
+
+sh
+getent passwd | grep newuser
+
+
+By following these steps, you can automate the process of creating a local user with no password on a Linux system using Jenkins and Ansible. This approach ensures a robust, repeatable, and secure method for managing user accounts.

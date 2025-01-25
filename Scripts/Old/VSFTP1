@@ -1,0 +1,33 @@
+how to install VSFTP server on ubuntu22.04
+
+sudo apt update
+sudo apt upgrade -y
+
+sudo apt install vsftpd -y
+
+sudo cp /etc/vsftpd.conf /etc/vsftpd.conf.orig
+
+sudo nano /etc/vsftpd.conf
+
+Uncomment the following lines by removing the #:
+write_enable=YES
+local_enable=YES
+chroot_local_user=YES
+allow_writeable_chroot=YES
+
+Add the following lines to the end of the file to improve security:
+user_sub_token=$USER
+local_root=/home/$USER/ftp
+pasv_min_port=40000
+pasv_max_port=50000
+
+Create a directory for FTP uploads:
+sudo mkdir -p /home/youruser/ftp/upload
+sudo chown -R nobody:nogroup /home/youruser/ftp
+sudo chmod a-w /home/youruser/ftp
+sudo chown -R youruser:youruser /home/youruser/ftp/upload
+
+sudo adduser youruser
+
+sudo systemctl restart vsftpd
+ftp your_server_ip

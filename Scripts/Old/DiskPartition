@@ -1,0 +1,51 @@
+Sure, here's a bash script that checks all mounted filesystems on a Linux system and sends an email if any partition usage exceeds 90%. The script uses df to check disk space and mail to send the email. Make sure you have mail installed and configured to send emails from your server.
+
+bash
+#!/bin/bash
+
+# Variables
+EMAIL="your_email@example.com" # replace with your email address
+SUBJECT="Disk Space Alert for $(hostname)"
+BODY_FILE="/tmp/disk_space_alert.txt"
+THRESHOLD=90
+
+# Check each mounted filesystem
+while read -r filesystem size used available percent mountpoint
+do
+  # Skip the header line
+  if [ "$filesystem" == "Filesystem" ]; then
+    continue
+  fi
+
+  # Remove the percentage sign from usage
+  percent=${percent%?}
+
+  # Check if usage exceeds the threshold
+  if [ "$percent" -ge "$THRESHOLD" ]; then
+    # Write to the body file
+    echo "Warning: $mountpoint is ${percent}% full." >> "$BODY_FILE"
+  fi
+done < <(df -h --output=source,size,used,avail,pcent,target)
+
+# Check if the body file has content, then send an email
+if [ -s "$BODY_FILE" ]; then
+  mail -s "$SUBJECT" "$EMAIL" < "$BODY_FILE"
+  echo "Disk space alert sent to $EMAIL."
+else
+  echo "No filesystems exceeding $THRESHOLD% threshold."
+fi
+
+# Clean up the temporary body file
+rm "$BODY_FILE"
+
+
+Before running the script, make sure to:
+- Replace your_email@example.com with the actual email address where you want to receive the alert.
+- Set the THRESHOLD variable to the percentage of disk usage that should trigger an alert.
+
+To execute this script:
+1. Save the script to a file, for example, disk_space_alert.sh.
+2. Give it execute permissions with the command: chmod +x disk_space_alert.sh.
+3. Run the script: ./disk_space_alert.sh.
+
+This script will send an email alert only if any partition's usage exceeds the specified threshold. If you need assistance with setting up mail or have any specific requirements for the alert, feel free to ask for further guidance.
