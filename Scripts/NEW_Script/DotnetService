@@ -1,0 +1,92 @@
+Certainly! Below is an example of how you can create a custom service file for a .NET Core application using Jenkins and an Ansible playbook with variables:
+
+### Step 1: Jenkins Setup
+
+1. *Install Required Plugins*:
+   Ensure Jenkins has the Ansible plugin installed. This allows Jenkins to execute Ansible playbooks.
+
+2. *Configure Jenkins Credentials*:
+   Add SSH credentials for Ansible to connect to the target servers.
+
+### Step 2: Ansible Playbook
+
+Create an Ansible playbook that uses variables to customize the service file.
+
+*Ansible Playbook: deploy_dotnetcore_app.yml*
+
+yaml
+---
+- name: Deploy .NET Core Application
+  hosts: webservers
+  become: yes
+  vars:
+    app_name: YourApp
+    app_directory: /var/www/{{ app_name }}
+    app_dll: {{ app_directory }}/{{ app_name }}.dll
+    dotnet_executable: /usr/bin/dotnet
+    environment: Production
+    user: www-data
+  tasks:
+    - name: Copy .NET Core application files
+      copy:
+        src: "{{ app_build_directory }}/"
+        dest: "{{ app_directory }}/"
+        owner: "{{ user }}"
+        group: "{{ user }}"
+        mode: '0755'
+
+    - name: Create systemd service file for .NET Core application
+      template:
+        src: dotnetcore_service.j2
+        dest: /etc/systemd/system/{{ app_name }}.service
+        mode: '0644'
+
+    - name: Reload systemd daemon
+      systemd:
+        daemon_reload: yes
+
+    - name: Enable and start .NET Core service
+      systemd:
+        name: "{{ app_name }}"
+        enabled: yes
+        state: started
+
+
+### Step 3: Jinja2 Service Template
+
+Create a Jinja2 template for the systemd service file.
+
+*Template: dotnetcore_service.j2*
+
+ini
+[Unit]
+Description=Example .NET Core Application
+After=network.target
+
+[Service]
+WorkingDirectory={{ app_directory }}
+ExecStart={{ dotnet_executable }} {{ app_dll }}
+Restart=always
+RestartSec=10
+SyslogIdentifier={{ app_name }}
+User={{ user }}
+Environment=ASPNETCORE_ENVIRONMENT={{ environment }}
+Environment=DOTNET_PRINT_TELEMETRY_MESSAGE=false
+
+[Install]
+WantedBy=multi-user.target
+
+
+### Step 4: Jenkins Job Configuration
+
+Configure a Jenkins job to trigger the Ansible playbook.
+
+### Step 5: Set Jenkins Job Parameters
+
+Define parameters in the Jenkins job to allow customization of variables such as app_name, app_build_directory, etc.
+
+### Step 6: Run the Jenkins Job
+
+Run the Jenkins job and provide values for the parameters defined. This will deploy the .NET Core application and configure it as a service on the target servers using the specified variables.
+
+By following these steps, you can create a flexible and customizable deployment process for your .NET Core application using Jenkins and Ansible.
