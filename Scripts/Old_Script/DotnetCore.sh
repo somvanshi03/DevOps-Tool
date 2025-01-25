@@ -1,1 +1,0 @@
-## Monitor DotnetCore Service based on Memory and CPU utilizaion

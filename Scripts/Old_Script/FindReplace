@@ -1,4 +1,0 @@
-find /path/to/directory -type f -name "*.txt" -exec sed -i 's/old_string/new_string/g' {} +
-find /path/to/directory -type f -name "*.txt" -exec perl -pi -e 's/old_string/new_string/g' {} +
-find /path/to/directory -type f -name "*.txt" | xargs sed -i 's/old_string/new_string/g'
-

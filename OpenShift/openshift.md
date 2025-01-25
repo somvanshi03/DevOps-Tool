@@ -52,7 +52,7 @@
 	oc expose deployment nginx-deployment --port=80 --target-port=80
 	oc expose svc nginx-deployment
 
- # Day - 2 - OpenShift Troubleshooting
+ # Day - 3 - OpenShift Troubleshooting
  
  ## Check Node status
 	
