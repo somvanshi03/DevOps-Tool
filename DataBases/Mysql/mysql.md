@@ -13,6 +13,6 @@
 	create database wpdwptest;
 	show databases;
 
-	CREATE USER 'wpdwptestuser'@'localhost' IDENTIFIED BY 'pB@123';
-	GRANT ALL PRIVILEGES ON wpdwptest.* TO 'wpdwptestuser'@'localhost';
+	CREATE USER 'dbuser'@'localhost' IDENTIFIED BY 'fVMXH#';
+	GRANT ALL PRIVILEGES ON dwpcaresdb.* TO 'dbuser'@'localhost';
 	FLUSH PRIVILEGES;

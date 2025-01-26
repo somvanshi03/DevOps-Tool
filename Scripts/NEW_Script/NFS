@@ -1,0 +1,11 @@
+# NFS Setup 
+
+	sudo yum install -y nfs-utils
+	systemctl enable nfs-server
+	systemctl start nfs-server
+	sudo yum install -y nfs-utils
+	sudo vi /etc/exports
+	/webdata/Oracle *(rw,sync,no_subtree_check,no_root_squash)
+	/webdata/Oracle *(rw,sync,no_root_squash)
+	sudo exportfs -ra
+	systemctl restart nfs-server
