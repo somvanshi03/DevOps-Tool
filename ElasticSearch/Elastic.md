@@ -1,5 +1,19 @@
 # Setup ElasticSearch on Ubuntu
 
+
+## Ref:
+	Windows:
+	https://www.elastic.co/downloads/kibana
+	https://www.elastic.co/downloads/elasticsearch
+
+	Centos:
+	https://www.elastic.co/guide/en/elasticsearch/reference/current/rpm.html 
+	https://www.elastic.co/guide/en/kibana/current/rpm.html
+
+	Ubuntu:
+	https://www.elastic.co/guide/en/elasticsearch/reference/current/install-elasticsearch.html
+	https://www.elastic.co/guide/en/kibana/current/deb.html
+	
 ## Install Java:
 
 	apt install openjdk-17-jre-headless
@@ -30,7 +44,28 @@
 	echo "deb [signed-by=/usr/share/keyrings/elasticsearch-keyring.gpg] https://artifacts.elastic.co/packages/8.x/apt stable main" | sudo tee /etc/apt/sources.list.d/elastic-8.x.list
 	sudo apt-get update && sudo apt-get install kibana
 
+## Change the IP and Server URL
 
+	uncomment below
+	vi /etc/elasticsearch/elasticsearch.yaml
+	
+	cluster.name
+	network.host: 0.0.0.0
+	http.port: 9200 
+	
+	vi /etc/kibana/kibana.yaml
+	
+	server.port: 5601
+	server.host: "0.0.0.0"
+
+## Restart Kibana and ElasticSearch Service
+
+	systemctl start elasticsearch
+	systemctl enable elasticsearch
+	systemctl start kibana
+	systemctl enable kibana
+	
+	
 ## Generate an enrollment token for Kibana instance:
 
 	/usr/share/elasticsearch/bin/elasticsearch-create-enrollment-token -s kibana
