@@ -1,0 +1,29 @@
+---
+- hosts: target_server
+  tasks:
+    - name: Pull Docker image
+      docker_image:
+        name: yourdockerhubusername/your-angular-app
+        tag: latest
+        pull: yes
+
+    - name: Stop existing container
+      docker_container:
+        name: your-angular-app-container
+        state: stopped
+      ignore_errors: yes
+
+    - name: Remove existing container
+      docker_container:
+        name: your-angular-app-container
+        state: absent
+      ignore_errors: yes
+
+    - name: Run new container
+      docker_container:
+        name: your-angular-app-container
+        image: yourdockerhubusername/your-angular-app:latest
+        state: started
+        restart_policy: always
+        published_ports:
+          - "80:80"
