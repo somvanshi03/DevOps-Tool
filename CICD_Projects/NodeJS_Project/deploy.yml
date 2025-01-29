@@ -1,0 +1,29 @@
+---
+- hosts: target_server
+  tasks:
+    - name: Pull Docker image
+      docker_image:
+        name: yourdockerhubusername/yourapp
+        tag: latest
+        pull: yes
+
+    - name: Stop existing container
+      docker_container:
+        name: yourapp_container
+        state: stopped
+      ignore_errors: yes
+
+    - name: Remove existing container
+      docker_container:
+        name: yourapp_container
+        state: absent
+      ignore_errors: yes
+
+    - name: Run new container
+      docker_container:
+        name: yourapp_container
+        image: yourdockerhubusername/yourapp:latest
+        state: started
+        restart_policy: always
+        published_ports:
+          - "3000:3000"

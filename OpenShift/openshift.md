@@ -4,6 +4,22 @@
 
 	https://www.redhat.com/en/interactive-labs/red-hat-openshift-4.17-playground
 	
+## Create Project in OpenShift:
+
+	oc new-project project101
+	
+## Verify the project:
+
+	oc project project101
+	
+## List of all projects:
+
+	oc get projects
+
+## Delete Project:
+
+	oc delete project project101
+	
 	
 ## Create POD
 
@@ -13,8 +29,9 @@
 
 ### Step 2: Create a New Project (Optional)
 
-	oc new-project my-project
-
+	oc new-project project101
+	
+	
 ### Step 3: Create a Pod 
 
 	oc create -f https://k8s.io/examples/pods/simple-pod.yaml
@@ -63,3 +80,14 @@
 	
 	oc adm top node 
 	oc adm top pod 
+	
+	
+# Day 4: PV and PVC
+
+## Create NFS Volume
+
+## Create PV 
+
+	oc explain persistentvolume
+	
+	
