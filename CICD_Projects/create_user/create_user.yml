@@ -1,0 +1,35 @@
+---
+- name: Create a user on EC2 and set up SSH key authentication
+  hosts: ec2
+  become: yes
+  vars:
+    new_user: "{{ user_name }}"  # This will be passed from Jenkins
+    public_key: "{{ lookup('file', public_key_path) }}"  # Path to your public key file
+
+  tasks:
+    - name: Create a new user
+      user:
+        name: "{{ new_user }}"
+        shell: /bin/bash
+        state: present
+
+    - name: Create .ssh directory for the new user
+      file:
+        path: "/home/{{ new_user }}/.ssh"
+        state: directory
+        owner: "{{ new_user }}"
+        group: "{{ new_user }}"
+        mode: '0700'
+
+    - name: Add the public key to authorized_keys
+      authorized_key:
+        user: "{{ new_user }}"
+        state: present
+        key: "{{ public_key }}"
+
+    - name: Set permissions on the .ssh directory
+      file:
+        path: "/home/{{ new_user }}/.ssh/authorized_keys"
+        owner: "{{ new_user }}"
+        group: "{{ new_user }}"
+        mode: '0600'

@@ -1,0 +1,32 @@
+pipeline {
+    agent any
+
+    parameters {
+        string(name: 'USER_NAME', defaultValue: 'newuser', description: 'Enter the username to create')
+        string(name: 'PUBLIC_KEY_PATH', defaultValue: '/path/to/your/public_key.pub', description: 'Enter the path to the public key file')
+        string(name: 'EC2_HOST', defaultValue: 'your_ec2_instance_ip', description: 'Enter the EC2 instance IP or hostname')
+        string(name: 'SSH_USER', defaultValue: 'ec2-user', description: 'Enter the SSH user to connect to EC2')
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                // Checkout your repository containing the Ansible playbook
+                git 'https://github.com/yourusername/yourrepo.git'
+            }
+        }
+        stage('Run Ansible Playbook') {
+            steps {
+                script {
+                    // Run the Ansible playbook with the provided parameters
+                    sh """
+                    ansible-playbook -i ${params.EC2_HOST}, create_user.yml \
+                    -e "user_name=${params.USER_NAME}" \
+                    -e "public_key_path=${params.PUBLIC_KEY_PATH}" \
+                    --user ${params.SSH_USER}
+                    """
+                }
+            }
+        }
+    }
+}
