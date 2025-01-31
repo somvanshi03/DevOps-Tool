@@ -1,0 +1,63 @@
+pipeline {
+    agent any
+    
+    environment {
+        NUCLIE_IMAGE = 'projectdiscovery/nuclei:latest'  // Nuclie Docker image
+        OUTPUT_FILE = 'nuclei_scan_report.txt'  // Output file for scan results
+    }
+    
+    stages {
+        stage('Input Website URL') {
+            steps {
+                script {
+                    // Ask for the website URL input
+                    def websiteUrl = input(
+                        message: 'Please provide the website URL to scan:',
+                        parameters: [
+                            string(
+                                name: 'TARGET_URL', 
+                                defaultValue: 'https://example.com', 
+                                description: 'The website URL you want to scan'
+                            )
+                        ]
+                    )
+                    // Set the environment variable for use in subsequent stages
+                    env.TARGET_URL = websiteUrl
+                }
+            }
+        }
+
+        stage('Run Nuclie Scan') {
+            steps {
+                script {
+                    // Run Nuclie scan inside the Docker container
+                    docker.image(NUCLIE_IMAGE).inside {
+                        // Run the Nuclie scan on the website URL provided by the user
+                        sh """
+                            nuclei -u ${TARGET_URL} -o ${OUTPUT_FILE}
+                        """
+                    }
+                }
+            }
+        }
+
+        stage('Archive Results') {
+            steps {
+                // Archive the scan report so it can be downloaded
+                archiveArtifacts artifacts: "${OUTPUT_FILE}", allowEmptyArchive: true
+            }
+        }
+
+        stage('Post Scan Actions') {
+            steps {
+                echo 'Scan completed, check the output artifacts for results.'
+            }
+        }
+    }
+    
+    post {
+        always {
+            cleanWs()  // Clean workspace after the pipeline run
+        }
+    }
+}
