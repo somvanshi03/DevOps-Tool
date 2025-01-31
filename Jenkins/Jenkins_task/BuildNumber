@@ -1,0 +1,47 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Get Build Number') {
+            steps {
+                script {
+                    // Prompt the user for the build number
+                    def userInput = input(
+                        id: 'userInput', // Unique ID for the input step
+                        message: 'Please enter the build number:',
+                        parameters: [
+                            string(name: 'BUILD_NUMBER', defaultValue: '', description: 'Enter the build number')
+                        ]
+                    )
+                    // Save the user input to an environment variable
+                    env.BUILD_NUMBER = userInput.BUILD_NUMBER
+                }
+            }
+        }
+        stage('Save Build Info') {
+            steps {
+                script {
+                    // Define the file path where you want to save the build info
+                    def filePath = 'build_info.txt'
+
+                    // Get the current date and time
+                    def currentDateTime = new Date().format("yyyy-MM-dd HH:mm:ss")
+
+                    // Get the build number from user input
+                    def buildNumber = env.BUILD_NUMBER
+
+                    // Prepare the line to append
+                    def lineToAppend = "${currentDateTime} - Build Number: ${buildNumber}\n"
+
+                    // Append the line to the file
+                    writeFile file: filePath, text: lineToAppend, append: true
+                }
+            }
+        }
+    }
+    post {
+        always {
+            echo 'Build information saved.'
+        }
+    }
+}
