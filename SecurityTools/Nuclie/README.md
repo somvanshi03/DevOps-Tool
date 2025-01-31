@@ -197,4 +197,7 @@
 
 ## Conclusion
 
-	Nuclie is a powerful tool for scanning websites and APIs for vulnerabilities, and it provides many command-line options to tailor the scan to your needs. You can customize the scan by specifying templates, concurrency, severity filters, headers, and more. Use the above commands to get started with vulnerability scanning using Nuclie.
+	Nuclie is a powerful tool for scanning websites and APIs for vulnerabilities, 
+	and it provides many command-line options to tailor the scan to your needs. 
+	You can customize the scan by specifying templates, concurrency, severity filters, headers, and more. 
+	Use the above commands to get started with vulnerability scanning using Nuclie.
