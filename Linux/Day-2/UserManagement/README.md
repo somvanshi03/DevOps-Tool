@@ -1,6 +1,9 @@
 # User and Group 
 
-	Managing users and groups in Linux is an essential aspect of system administration. It involves creating, modifying, and deleting user accounts and groups, as well as managing permissions and access control. Below is an overview of the key commands and concepts related to user and group management in Linux.
+	Managing users and groups in Linux is an essential aspect of system administration. 
+	It involves creating, modifying, and deleting user accounts and groups, as well as managing permissions 
+	and access control. Below is an overview of the key commands and concepts related to user and group 
+	management in Linux.
 
 ### User Management
 
@@ -120,4 +123,7 @@
 
 ### Conclusion
 
-	Managing users and groups in Linux is crucial for maintaining system security and organization. By using the commands outlined above, you can effectively create, modify, and delete user accounts and groups, as well as manage permissions to control access to system resources. Understanding these concepts is fundamental for any Linux system administrator.
+	Managing users and groups in Linux is crucial for maintaining system security and organization. 
+	By using the commands outlined above, you can effectively create, modify, and delete user accounts 
+	and groups, as well as manage permissions to control access to system resources. Understanding these 
+	concepts is fundamental for any Linux system administrator.
