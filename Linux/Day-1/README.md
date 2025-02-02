@@ -1,6 +1,6 @@
 # Linux:
 
-## Introduction
+## 1. Introduction
 
 	Linux is an open-source operating system that is based on the Unix architecture. 
 	It was created by Linus Torvalds in 1991 and has since grown into one of the most 
@@ -69,7 +69,7 @@
 	develop software, or run a server, Linux offers a rich ecosystem to explore.
 	
 
-## Linux architecture
+## 2. Linux architecture
 
 
 	The architecture of Linux is designed to be modular and flexible, allowing it to run on a wide 
@@ -154,7 +154,7 @@
 	
 	
 
-## Linux Dir Structure
+## 3. Linux Dir Structure
 
 	The Linux directory structure is organized in a hierarchical format, resembling an inverted tree. 
 	At the top of this structure is the root directory, denoted by a single forward slash (`/`). 
