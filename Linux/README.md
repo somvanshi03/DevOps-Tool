@@ -213,13 +213,13 @@
 
 	tar – Archive files
 	
-	o tar -czf archive.tar.gz /path/to/directory – Compress files using gzip
+	tar -czf archive.tar.gz /path/to/directory – Compress files using gzip
 	
-	o tar -xzf archive.tar.gz – Extract gzipped tarball
+	tar -xzf archive.tar.gz – Extract gzipped tarball
 	
-	o tar -cf archive.tar /path/to/directory – Create a tarball
+	tar -cf archive.tar /path/to/directory – Create a tarball
 	
-	o tar -xf archive.tar – Extract tarball
+	tar -xf archive.tar – Extract tarball
 	
 	zip – Package and compress files into a ZIP archive
 	
@@ -246,51 +246,51 @@
 
 	apt-get – APT package handling utility
 	
-	o apt-get install <package> – Install a package
+	apt-get install <package> – Install a package
 	
-	o apt-get update – Update package list
+	apt-get update – Update package list
 	
-	o apt-get upgrade – Upgrade installed packages
+	apt-get upgrade – Upgrade installed packages
 	
-	o apt-get remove <package> – Remove a package
+	apt-get remove <package> – Remove a package
 	
 	apt-cache – Query APT cache
 	
-	o apt-cache search <package> – Search for a package
+	apt-cache search <package> – Search for a package
 	
-	o apt-cache show <package> – Show package details
+	apt-cache show <package> – Show package details
 
 ### Red Hat-based (e.g., CentOS, Fedora)
 
 	yum – Package manager for RPM-based systems
 	
-	o yum install <package> – Install a package
+	yum install <package> – Install a package
 	
-	o yum update – Update installed packages
+	yum update – Update installed packages
 	
-	o yum remove <package> – Remove a package
+	yum remove <package> – Remove a package
 	
 	dnf – Next-generation package manager (Fedora, CentOS 8+)
 	
-	o dnf install <package> – Install a package
+	dnf install <package> – Install a package
 	
-	o dnf update – Update installed packages
+	dnf update – Update installed packages
 	
-	o dnf remove <package> – Remove a package
+	dnf remove <package> – Remove a package
 
 ### General Commands
 
 	rpm – RPM package manager
 	
-	o rpm -i <package.rpm> – Install an RPM package
+	rpm -i <package.rpm> – Install an RPM package
 	
-	o rpm -e <package> – Remove an RPM package
+	rpm -e <package> – Remove an RPM package
 	
 	dpkg – Debian package manager
 	
-	o dpkg -i <package.deb> – Install a Debian package
+	dpkg -i <package.deb> – Install a Debian package
 	
-	o dpkg -r <package> – Remove a Debian package
+	dpkg -r <package> – Remove a Debian package
 
 
 
@@ -300,27 +300,27 @@
 
 	systemctl – Control the systemd system and service manager
 	
-	o systemctl start <service> – Start a service
+	systemctl start <service> – Start a service
 	
-	o systemctl stop <service> – Stop a service
+	systemctl stop <service> – Stop a service
 	
-	o systemctl restart <service> – Restart a service
+	systemctl restart <service> – Restart a service
 	
-	o systemctl enable <service> – Enable a service to start on boot
+	systemctl enable <service> – Enable a service to start on boot
 	
-	o systemctl disable <service> – Disable a service from starting on boot
+	systemctl disable <service> – Disable a service from starting on boot
 	
-	o systemctl status <service> – Check service status
+	systemctl status <service> – Check service status
 	
 	service – Older service management command (used in non-systemd systems)
 	
-	o service <service> start – Start a service
+	service <service> start – Start a service
 	
-	o service <service> stop – Stop a service
+	service <service> stop – Stop a service
 	
-	o service <service> restart – Restart a service
+	service <service> restart – Restart a service
 	
-	o service <service> status – Check service status
+	service <service> status – Check service status
 
 
 
@@ -330,21 +330,21 @@
 
 	cron – Daemon for running scheduled commands
 	
-	o crontab -e – Edit cron jobs for the current user
+	crontab -e – Edit cron jobs for the current user
 	
-	o crontab -l – List the current user’s cron jobs
+	crontab -l – List the current user’s cron jobs
 	
-	o crontab -r – Remove the current user's cron jobs
+	crontab -r – Remove the current user's cron jobs
 	
 	at – Run commands at a specified time
 	
-	o at 09:00 – Schedule a command to run at 09:00 AM
+	at 09:00 – Schedule a command to run at 09:00 AM
 	
 	batch – Run commands when the system load is low
 	
 	sleep – Delay for a specified time
 	
-	o sleep 5s – Sleep for 5 seconds
+	sleep 5s – Sleep for 5 seconds
 
 
 
@@ -381,17 +381,17 @@
 
 	rsync – Remote file and directory synchronization
 	
-	o rsync -avz source/ destination/ – Synchronize files
+	rsync -avz source/ destination/ – Synchronize files
 	
-	o rsync -avz -e ssh source/ user@remote:/destination/ – Sync over SSH
+	rsync -avz -e ssh source/ user@remote:/destination/ – Sync over SSH
 	
 	cpio – Copy files to and from archives
 	
 	dd – Low-level copying and backup of entire filesystems
 	
-	o dd if=/dev/sda of=/path/to/backup.img – Backup a disk/partition
+	dd if=/dev/sda of=/path/to/backup.img – Backup a disk/partition
 	
-	o dd if=/path/to/backup.img of=/dev/sda – Restore a disk/partition
+	dd if=/path/to/backup.img of=/dev/sda – Restore a disk/partition
 
 
 
@@ -404,11 +404,11 @@
 	
 	strace – Trace system calls and signals
 	
-	o strace <command> – Trace a command’s system calls
+	strace <command> – Trace a command’s system calls
 	
 	lsof – List open files (useful for debugging)
 	
-	o lsof <file> – Show processes using a specific file
+	lsof <file> – Show processes using a specific file
 	
 	vmstat – Report virtual memory statistics
 	
@@ -424,7 +424,7 @@
 	
 	watch – Execute a program periodically, showing output
 	
-	o watch -n 1 free – Watch memory usage every second
+	watch -n 1 free – Watch memory usage every second
 	
 	lshw – List hardware configuration
 	
@@ -442,11 +442,11 @@
 	
 	ip – A more modern alternative for managing network interfaces and routing
 	
-	o ip addr – Show IP addresses
+	ip addr – Show IP addresses
 	
-	o ip link – Show or manipulate network interfaces
+	ip link – Show or manipulate network interfaces
 	
-	o ip route – Show or manipulate routing tables
+	ip route – Show or manipulate routing tables
 	
 	ss – Display socket statistics (useful for diagnosing network issues)
 	
@@ -456,9 +456,9 @@
 	
 	nc (Netcat) – Network utility for reading and writing from network connections
 	
-	o nc -l -p 1234 – Listen on port 1234
+	nc -l -p 1234 – Listen on port 1234
 	
-	o nc <host> <port> – Connect to a host and port
+	nc <host> <port> – Connect to a host and port
 	
 	iptables – Administration tool for IPv4 packet filtering and NAT(Network Address Translation)
 	
@@ -466,9 +466,9 @@
 	
 	ufw – Uncomplicated firewall (front-end for iptables)
 	
-	o ufw enable – Enable firewall
+	ufw enable – Enable firewall
 	
-	o ufw allow <port> – Allow traffic on a specific port
+	ufw allow <port> – Allow traffic on a specific port
 	
 	tcpdump – Command-line packet analyzer
 	
@@ -478,8 +478,8 @@
 	
 	scp – Secure copy over SSH (used to copy files between systems)
 	
-	o scp file.txt user@remote:/path/to/destination/ – Copy file to remote server
+	scp file.txt user@remote:/path/to/destination/ – Copy file to remote server
 	
 	rsync – Remote file and directory synchronization (often used for backups)
 	
-	o rsync -avz /local/path/ remote:/remote/path/ – Sync directories
+	rsync -avz /local/path/ remote:/remote/path/ – Sync directories
