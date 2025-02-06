@@ -1,6 +1,6 @@
 # DevOps Strategies
 
-	## 1. Cost Optimization Strategies
+## 1. Cost Optimization Strategies
 
 	a. Right-Sizing Resources
 	   - Analyze Usage Patterns: Use CloudWatch metrics and load test (Jmeter) to analyze CPU, memory, and I/O usage over time. Identify underutilized EC2 instances and RDS instances.
@@ -22,7 +22,7 @@
 	   - Cost Monitoring: Set up AWS Budgets and CloudWatch alarms to monitor spending and receive alerts when costs exceed predefined thresholds.
 	   - Resource Tagging: Implement a tagging strategy to track costs by tenant or service, allowing for better visibility and accountability.
 
-	## 2. Performance Enhancement Strategies
+## 2. Performance Enhancement Strategies
 
 	a. Load Testing and Performance Profiling
 	   - Conduct Load Testing: Use tools like JMeter or Locust to simulate peak loads and identify bottlenecks in the application.
@@ -42,7 +42,7 @@
 	e. Microservices Architecture
 	   - Refactor Monoliths: If applicable, consider breaking down monolithic applications into microservices to improve scalability and performance. This allows for independent scaling of services based on demand.
 
-	## 3. Continuous Improvement and Monitoring
+## 3. Continuous Improvement and Monitoring
 
 	a. Implement CI/CD Pipelines
 	   - Automate Deployments: Use CI/CD tools (Jenkins, GitLab CI/CD) to automate deployments, ensuring that performance improvements and cost optimizations are continuously integrated.
