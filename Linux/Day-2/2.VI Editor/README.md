@@ -1,9 +1,13 @@
 # VI Editor
 
 	The `vi` editor is a powerful and widely used text editor in Unix and Linux environments. 
+	
 	It is known for its efficiency and versatility, making it a favorite among system administrators 
+	
 	and developers. `vi` operates in different modes, primarily **Normal mode**, **Insert mode**, 
+	
 	and **Command mode**. Below is an overview of how to use the `vi` editor, including basic commands 
+	
 	and functionalities.
 
 ### Starting `vi`
