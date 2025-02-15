@@ -98,7 +98,7 @@
 	mv source_directory/ /path/to/destination/
 	
 
-## 6. **`rm` - Remove files
+## 6. `rm` - Remove files
 
 	The `rm` command is used to delete files.
 
@@ -122,7 +122,7 @@
 	rm -r directory_name/
 	
 
-## 7. **`rmdir` - Remove empty directories
+## 7. `rmdir` - Remove empty directories
 
 	The `rmdir` command is used to delete empty directories.
 
