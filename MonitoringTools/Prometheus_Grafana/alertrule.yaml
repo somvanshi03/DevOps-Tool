@@ -1,0 +1,40 @@
+groups:
+  - name: custom_rules
+    rules:
+    - record: node_memory_MemFree_percent
+      expr: 100 - (100 * node_memory_MemFree_bytes / node_memory_MemoryTotal_bytes)
+    - record: node_filesystem_free_percent
+      expr: 100 * node_filesystem_bytes{mount="/"} / node_filesystem_size_bytes{mountpoint="/"}
+  - name: alert_rules
+    rules:
+      - alert: InstnaceDown
+        expr: up == 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summuary: "Instance [{{ $labels.instnace }}] down"
+          decription: "Instance [{{ $labels.instnace }}] of job [{{ $labels.job }}] has been down for more then 1 minute."
+      - alert: DiskSpaceFree10Percent
+        expr: node_filesystem_Free_percent <= 10
+        labels:
+          severity: critical
+        annotations:
+          summary: "Instance [{{ $labels.instance }}] has 10% or less Free disk space"
+          description: "[{{ $labels.instance }}] has only {{ $value }}% or less free "
+      - alert: HostHighCpuLoad
+        expr: 100 - (avg by(instance) (irate(node_cpu_seconds_total{mode="idle"}[5m])) * 100) > 80
+        for: 30s
+        labels:
+          severity: warning
+        annotations:
+          description: "CPU load is > 80% VALUE = {{ humanize $value }} LABELS: {{ $labels }}"
+          summary: "Host high CPU load (instance {{ $labels.instance }})"
+      - alert: HostOutOfMemory
+        expr: node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes * 100 < 20
+        for: 30s
+        labels:
+          severity: warning
+        annotations:
+          description: "Node memory is filling up (< 20% left) VALUE = {{ humanize $value }} LABELS: {{ $labels }}"
+          summary: "Host out of memory (instance {{ $labels.instance }})"
