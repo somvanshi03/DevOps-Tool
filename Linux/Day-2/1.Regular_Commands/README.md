@@ -26,6 +26,10 @@
 	
 	ls -lh
 	
+	- List with human-readable file sizes and modified time
+	
+	ls -lrth
+	
 
 ## 2. `touch` - Create an empty file or update the timestamp
 
