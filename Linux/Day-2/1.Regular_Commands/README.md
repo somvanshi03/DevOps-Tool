@@ -171,3 +171,100 @@
 	| `mkdir`  | Create new directories                  | `mkdir new_folder` |
 
 	These commands form the backbone of file and directory management in Linux. They are highly versatile and commonly used in everyday tasks.
+
+## HEAD, TAIL, LESS, more
+	
+	The `head`, `tail`, `less`, and `more` commands in Linux are used for viewing the contents of files, but each has a different way of handling and displaying the content.
+
+## 1. `head` - Display the beginning of a file
+
+	The `head` command displays the first few lines of a file (by default, it shows the first 10 lines).
+
+	- **Display the first 10 lines of a file:**
+	
+	head file_name.txt
+
+
+	- **Display the first N lines of a file (e.g., 5 lines):**
+	
+	head -n 5 file_name.txt
+	
+
+	- **Display the first N bytes of a file:**
+	
+	head -c 50 file_name.txt
+	
+	This will show the first 50 bytes of the file.
+
+## 2. **`tail` - Display the end of a file**
+
+	The `tail` command shows the last few lines of a file (by default, it shows the last 10 lines).
+
+	- **Display the last 10 lines of a file:**
+	
+	tail file_name.txt
+	
+
+	- **Display the last N lines of a file (e.g., 5 lines):**
+	
+	tail -n 5 file_name.txt
+
+
+	- **Display the last N bytes of a file:**
+	
+	tail -c 50 file_name.txt
+	
+	This will show the last 50 bytes of the file.
+
+	- **Follow the end of a file (useful for logs):**
+	
+	tail -f file_name.txt
+	
+	This command will continuously display the new lines added to the file in real-time.
+
+## 3. `less` - View the content of a file one page at a time
+
+	The `less` command is used to view files interactively, allowing you to scroll forward and backward through the file.
+
+	- **View a file with `less`:**
+	
+	less file_name.txt
+	
+	This opens the file in a pager, allowing you to navigate with the following keys:
+	  - Use the **arrow keys** or **Page Up/Page Down** to scroll.
+	  - Press `q` to quit the `less` viewer.
+
+	- **Search within the file while using `less`:**
+	  - Press `/` and then type the search term.
+	  - Press `n` to go to the next occurrence of the search term.
+
+
+## 4. `more` - View content of a file one screen at a time
+
+	The `more` command is similar to `less`, but it's more limited in functionality. It only allows forward navigation and doesn't allow scrolling back up as easily as `less`.
+
+	- **View a file with `more`:**
+	
+	more file_name.txt
+	
+	This opens the file and displays it one screen at a time. You can:
+	  - Press **Spacebar** to move to the next screen of content.
+	  - Press **Enter** to scroll one line at a time.
+	  - Press `q` to quit `more`.
+
+## Summary of Commands:
+
+	| Command | Description | Example |
+	|---------|-------------|---------|
+	| `head`  | Displays the beginning of a file | `head file_name.txt` |
+	| `tail`  | Displays the end of a file | `tail file_name.txt` |
+	| `less`  | Allows interactive scrolling through a file | `less file_name.txt` |
+	| `more`  | Displays file content one screen at a time | `more file_name.txt` |
+
+## Key Differences:
+
+	- `head` and `tail` are for viewing specific parts of a file (beginning or end).
+	- `less` is more advanced, allowing interactive scrolling in both directions.
+	- `more` is simpler, only allowing forward scrolling through the file content.
+
+	These commands are very useful when working with large files where opening the entire file in a text editor would be inefficient.
