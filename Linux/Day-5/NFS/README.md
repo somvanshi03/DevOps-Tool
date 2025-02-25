@@ -39,3 +39,5 @@
 ## Mount NFS on Clint VM
 
 	 mount -t nfs 10.0.0.4:/home/nfsadmin/myshare /mnt
+	 
+	 df -hT 
