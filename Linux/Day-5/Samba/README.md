@@ -36,4 +36,8 @@
 	 
 	now mount this samba on windows machine
 	\\IP\ShareName
+
+## Change permission on SambaDrive
+
+	chmod 777 /home/user11/mynewshare
 	
