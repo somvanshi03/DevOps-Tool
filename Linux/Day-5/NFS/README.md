@@ -26,13 +26,16 @@
 
 ## Edit Export File
 
+	mkdir /home/nfsadmin/myshare
+	
     sudo vi /etc/exports
 	
-	/webdata/Oracle *(rw,sync,no_subtree_check,no_root_squash)
-	/webdata/Oracle *(rw,sync,no_root_squash)
+	/home/nfsadmin/myshare *(rw,sync,no_subtree_check,no_root_squash)
+	
     
 	sudo exportfs -ra
 
-## Restart NFS service
- 
-	systemctl restart nfs-server
+	
+## Mount NFS on Clint VM
+
+	 mount -t nfs 10.0.0.4:/home/nfsadmin/myshare /mnt
