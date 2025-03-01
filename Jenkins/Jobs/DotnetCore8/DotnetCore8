@@ -1,0 +1,30 @@
+pipeline {
+    agent {
+  label 'slave1'
+}
+
+
+    stages {
+        stage('CleanWorkSpace') {
+            steps {
+                sh 'rm -rf /home/ubuntu/workspace/DemoJobs/Dotnet8/*'
+            }
+        }
+		stage('CloneRepo') {
+            steps {
+               checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/somvanshi03/Jenkins-DotnetCore8.git']])
+            }
+        }
+		stage('PackageApp') {
+            steps {
+               sh 'dotnet publish -p:EngageEnvironment="linux" HelloWorldApp.sln -c Release -f net8.0 --no-self-contained -o HelloWorldApp'
+			  sh 'zip -r HelloWorldApp.zip HelloWorldApp/*'
+            }
+        }
+		stage('StashArtifacts') {
+            steps {
+                sh "aws s3 cp HelloWorldApp.zip s3://devopshangoutjenkinscode/${env.JOB_NAME}/${env.BUILD_NUMBER}/"
+            }
+        }
+    }
+}

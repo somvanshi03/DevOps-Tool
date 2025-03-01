@@ -1,0 +1,29 @@
+pipeline {
+    agent {
+  label 'slave1'
+}
+
+
+    stages {
+        stage('CleanWorkSpace') {
+            steps {
+                sh 'rm -rf /home/ubuntu/workspace/DemoJobs/java2/* '
+            }
+        }
+		stage('CloneRepo') {
+            steps {
+                checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/spring-projects/spring-petclinic.git']])
+            }
+        }
+		stage('PackageApp') {
+            steps {
+                sh 'mvn clean package'
+            }
+        }
+		stage('StashArtifacts') {
+            steps {
+                echo 'Hello World'
+            }
+        }
+    }
+}
