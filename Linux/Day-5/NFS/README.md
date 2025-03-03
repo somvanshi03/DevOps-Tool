@@ -38,6 +38,14 @@
 	
 ## Mount NFS on Clint VM
 
-	 mount -t nfs 10.0.0.4:/home/nfsadmin/myshare /mnt
+	
+	mkdir /myshare 
+	mount -t nfs 10.0.0.4:/home/nfsadmin/myshare /myshare
 	 
 	 df -hT 
+
+## Permanent Mount in FSTAB
+
+	vi /etc/fstab 
+	
+	10.0.0.4:/home/demouser/myshare  /myshare  nfs  defaults  0  0

@@ -1,0 +1,38 @@
+pipeline {
+    agent any
+
+options {
+  buildDiscarder logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '5', numToKeepStr: '5')
+  disableConcurrentBuilds()
+  timestamps()
+  
+}
+
+	parameters {
+    gitParameter branchFilter: 'origin/(.*)', defaultValue: 'main', name: 'BRANCH', type: 'PT_BRANCH'
+	
+
+	}
+    stages {
+        stage('CleanWorkSpace') {
+            steps {
+                sh 'rm -rf /home/ubuntu/workspace//Dotnetcore/*'
+            }
+        
+        }
+		stage('CloneRepo') {
+            steps {
+                git branch: "${params.BRANCH}", url: 'https://github.com/somvanshi03/Jenkins-DotnetCore8.git'
+            
+            echo  "This is ${params.BRANCH}"
+            }
+        }
+		stage('PackageApp') {
+            steps {
+               sh 'dotnet publish -p:EngageEnvironment="linux" HelloWorldApp.sln -c Release -f net8.0 --no-self-contained -o HelloWorldApp'
+			  sh 'zip -r HelloWorldApp.zip HelloWorldApp/*'
+            }
+        }
+		
+    }
+}
