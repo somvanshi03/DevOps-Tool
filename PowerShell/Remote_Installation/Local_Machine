@@ -1,29 +1,12 @@
-   1 Test-WSMan -ComputerName "20.84.56.37"
-   2 ping dotnetserver
-   3 Test-WSMan -ComputerName "dotnetserver"
-   4 cd .\Desktop\
-   5 cd .\DotnetCore_Installation\
-   6 ls
-   7 .\VerifiyVersion.ps1
-   8 .\VerifiyVersion.ps1
-   9 $remoteServer = "dotnetserver"
-  14 $remoteServer = "dotnetserver"
-  15 $scriptPath = "C:\Users\demouser\Desktop\DotnetCore_Installation\Install-DotNetCore8.ps1"
-  16 Copy-Item -Path $scriptPath -Destination "\\$remoteServer\C$\Temp\Install-DotNetCore8.ps1"
-  17 Copy-Item -Path $scriptPath -Destination "\\$remoteServer\C$\Install-DotNetCore8.ps1"
-  18 Invoke-Command -ComputerName $remoteServer -ScriptBlock {...
-  19 [dotnetserver] Connecting to remote server dotnetserver failed with the following error message : The WinRM client
-  20 cannot process the request. If the authentication scheme is different from Kerberos, or if the client computer ...
-  21 joined to a domain, then HTTPS transport must be used or the destination machine must be added to the TrustedHosts
-  22 configuration setting. Use winrm.cmd to configure TrustedHosts. Note that computers in the TrustedHosts list mi...
-  23 be authenticated. You can get more information about that by running the following command: winrm help config. For
-  24 more information, see the about_Remote_Troubleshooting Help topic.
-  25     + CategoryInfo          : OpenError: (dotnetserver:String) [], PSRemotingTransportException
-  26 cls
-  27 Set-Item WSMan:\localhost\Client\TrustedHosts -Value "dotnetserver" -Concatenate -Force
-  28 Set-Item WSMan:\localhost\Client\TrustedHosts -Value "*" -Force
-  29 Get-Item WSMan:\localhost\Client\TrustedHosts
-  30 Test-WSMan -ComputerName "dotnetserver"
-  31 Invoke-Command -ComputerName $remoteServer -ScriptBlock {...
-  32 Invoke-Command -ComputerName $remoteServer -ScriptBlock {...
-  33 Invoke-Command -ComputerName $remoteServer -ScriptBlock {...
+Test-WSMan -ComputerName "20.84.56.37"
+ping dotnetserver
+Test-WSMan -ComputerName "dotnetserver"
+.\VerifiyVersion.ps1
+$remoteServer = "dotnetserver"
+$scriptPath = "C:\Users\demouser\Desktop\DotnetCore_Installation\Install-DotNetCore8.ps1"
+Copy-Item -Path $scriptPath -Destination "\\$remoteServer\C$\Temp\Install-DotNetCore8.ps1"
+Copy-Item -Path $scriptPath -Destination "\\$remoteServer\C$\Install-DotNetCore8.ps1"
+Set-Item WSMan:\localhost\Client\TrustedHosts -Value "dotnetserver" -Concatenate -Force
+Set-Item WSMan:\localhost\Client\TrustedHosts -Value "*" -Force
+Get-Item WSMan:\localhost\Client\TrustedHosts
+Test-WSMan -ComputerName "dotnetserver"
