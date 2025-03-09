@@ -10,6 +10,17 @@
 
 ### To allow the HTTP port, you can run:
 
+	Allow HTTP traffic for WinRM:
+	
+	-NetFirewallRule -DisplayName "Allow WinRM HTTP" -Direction Inbound -Protocol TCP -LocalPort 5985 -Action Allow -Profile Domain, Private
+	
+	Verify Rule:
+	
+	Get-NetFirewallRule -DisplayName "Allow WinRM HTTP", "Allow WinRM HTTPS"
+
+# Allow HTTPS traffic for WinRM
+New-NetFirewallRule -DisplayName "Allow WinRM HTTPS" -Direction Inbound -Protocol TCP -LocalPort 5986 -Action Allow -Profile Domain, Private
+
 	New-NetFirewallRule -Name "Allow PowerShell Remoting" -DisplayName "Allow PowerShell Remoting" -Enabled True -Direction Inbound -Protocol TCP -Action Allow -LocalPort 5985
 	
 ### If you want to enable HTTPS, you can run:
