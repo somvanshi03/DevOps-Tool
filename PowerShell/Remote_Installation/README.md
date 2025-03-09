@@ -8,19 +8,12 @@
 	
 ## Configure the Firewall:
 
-	New-NetFirewallRule:
-	
-	Allow HTTP traffic for WinRM:
-	
-	New-NetFirewallRule -DisplayName "Allow WinRM HTTP" -Direction Inbound -Protocol TCP -LocalPort 5985 -Action Allow -Profile Domain, Private
+### Enable File and Printer Shareing
 
-	Allow HTTPS traffic for WinRM:
-
-	New-NetFirewallRule -DisplayName "Allow WinRM HTTPS" -Direction Inbound -Protocol TCP -LocalPort 5986 -Action Allow -Profile Domain, Private
-	
-	Verify the Rules:
-	
-	Get-NetFirewallRule -DisplayName "Allow WinRM HTTP", "Allow WinRM HTTPS"
+	Set-NetFirewallRule -DisplayGroup "File and Printer Sharing" -Enabled True
+	Get-NetFirewallRule | Where-Object { $_.DisplayName -like "*File and Printer Sharing*" }
+	Set-Service -Name "FDResPub" -StartupType Automatic
+	Start-Service -Name "FDResPub"
 
 ### To allow the HTTP port, you can run:
 
