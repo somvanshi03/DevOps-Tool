@@ -2,44 +2,23 @@
 
 ## Open PowerShell as Administrator
 
-## Enable PowerShell Remoting on Target Servers:
+## TargetServer:
 
-	Enable-PSRemoting -Force
+	1 Enable-PSRemoting -Force
+	2 Set-NetFirewallRule -DisplayGroup "File and Printer Sharing" -Enabled True
+	3 Set-Service -Name "FDResPub" -StartupType Automatic
+	4 Start-Service -Name "FDResPub"
+	5 Get-NetFirewallRule | Where-Object { $_.DisplayName -like "*File and Printer Sharing*" }
+	6 New-NetFirewallRule -Name "Allow PowerShell Remoting" -DisplayName "Allow PowerShell Remoting" -Enabled True -Direction Inbound -Protocol TCP -Action Allow -LocalPort 5985
+	7 New-NetFirewallRule -Name "Allow PowerShell Remoting HTTPS" -DisplayName "Allow PowerShell Remoting HTTPS" -Enabled True -Direction Inbound -Protocol TCP -Action Allow -LocalPort 5986
 	
-## Configure the Firewall:
+## Local Server:
 
-### Enable File and Printer Shareing
-
-	Set-NetFirewallRule -DisplayGroup "File and Printer Sharing" -Enabled True
-	Get-NetFirewallRule | Where-Object { $_.DisplayName -like "*File and Printer Sharing*" }
-	Set-Service -Name "FDResPub" -StartupType Automatic
-	Start-Service -Name "FDResPub"
-
-### To allow the HTTP port, you can run:
-
-
-	New-NetFirewallRule -Name "Allow PowerShell Remoting" -DisplayName "Allow PowerShell Remoting" -Enabled True -Direction Inbound -Protocol TCP -Action Allow -LocalPort 5985
-	
-### If you want to enable HTTPS, you can run:
-
-	New-NetFirewallRule -Name "Allow PowerShell Remoting HTTPS" -DisplayName "Allow PowerShell Remoting HTTPS" -Enabled True -Direction Inbound -Protocol TCP -Action Allow -LocalPort 5986
-	
-## Set Trusted Hosts (if necessary) On Local Machine:
-
-	Set-Item WSMan:\localhost\Client\TrustedHosts -Value "RemoteServerNameOrIP" -Concatenate -Force
-
-	Set-Item WSMan:\localhost\Client\TrustedHosts -Value "*" -Concatenate -Force
-	Set-Item WSMan:\localhost\Client\TrustedHosts -Value "*" -Concatenate -Force
-	
-	Get-Item WSMan:\localhost\Client\TrustedHosts
-	
-## Test the Connection: From your local machine
-
-	Test-WSMan -ComputerName "RemoteServerNameOrIP
-	ping dotnetserver
-	
-## now Execute VerifiyVersion.ps1 Script
-
-	./VerifiyVersion.ps1
-	
-	Above script will copy Install-DotNetCore8.ps1 script from local to remote server and will start installation.
+	1 Set-NetFirewallRule -DisplayGroup "File and Printer Sharing" -Enabled True
+	2 Set-Service -Name "FDResPub" -StartupType Automatic
+	3 Start-Service -Name "FDResPub"
+	4 Set-Item WSMan:\localhost\Client\TrustedHosts -Value "*" -Concatenate -Force
+	5 Get-Item WSMan:\localhost\Client\TrustedHosts
+	6 Test-WSMan -ComputerName "TargetServer"
+	7 cd .\Desktop\Script\
+	8 .\Install.ps1

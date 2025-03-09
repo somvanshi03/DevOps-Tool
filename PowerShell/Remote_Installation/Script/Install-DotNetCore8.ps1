@@ -45,8 +45,3 @@ Remove-Item -Path $sdkInstallerPath -Force
 # Verify the installation
 $dotnetVersion = & "$env:ProgramFiles\dotnet\dotnet.exe" --version
 Write-Host ".NET Core $dotnetVersion installed successfully."
-
-
-
-
-
