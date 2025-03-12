@@ -2,22 +2,22 @@
 
 ## List of Region
 
-		aws help
-		aws ec2 help
-		aws ec2 describe-regions
-		aws ec2 describe-regions --all-regions
-		aws ec2 describe-regions --all-regions --output table
-		aws ec2 describe-regions  --query "Regions[].{Name:RegionName}"
-		aws ec2 describe-regions  --query "Regions[].{Name:RegionName}" --output table 
-		aws ec2 describe-regions --output text
-		aws ec2 describe-regions --output text | cut -f3
+	aws help
+	aws ec2 help
+	aws ec2 describe-regions
+	aws ec2 describe-regions --all-regions
+	aws ec2 describe-regions --all-regions --output table
+	aws ec2 describe-regions  --query "Regions[].{Name:RegionName}"
+	aws ec2 describe-regions  --query "Regions[].{Name:RegionName}" --output table 
+	aws ec2 describe-regions --output text
+	aws ec2 describe-regions --output text | cut -f3
 		
 ## List of Availability Zone
 	
-		aws ec2 describe-availability-zones
-		aws ec2 describe-availability-zones --output table
-		aws ec2 describe-availability-zones --region ap-south-1
-		aws ec2 describe-availability-zones --region ap-south-1 --output table 
+	aws ec2 describe-availability-zones
+	aws ec2 describe-availability-zones --output table
+	aws ec2 describe-availability-zones --region ap-south-1
+	aws ec2 describe-availability-zones --region ap-south-1 --output table 
 		
 
 ## EC2:
