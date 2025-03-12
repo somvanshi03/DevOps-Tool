@@ -3,26 +3,38 @@
 ## List of Region
 
 	aws help
+	
 	aws ec2 help
+	
 	aws ec2 describe-regions
+	
 	aws ec2 describe-regions --all-regions
+	
 	aws ec2 describe-regions --all-regions --output table
+	
 	aws ec2 describe-regions  --query "Regions[].{Name:RegionName}"
+	
 	aws ec2 describe-regions  --query "Regions[].{Name:RegionName}" --output table 
+	
 	aws ec2 describe-regions --output text
+	
 	aws ec2 describe-regions --output text | cut -f3
 		
 ## List of Availability Zone
 	
 	aws ec2 describe-availability-zones
+	
 	aws ec2 describe-availability-zones --output table
+	
 	aws ec2 describe-availability-zones --region ap-south-1
+	
 	aws ec2 describe-availability-zones --region ap-south-1 --output table 
 		
 
 ## EC2:
 
 	EC2 Help
+	
 	aws ec2 help 
 	
 ## List of VPC:
@@ -36,6 +48,7 @@
 ## List of SecurityGroup:
 
 	aws ec2 describe-security-groups
+	
 	aws ec2 describe-security-groups --output table
 
 ## List of KeyPairs:
@@ -47,20 +60,30 @@
 
 
 	aws ec2 describe-images --owners self amazon  --output table
+	
 	aws ec2 describe-images --executable-users all
+	
 	aws ec2 describe-images --executable-users all  --output table
+	
 	aws ec2 describe-images --owners ubuntu aws-marketplace
+	
 	aws ec2 describe-images --output text
+	
 	aws ec2 describe-images --owners amazon aws-marketplace --query 'Images[*].[ImageId]' --output text
+	
 	aws ec2 describe-images --owners amazon --filters "Name=name,Values=amzn*" --query 'sort_by(Images, &CreationDate)[].Name'
+	
 	aws ec2 describe-images --owners amazon aws-marketplace --query 'Images[*].[ImageId]' --region us-east-2  --output table
+	
 	ami-0ee4f2271a4df2d7d  == AMAZON3
+	
 	ami-05fb0b8c1424f266b  == Ubuntu
 	
 	
 ## Create EC2 Instance:
 	
 	aws ec2 run-instances --image-id ami-xxxxxxxx --count 1 --instance-type t2.micro --key-name OHIO --security-group-ids sg-003317f51d2d1bc13 --subnet-id subnet-084ef57375a51e5c6
+	
 	aws ec2 run-instances --image-id ami-05fb0b8c1424f266b --count 1 --instance-type t2.micro --key-name OHIO --security-group-ids sg-003317f51d2d1bc13 --subnet-id subnet-084ef57375a51e5c6  --output table
 	
 ## List of Running Instance:
@@ -75,15 +98,18 @@
 ## Restart, STOP, Start EC2 Instance:
 
 	aws ec2 reboot-instances --instance-ids i-0f6eaa4fdb0f6dd52
+	
 	aws ec2 stop-instances --instance-ids i-0f6eaa4fdb0f6dd52
+	
 	aws ec2 start-instances --instance-ids i-0f6eaa4fdb0f6dd52
+	
 	aws ec2 terminate-instances --instance-ids i-0f6eaa4fdb0f6dd52
 
 
 ## Create Volume:
 
 
-aws ec2 create-volume --volume-type gp2 --size 20 --availability-zone us-east-1a --iops 1000 --encrypted --tag-specifications 'ResourceType=volume,Tags=[{Key=purpose,Value=production},{Key=cost-center,Value=cc123}]'
+	aws ec2 create-volume --volume-type gp2 --size 20 --availability-zone us-east-1a --iops 1000 --encrypted --tag-specifications 'ResourceType=volume,Tags=[{Key=purpose,Value=production},{Key=cost-center,Value=cc123}]'
 
 
 
