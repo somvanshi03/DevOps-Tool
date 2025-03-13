@@ -44,15 +44,89 @@
 
 ### Image List:
 
-	List all VMs
-	List all VMs by resource group
-	List all VMs by resource group with details
+	az vm list
+	
+	az vm list-sizes --location
+	
+	az vm list-skus -l westus
+	
 	az vm list-sizes --location "eastus" -o table
+	
 	az vm create -g DevOps-RG -l eastus  -n myvm1 --image win2016datacenter --size Standard_B1ms --admin-username mridul --admin-password Admin@123456 --public-ip-sku Standard
+	
 	az vm create -g DevOps-RG -l eastus  --nsg DevOps-NSG  -n myvm101 --image win2016datacenter --size Standard_B1ms --admin-username mridul --admin-password Admin@12345678 --public-ip-sku Standard
+	
 	az vm deallocate -g DevOps-RG -n myvm1
+	
 	az vm delete -g DevOps-RG -n myvm1 --yes
 
+## Redeploy VM:
+
+	az vm redeploy -g DevOps-RG --name myvm101
+	
+## Reapply VM:
+
+	az vm reapply -g DevOps-RG -n myvm101
+
+## Delete VM:
+
+	az vm delete -g DevOps-RG -n myvm101 --yes
+
+## Deallocate:
+
+	az vm deallocate -g DevOps-RG -n 
+
+## Reimage a virtual machine:
+
+	az vm reimage -n myvm101 -g DevOps-RG --admin-password MyPassword --custom-data "dGVzdA==" --temp-disk false --exact-version 0.1
+	
+## Resize VM:
+
+	az vm resize -g DevOps-RG -n myvm101 --size Standard_DS3_v2
+	
+## Resize all VMs in a resource group:
+
+		
+	az vm resize --size Standard_DS3_v2 --ids $(az vm list -g DevOps-RG --query "[].id" -o tsv)
+	
+## Restart VMs
+
+	az vm restart -g DevOps-RG -n myvm101
+	
+## Restart all VMs in a resource group:
+
+	az vm restart --ids $(az vm list -g DevOps-RG --query "[].id" -o tsv)
+
+## Start a stopped VM:
+
+	az vm start -g DevOps-RG -n myvm101
+	
+## Start all VMs in a resource group:
+
+
+	az vm start --ids $(az vm list -g DevOps-RG --query "[].id" -o tsv)
+	
+
+## Power off (stop) a running VM:
+
+	az vm stop -g DevOps-RG -n myvm101
+
+## Show information about a VM:
+
+	az vm show -g DevOps-RG -n myvm101 -d
+
+## Add or update a tag:
+
+	az vm update -n myvm101 -g DevOps-RG --set tags.tagName=tagValue
+	
+## Remove a tag:
+
+	az vm update -n myvm101 -g DevOps-RG --remove tags.tagName
+	
+## Get the details for all VMs in a resource group:
+
+	az vm show -d --ids $(az vm list -g DevOps-RG --query "[].id" -o tsv)
+	
 ## Storage:
 
 	az storage -h
