@@ -5,12 +5,14 @@ $dotnetRuntimeUrl = "https://download.visualstudio.microsoft.com/download/pr/9c2
 $aspnetCoreRuntimeUrl = "https://download.visualstudio.microsoft.com/download/pr/86b8931f-09f6-4fce-b546-8139350da0c4/d6a5f16bcf81e0b5e9a733b892b1240f/aspnetcore-runtime-8.0.13-win-x64.exe"
 $dotnetDesktopRuntimeUrl = "https://download.visualstudio.microsoft.com/download/pr/fc8c9dea-8180-4dad-bf1b-5f229cf47477/c3f0536639ab40f1470b6bad5e1b95b8/windowsdesktop-runtime-8.0.13-win-x64.exe"
 $dotnetSdkUrl = "https://download.visualstudio.microsoft.com/download/pr/bd44cdb8-dcac-4f1f-8246-1ee392c68dac/ba818a6e513c305d4438c7da45c2b085/dotnet-sdk-8.0.406-win-x64.exe"
+$hostingBundleUrl = "https://builds.dotnet.microsoft.com/dotnet/aspnetcore/Runtime/8.0.14/dotnet-hosting-8.0.14-win.exe"
 
 # Define the paths to save the installers
 $runtimeInstallerPath = "$env:TEMP\dotnet-runtime-8.0.xxx-win-x64.exe"
 $aspnetCoreRuntimeInstallerPath = "$env:TEMP\aspnetcore-runtime-8.0.xxx-win-x64.exe"
 $desktopRuntimeInstallerPath = "$env:TEMP\dotnet-desktop-runtime-8.0.xxx-win-x64.exe"
 $sdkInstallerPath = "$env:TEMP\dotnet-sdk-8.0.xxx-win-x64.exe"
+$hostingBundleInstallerPath = "$env:TEMP\dotnet-hosting-8.0.14-win.exe"
 
 # Download the .NET Core 8 Runtime installer
 Invoke-WebRequest -Uri $dotnetRuntimeUrl -OutFile $runtimeInstallerPath
@@ -36,11 +38,15 @@ Start-Process -FilePath $desktopRuntimeInstallerPath -ArgumentList "/install", "
 # Install .NET Core 8 SDK silently
 Start-Process -FilePath $sdkInstallerPath -ArgumentList "/install", "/quiet", "/norestart" -Wait
 
+# Install .Net Core Shared hosting
+Start-Process -FilePath $hostingBundleInstallerPath -ArgumentList "/install", "/quiet", "/norestart" -Wait
+
 # Clean up the installers
 Remove-Item -Path $runtimeInstallerPath -Force
 Remove-Item -Path $aspnetCoreRuntimeInstallerPath -Force
 Remove-Item -Path $desktopRuntimeInstallerPath -Force
 Remove-Item -Path $sdkInstallerPath -Force
+Remove-Item -Path $hostingBundleInstallerPath -Force
 
 # Verify the installation
 $dotnetVersion = & "$env:ProgramFiles\dotnet\dotnet.exe" --version
