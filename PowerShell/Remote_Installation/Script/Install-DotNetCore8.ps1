@@ -38,7 +38,7 @@ Start-Process -FilePath $desktopRuntimeInstallerPath -ArgumentList "/install", "
 # Install .NET Core 8 SDK silently
 Start-Process -FilePath $sdkInstallerPath -ArgumentList "/install", "/quiet", "/norestart" -Wait
 
-# Install .Net Core Shared hosting
+# Install .Net Core Shared hosting silently
 Start-Process -FilePath $hostingBundleInstallerPath -ArgumentList "/install", "/quiet", "/norestart" -Wait
 
 # Clean up the installers
