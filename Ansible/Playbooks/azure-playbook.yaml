@@ -1,0 +1,17 @@
+- name: create an account
+      azure_rm_storageaccount:
+        resource_group: myResourceGroup
+        name: clh0002
+        type: Standard_RAGRS
+        tags:
+          testing: testing
+          delete: on-exit
+
+- name: Create an account with kind of FileStorage
+      azure_rm_storageaccount:
+        resource_group: myResourceGroup
+        name: c1h0002
+        type: Premium_LRS
+        kind: FileStorage
+        tags:
+          testing: testing
