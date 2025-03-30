@@ -30,7 +30,7 @@
 	smtp_tls_CAfile = /etc/ssl/certs/ca-certificates.crt
 
 ## Change permission
-
+	
 	sudo chown root:root /etc/postfix/sasl_passwd /etc/postfix/sasl_passwd.db
 	sudo chmod 0600 /etc/postfix/sasl_passwd /etc/postfix/sasl_passwd.db
 
@@ -40,6 +40,7 @@
 
 ## Setup network setting to check port no.
 
+	apt install mailutils -y
 	apt install net-tools -y 
 	netstat -tulpn | grep :25
 	 
