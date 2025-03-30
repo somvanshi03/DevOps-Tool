@@ -159,70 +159,45 @@
 
 
 
-
-4.18 AWS Module:
---------------------
-
-ansible-doc aws_s3
-
-- name: Simple PUT operation
-  amazon.aws.s3_object:
-    bucket: mybucket
-    object: /my/desired/key.txt
-    src: /usr/local/myfile.txt
-    mode: put
-- name: Create an empty bucket
-  amazon.aws.s3_object:
-    bucket: mybucket
-    mode: create
-    permission: public-read
-- name: Delete a bucket and all contents
-  amazon.aws.s3_object:
-    bucket: mybucket
-    mode: delete
-- name: Delete an object from a bucket
-  amazon.aws.s3_object:
-    bucket: mybucket
-    object: /my/desired/key.txt
-    mode: delobj
-- name: Copy an object already stored in another bucket
-  amazon.aws.s3_object:
-    bucket: mybucket
-    object: /my/desired/key.txt
-    mode: copy
-    copy_src:
-        bucket: srcbucket
-        object: /source/key.txt
+## Ansible-Vault:
 
 
-4.19 Azure Module:
-----------------------
-
-ansible-doc azure_rm_storageaccount
-
-- name: create an account
-      azure_rm_storageaccount:
-        resource_group: myResourceGroup
-        name: clh0002
-        type: Standard_RAGRS
-        tags:
-          testing: testing
-          delete: on-exit
-
-- name: Create an account with kind of FileStorage
-      azure_rm_storageaccount:
-        resource_group: myResourceGroup
-        name: c1h0002
-        type: Premium_LRS
-        kind: FileStorage
-        tags:
-          testing: testing
+	ansible-vault -h
+	
+	ansible-vault encrypt play1.yaml
+	
+	ansible-playbook play1.yaml  --ask-vault-pass
+	
+	ansible-vault rekey play1.yaml
+	
+	ansible-vault view play1.yaml
+	
+	ansible-vault decrypt play1.yaml
 
 
+## Ansible Facts:
 
 
-
-=========================
+	ansible-doc setup
+	ansible app -m setup
+	ansible app -m setup -a 'filter=ansible_distribution'
+	ansible app -m setup -a 'filter=ansible_distribution_release'
+	ansible app -m setup -a 'filter=ansible_architecture'
+	ansible app -m setup -a 'filter=ansible_all_ipv4_addresses'
+	ansible app -m setup -a 'filter=ansible_os_family'
+	ansible app -m setup -a 'filter=macaddress'
+	ansible app -m setup -a 'filter=ansible_system'
+	ansible app -m setup -a 'filter=ansible_python_version'
+	ansible app -m setup -a 'filter=ansible_machine'
+	ansible app -m setup -a 'filter=ansible_memory_mb'
+	ansible app -m setup -a 'filter=ansible_kernel'
+	ansible app -m setup -a 'filter="hw_timestamp_filters'
+	ansible app -m setup -a 'filter=ansible_eth0'
+	ansible app -m setup -a 'filter=ansible_domain'
+	ansible app -m setup -a 'filter=ansible_dns'
+	ansible app -m setup -a 'filter=ansible_apparmor'
+	ansible app -m setup -a 'filter=ansible_bios_version'
+	ansible app -m setup -a 'filter=ansible_cmdline	
 
 Ansible PlayBook:
 -------------------
@@ -244,27 +219,10 @@ vi task.yaml
     group: root
     mode: 777
 	
-ansible-playbook play1.yaml
--------------------------------
-
-ansible-doc lineinfile
------------------------
 
 
 
 
-
-
-=============================
-Ansible-Vault:
----------------
-
-ansible-vault -h
-ansible-vault encrypt play1.yaml
-ansible-playbook play1.yaml  --ask-vault-pass
-ansible-vault rekey play1.yaml
-ansible-vault view play1.yaml
-ansible-vault decrypt play1.yaml
 
 ==============================
 
@@ -351,39 +309,6 @@ mydir: /tmp/dir101
 	   - ntpd    
 
 ansible-playbook variable.yaml
----------------------------------
 
 
-
-
-
-
-
-==============================
-Ansible	Facts:
----------------
-
-ansible-doc setup
-ansible app -m setup
-ansible app -m setup -a 'filter=ansible_distribution'
-ansible app -m setup -a 'filter=ansible_distribution_release'
-ansible app -m setup -a 'filter=ansible_architecture'
-ansible app -m setup -a 'filter=ansible_all_ipv4_addresses'
-ansible app -m setup -a 'filter=ansible_os_family'
-ansible app -m setup -a 'filter=macaddress'
-ansible app -m setup -a 'filter=ansible_system'
-ansible app -m setup -a 'filter=ansible_python_version'
-ansible app -m setup -a 'filter=ansible_machine'
-ansible app -m setup -a 'filter=ansible_memory_mb'
-ansible app -m setup -a 'filter=ansible_kernel'
-ansible app -m setup -a 'filter="hw_timestamp_filters'
-ansible app -m setup -a 'filter=ansible_eth0'
-ansible app -m setup -a 'filter=ansible_domain'
-ansible app -m setup -a 'filter=ansible_dns'
-ansible app -m setup -a 'filter=ansible_apparmor'
-ansible app -m setup -a 'filter=ansible_bios_version'
-ansible app -m setup -a 'filter=ansible_cmdline'
-
-
-=========================================
 

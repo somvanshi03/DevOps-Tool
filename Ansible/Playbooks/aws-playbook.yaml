@@ -1,0 +1,28 @@
+- name: Simple PUT operation
+  amazon.aws.s3_object:
+    bucket: mybucket
+    object: /my/desired/key.txt
+    src: /usr/local/myfile.txt
+    mode: put
+- name: Create an empty bucket
+  amazon.aws.s3_object:
+    bucket: mybucket
+    mode: create
+    permission: public-read
+- name: Delete a bucket and all contents
+  amazon.aws.s3_object:
+    bucket: mybucket
+    mode: delete
+- name: Delete an object from a bucket
+  amazon.aws.s3_object:
+    bucket: mybucket
+    object: /my/desired/key.txt
+    mode: delobj
+- name: Copy an object already stored in another bucket
+  amazon.aws.s3_object:
+    bucket: mybucket
+    object: /my/desired/key.txt
+    mode: copy
+    copy_src:
+        bucket: srcbucket
+        object: /source/key.txt

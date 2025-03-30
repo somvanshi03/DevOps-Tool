@@ -1,0 +1,35 @@
+---
+- name: Sample Playbook for Copy, File, Package, and Service Modules
+  hosts: all
+  become: yes  # Run tasks with elevated privileges (sudo)
+  tasks:
+    # Task 1: Copy a file from the control machine to the target machine
+    - name: Copy a file to the target machine
+      copy:
+        src: /path/to/local/file.txt  # Path to the file on the control machine
+        dest: /home/user/file.txt     # Destination path on the target machine
+        owner: user                   # Set the owner of the file
+        group: user                   # Set the group of the file
+        mode: '0644'                  # Set the file permissions
+
+    # Task 2: Create a directory on the target machine
+    - name: Create a directory
+      file:
+        path: /home/user/new_directory  # Path to the directory
+        state: directory                # Ensure the directory exists
+        owner: user                     # Set the owner of the directory
+        group: user                     # Set the group of the directory
+        mode: '0755'                    # Set the directory permissions
+
+    # Task 3: Install a package (e.g., nginx)
+    - name: Install nginx package
+      package:
+        name: nginx                     # Name of the package to install
+        state: present                  # Ensure the package is installed
+
+    # Task 4: Ensure the nginx service is started and enabled
+    - name: Start and enable nginx service
+      service:
+        name: nginx                     # Name of the service
+        state: started                  # Ensure the service is running
+        enabled: yes                    # Ensure the service is enabled on boot
