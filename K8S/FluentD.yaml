@@ -1,0 +1,88 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: fluentd
+  namespace: kube-system
+  labels:
+    k8s-app: fluentd-logging
+    version: v1
+    kubernetes.io/cluster-service: "true"
+spec:
+  selector:
+    matchLabels:
+      name: fluentd
+  template:
+    metadata:
+      labels:
+        name: fluentd
+        k8s-app: fluentd-logging
+        version: v1
+        kubernetes.io/cluster-service: "true"
+    spec:
+      containers:
+      - name: fluentd
+        image: fluent/fluentd-kubernetes-daemonset:v1.16-debian-elasticsearch7
+        env:
+        - name: FLUENT_ELASTICSEARCH_HOST
+          value: "elasticsearch-logging"
+        - name: FLUENT_ELASTICSEARCH_PORT
+          value: "9200"
+        - name: FLUENT_ELASTICSEARCH_SCHEME
+          value: "http"
+        - name: FLUENT_ELASTICSEARCH_USER
+          value: ""
+        - name: FLUENT_ELASTICSEARCH_PASSWORD
+          value: ""
+        - name: FLUENT_ELASTICSEARCH_LOGSTASH_PREFIX
+          value: "logstash"
+        - name: FLUENT_ELASTICSEARCH_LOGSTASH_FORMAT
+          value: "true"
+        - name: FLUENT_ELASTICSEARCH_LOG_LEVEL
+          value: "info"
+        - name: FLUENT_ELASTICSEARCH_BUFFER_CHUNK_LIMIT
+          value: "2M"
+        - name: FLUENT_ELASTICSEARCH_BUFFER_QUEUE_LIMIT
+          value: "8"
+        - name: FLUENT_ELASTICSEARCH_FLUSH_INTERVAL
+          value: "5s"
+        - name: FLUENT_ELASTICSEARCH_RETRY_WAIT
+          value: "1s"
+        - name: FLUENT_ELASTICSEARCH_MAX_RETRY_WAIT
+          value: "30s"
+        - name: FLUENT_ELASTICSEARCH_FLUSH_AT_SHUTDOWN
+          value: "true"
+        - name: FLUENT_ELASTICSEARCH_DISABLE_RETRY_LIMIT
+          value: "false"
+        - name: FLUENT_ELASTICSEARCH_NUM_THREADS
+          value: "1"
+        - name: FLUENT_ELASTICSEARCH_FAIL_ON_DETECTING_ES_VERSION_RETRY_EXCEEDED
+          value: "true"
+        - name: FLUENT_ELASTICSEARCH_HTTP_READ_TIMEOUT
+          value: "5s"
+        - name: FLUENT_ELASTICSEARCH_HTTP_WRITE_TIMEOUT
+          value: "5s"
+        - name: FLUENT_ELASTICSEARCH_LOG_ES_400_REASON
+          value: "true"
+        - name: FLUENT_ELASTICSEARCH_SSL_VERIFY
+          value: "true"
+        - name: FLUENT_ELASTICSEARCH_SSL_VERSION
+          value: "TLSv1_2"
+        - name: FLUENT_ELASTICSEARCH_CA_FILE
+          value: ""
+        - name: FLUENT_ELASTICSEARCH_CLIENT_CERT
+          value: ""
+        - name: FLUENT_ELASTICSEARCH_CLIENT_KEY
+          value: ""
+        - name: FLUENT_ELASTICSEARCH_CLIENT_KEY_PASS
+          value: ""
+        - name: FLUENT_ELASTICSEARCH_RELOAD_CONNECTIONS
+          value: "true"
+        - name: FLUENT_ELASTICSEARCH_RELOAD_ON_FAILURE
+          value: "true"
+        - name: FLUENT_ELASTICSEARCH_SNIFFING
+          value: "false"
+        - name: FLUENT_ELASTICSEARCH_SNIFFER_DELAY
+          value: "300s"
+        - name: FLUENT_ELASTICSEARCH_TARGET_INDEX_KEY
+          value: "kubernetes.labels.app"
+       
