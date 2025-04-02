@@ -3,10 +3,10 @@
 	1. Introduction
 	2. Region zone, Billing, latency Test
 	3. Project and VPC and Firewall Rule
-	4. Linux VM Provisioning and connect via browser			Done 
-	5. Linux VM Provisioning and Connect with user and putty	Done 
-	6. Windows VM Provisioning and Connect						Done 
-	7. Setup Static Private IP and assign to VM.				Done 
+	4. Linux VM Provisioning and connect via browser			 
+	5. Linux VM Provisioning and Connect with user and putty	 
+	6. Windows VM Provisioning and Connect						 
+	7. Setup Static Private IP and assign to VM.				 
 	8. Image
 	9. Machine Image
 	10. Snapshot
