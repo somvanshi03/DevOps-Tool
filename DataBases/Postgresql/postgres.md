@@ -84,3 +84,7 @@
 	"C:\Program Files\PostgreSQL\14\bin\pg_dump.exe" --file "D:\postgresBackup\DB_20240503.tar" --host localhost --port "5432" --username user --verbose --format=t --blobs --dbname="DB"
 	
 	"C:\Program Files\PostgreSQL\14\bin\pg_restore.exe" --host localhost --port 5432 --username "user" --dbname "DB" --verbose "D:\postgresBackup\DB_20240503.tar"
+	
+	## Sudo permission
+	
+	dba ALL=(ALL) NOPASSWD: /bin/systemctl start postgresql, /bin/systemctl stop postgresql, /bin/systemctl restart postgresql, /usr/bin/pg_dump, /usr/bin/pg_restore
