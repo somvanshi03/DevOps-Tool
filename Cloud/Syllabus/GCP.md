@@ -42,4 +42,4 @@
 	https://cloud.google.com/about/locations
 	https://status.cloud.google.com/
 	https://cloud.google.com/products/calculator?utm_source=google&utm_medium=cpc&utm_campaign=japac-IN-all-en-dr-BKWS-all-cloud-trial-EXA-dr-1605216&utm_content=text-ad-none-none-DEV_c-CRE_634320416321-ADGP_Hybrid+%7C+BKWS+-+EXA+%7C+Txt+~+GCP_General_gcp_price-KWID_43700074200797799-aud-1596662390334:kwd-328283964153&userloc_9050481-network_g&utm_term=KW_gcp+calculator&gclid=CjwKCAiA3KefBhByEiwAi2LDHHusGm8L3k5n9R0akCbCww9Y4pqTLUWOoKYrSm2oLO3_SFT7zsu86xoCbpgQAvD_BwE&gclsrc=aw.ds&hl=en
-	https://gcpinstances.doit.com/ 
+	https://gcpinstances.doit.com/  
