@@ -12,181 +12,181 @@
 
 ### ✅ 1. `helm install`
 
-**Usage:** Install a chart into Kubernetes.
+	**Usage:** Install a chart into Kubernetes.
 
 
-helm install <release_name> <chart> [flags]
+	helm install <release_name> <chart> [flags]
 
 
-* `release_name`: A unique name for the release.
-* `chart`: The chart directory, URL, or chart name in a repo.
-* `--values/-f`: Use a values file to override defaults.
-* `--set`: Set values on the command line.
+	* `release_name`: A unique name for the release.
+	* `chart`: The chart directory, URL, or chart name in a repo.
+	* `--values/-f`: Use a values file to override defaults.
+	* `--set`: Set values on the command line.
 
-🔹 *Example:*
+	🔹 *Example:*
 
 
-helm install myapp ./mychart -f custom-values.yaml
+	helm install myapp ./mychart -f custom-values.yaml
 
 
 
 
 ### 🔁 2. `helm upgrade`
 
-**Usage:** Upgrade a release with a new chart or values.
+	**Usage:** Upgrade a release with a new chart or values.
 
 
-helm upgrade <release_name> <chart> [flags]
+	helm upgrade <release_name> <chart> [flags]
 
 
-* `--install`: Install if release doesn't exist.
-* `--force`: Force resource updates through delete/recreate.
-* `--reuse-values`: Reuse the last release's values.
+	* `--install`: Install if release doesn't exist.
+	* `--force`: Force resource updates through delete/recreate.
+	* `--reuse-values`: Reuse the last release's values.
 
-🔹 *Example:*
+	🔹 *Example:*
 
 
-helm upgrade myapp ./mychart --set image.tag=v2
+	helm upgrade myapp ./mychart --set image.tag=v2
 
 
 
 
 ### 🔄 3. `helm rollback`
 
-**Usage:** Roll back a release to a previous revision.
+	**Usage:** Roll back a release to a previous revision.
 
 
-helm rollback <release_name> [revision] [flags]
+	helm rollback <release_name> [revision] [flags]
 
 
-* `revision`: Optional. Defaults to previous release.
+	* `revision`: Optional. Defaults to previous release.
 
-🔹 *Example:*
+	🔹 *Example:*
 
 
-helm rollback myapp 2
+	helm rollback myapp 2
 
 
 
 
 ### ❌ 4. `helm uninstall`
 
-**Usage:** Uninstall a release.
+	**Usage:** Uninstall a release.
 
 
-helm uninstall <release_name> [flags]
+	helm uninstall <release_name> [flags]
 
 
-* `--keep-history`: Retain release history after uninstall.
+	* `--keep-history`: Retain release history after uninstall.
 
-🔹 *Example:*
+	🔹 *Example:*
 
 
-helm uninstall myapp
+	helm uninstall myapp
 
 
 
 
 ### 🔍 5. `helm list`
 
-**Usage:** List releases.
+	**Usage:** List releases.
 
 
-helm list [flags]
+	helm list [flags]
 
 
-* `--all`: Show all releases (including deleted).
-* `--namespace`: Show releases in a specific namespace.
+	* `--all`: Show all releases (including deleted).
+	* `--namespace`: Show releases in a specific namespace.
 
-🔹 *Example:*
+	🔹 *Example:*
 
 
-helm list --all-namespaces
+	helm list --all-namespaces
 
 
 
 
 ### 🔎 6. `helm search`
 
-Search for charts.
+	Search for charts.
 
-#### a) `helm search hub`
+	#### a) `helm search hub`
 
-Search in the Helm Hub (Artifact Hub).
-
-
-helm search hub <keyword>
+	Search in the Helm Hub (Artifact Hub).
 
 
-#### b) `helm search repo`
-
-Search charts in local repos.
+	helm search hub <keyword>
 
 
-helm search repo <chart_name>
+	#### b) `helm search repo`
+
+	Search charts in local repos.
 
 
-🔹 *Example:*
+	helm search repo <chart_name>
 
 
-helm search repo nginx
+	🔹 *Example:*
+
+
+	helm search repo nginx
 
 
 
 
 ### 🛠️ 7. `helm repo`
 
-Manage chart repositories.
+	Manage chart repositories.
 
-#### a) `helm repo add`
+	#### a) `helm repo add`
 
-Add a chart repo.
-
-
-helm repo add <name> <url>
+	Add a chart repo.
 
 
-#### b) `helm repo update`
-
-Update chart repo info.
+	helm repo add <name> <url>
 
 
-helm repo update
+	#### b) `helm repo update`
+
+	Update chart repo info.
 
 
-#### c) `helm repo list`
-
-List added repositories.
+	helm repo update
 
 
-helm repo list
+	#### c) `helm repo list`
+
+	List added repositories.
 
 
-#### d) `helm repo remove`
+	helm repo list
 
-Remove a repo.
 
-helm repo remove <name>
+	#### d) `helm repo remove`
+
+	Remove a repo.
+
+	helm repo remove <name>
 
 
 
 
 ### 🔧 8. `helm create`
 
-Create a new chart scaffold.
+	Create a new chart scaffold.
 
 
-helm create <chart_name>
+	helm create <chart_name>
 
 
 
 
 ### 📦 9. `helm package`
 
-Package a chart into a `.tgz` archive.
+	Package a chart into a `.tgz` archive.
 
 
-helm package <chart_directory> [flags]
+	helm package <chart_directory> [flags]
 
 
 
