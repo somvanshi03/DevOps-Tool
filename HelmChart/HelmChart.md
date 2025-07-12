@@ -74,7 +74,7 @@
 
 ### Helm chart repo 
 
-		https://artifacthub.io/ 
+	https://artifacthub.io/ 
 		
 		
 ### Helm Commands (List, add, search)
@@ -115,6 +115,122 @@
 
 
 ### Helm Upgrade with set option
+
+#### Add Custom repo 
+
+	helm repo list 
+	
+	helm repo add stacksimplify https://stacksimplify.github.io/helm-charts/
+	
+	helm repo list
+
+	helm search repo mychart1 
+	
+	helm search repo mychart1 --versions
+
+	helm install myapp1 stacksimplify/mychart1 
+	
+	helm ls 
+	
+	helm list 
+	
+#### Upgrade the charts
+
+	helm upgrade myapp1 stacksimplify/mychart1 --set "image.tag=2.0.0"
+	
+	helm ls
+	
+	helm list 
+	
+	Note: New version of docker image will be deployed.
+	
+	helm list --deployed 
+	
+	helm list --suerseded
+	
+#### Helm history and status 
+
+	helm history myapp1
+	
+	helm status myapp1
+
+	helm status myapp1 --show-desc
+	
+	helm status myapp1  --show-resources 
+	
+	helm status RELEASE_NAME --revision int
+	
+	helm status myapp1 --revision 2
+
+
+#### Helm Uninstall
+
+	helm uninstall myapp1
+	
+	
+
+#### Upgrade the charts via chart no 
+
+	helm search repo mychart2
+	
+	helm search repo mychart2 --versions 
+	
+	helm search repo mychart2 --version "0.3.0"
+	
+	helm install myapp101 stacksimplify/mychart2 --versions "0.1.0"
+	
+	helm list 
+	
+	helm status myapp101 --show-resources
+
+	helm upgrade myapp101 stacksimplify/mychart2 --versions "0.2.0"
+	
+	helm list 
+	
+	helm ls 
+	
+	helm status myapp101 --show-resources
+	
+	
+
+#### Rollback 
+
+	helm history myapp101
+	
+	helm list 
+	
+	helm rollback myapp101
+	
+	helm status myapp101
+	
+	helm list 
+	
+	helm history myapp101
+	
+	helm rollback myapp101 1 #1 is revision no 
+
+
+
+#### Uninstall with keep history 
+
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
