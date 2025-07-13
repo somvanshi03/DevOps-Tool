@@ -182,132 +182,132 @@
 
 ## Helm Install Atomic Flag
 
-	# To remove all added repositories in Helm, you can use the following command:
-	helm repo list -o json | jq -r '.[].name' | xargs -n1 helm repo remove
+# To remove all added repositories in Helm, you can use the following command:
+helm repo list -o json | jq -r '.[].name' | xargs -n1 helm repo remove
 	
-	# Install Repo
-	helm install dev101 stacksimplify/mychart1
+# Install Repo
+helm install dev101 stacksimplify/mychart1
 
-	# List Helm Release
-	helm list 
+# List Helm Release
+helm list 
 
-	# List Kubernetes Resources Deployed as part of this Helm Release
-	helm status dev101 --show-resources
+# List Kubernetes Resources Deployed as part of this Helm Release
+helm status dev101 --show-resources
 
-	# Access Application
-	http://localhost:31231
+# Access Application
+http://localhost:31231
 
 
-	# Install Helm Chart 
-	helm install qa101 stacksimplify/mychart1
+# Install Helm Chart 
+helm install qa101 stacksimplify/mychart1
 
-	# List Helm Release
-	helm list 
-	Observation: You should see qa101 release installed with FAILED status
+# List Helm Release
+helm list 
+Observation: You should see qa101 release installed with FAILED status
 
-	Error: INSTALLATION FAILED: 1 error occurred:
-		* Service "qa101-mychart1" is invalid: spec.ports[0].nodePort: Invalid value: 31231: provided port is already allocated
+Error: INSTALLATION FAILED: 1 error occurred:
+	* Service "qa101-mychart1" is invalid: spec.ports[0].nodePort: Invalid value: 31231: provided port is already allocated
 
-	# Uninstall qa101 release which is in failed state
-	helm uninstall qa101
+# Uninstall qa101 release which is in failed state
+helm uninstall qa101
 
-	# List Helm Release
-	helm list 
+# List Helm Release
+helm list 
 	
 	
-	# Install Helm Chart 
-	helm install qa101 stacksimplify/mychart1 --atomic
+# Install Helm Chart 
+helm install qa101 stacksimplify/mychart1 --atomic
 
-	# List Helm Release
-	helm list 
-	Observation: We will not see qa101 FAILED release, --atomic flag deleted the release as soon as it is failed with error
+# List Helm Release
+helm list 
+Observation: We will not see qa101 FAILED release, --atomic flag deleted the release as soon as it is failed with error
 
-	Error: INSTALLATION FAILED: 1 error occurred:
-		* Service "qa101-mychart1" is invalid: spec.ports[0].nodePort: Invalid value: 31231: provided port is already allocated
+Error: INSTALLATION FAILED: 1 error occurred:
+	* Service "qa101-mychart1" is invalid: spec.ports[0].nodePort: Invalid value: 31231: provided port is already allocated
 
 
-	# Uninstall dev101 release
-	helm uninstall dev101
+# Uninstall dev101 release
+helm uninstall dev101
 
-	# List Helm Releases
-	helm list
+# List Helm Releases
+helm list
 	
 
 ## Helm with Kubernetes Namespaces
-
-	# To remove all added repositories in Helm, you can use the following command:
-	helm repo list -o json | jq -r '.[].name' | xargs -n1 helm repo remove
+```t
+# To remove all added repositories in Helm, you can use the following command:
+helm repo list -o json | jq -r '.[].name' | xargs -n1 helm repo remove
 	
-	# List Kubernetes Namespaces 
-	kubectl get ns
+# List Kubernetes Namespaces 
+kubectl get ns
 
-	# Install Helm Release by creating Kubernetes Namespace
-	helm install dev101 stacksimplify/mychart2 --version "0.1.0" --namespace dev --create-namespace 
+# Install Helm Release by creating Kubernetes Namespace
+helm install dev101 stacksimplify/mychart2 --version "0.1.0" --namespace dev --create-namespace 
 
-	# List Kubernetes Namespaces 
-	kubectl get ns
-	Observation: Found the dev namespace created as part of `helm install`
+# List Kubernetes Namespaces 
+kubectl get ns
+Observation: Found the dev namespace created as part of `helm install`
 
-	# List Helm Release
-	helm list --> NO RELEASES in default namespace
-	helm list -n dev
-	helm list --namespace dev
+# List Helm Release
+helm list --> NO RELEASES in default namespace
+helm list -n dev
+helm list --namespace dev
 
-	# Helm Status
-	helm status dev101 --show-resources -n dev
-	helm status dev101 --show-resources --namespace dev
+# Helm Status
+helm status dev101 --show-resources -n dev
+helm status dev101 --show-resources --namespace dev
 
-	# List Kubernetes Pods
-	kubectl get pods -n dev
-	kubectl get pods --namespace dev
+# List Kubernetes Pods
+kubectl get pods -n dev
+kubectl get pods --namespace dev
 
-	# List Services
-	kubectl get svc -n dev
+# List Services
+kubectl get svc -n dev
 
-	# List Deployments
-	kubectl get deploy -n dev
+# List Deployments
+kubectl get deploy -n dev
 
-	# Access Application
-	http://localhost:31232
-	
-	
-	# Helm Upgrade
-	helm upgrade dev101 stacksimplify/mychart2 --version "0.2.0" --namespace dev 
-	or
-	helm upgrade dev101 stacksimplify/mychart2 --version "0.2.0" -n dev
-
-	# List Helm Release
-	helm list -n dev
-	helm list --namespace dev
-
-	# Helm Status
-	helm status dev101 --show-resources -n dev
-	helm status dev101 --show-resources --namespace dev
-
-	# Access Application
-	http://localhost:31232
+# Access Application
+http://localhost:31232
 	
 	
-	# Uninstall Helm Releas
-	helm uninstall dev101 --namespace dev
-	helm uninstall dev101 -n dev
+# Helm Upgrade
+helm upgrade dev101 stacksimplify/mychart2 --version "0.2.0" --namespace dev 
+or
+helm upgrade dev101 stacksimplify/mychart2 --version "0.2.0" -n dev
 
-	# List Helm Release
-	helm list -n dev
-	helm list --namespace dev
+# List Helm Release
+helm list -n dev
+helm list --namespace dev
 
-	# List Kubernetes Namespaces
-	kubectl get ns
-	Observation: 
-	1. When uninstalling helm release, it will not delete the Kubernetes Resource: dev namespace. 
-	2. If we dont need that dev namespace we need to manually delete it from kubernetes using kubectl
+# Helm Status
+helm status dev101 --show-resources -n dev
+helm status dev101 --show-resources --namespace dev
 
-	# Delete dev namespace
-	kubectl delete ns dev
-
-	# List Kubernetes Namespaces
-	kubectl get ns
+# Access Application
+http://localhost:31232
 	
+	
+# Uninstall Helm Releas
+helm uninstall dev101 --namespace dev
+helm uninstall dev101 -n dev
+
+# List Helm Release
+helm list -n dev
+helm list --namespace dev
+
+# List Kubernetes Namespaces
+kubectl get ns
+Observation: 
+1. When uninstalling helm release, it will not delete the Kubernetes Resource: dev namespace. 
+2. If we dont need that dev namespace we need to manually delete it from kubernetes using kubectl
+
+# Delete dev namespace
+kubectl delete ns dev
+
+# List Kubernetes Namespaces
+kubectl get ns
+```	
 
 ## Helm Override default values from values.yaml
 ```t 
