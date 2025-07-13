@@ -310,10 +310,10 @@
 	
 
 ## Helm Override default values from values.yaml
-
-	# To remove all added repositories in Helm, you can use the following command:
-	helm repo list -o json | jq -r '.[].name' | xargs -n1 helm repo remove
-
+```t 
+# To remove all added repositories in Helm, you can use the following command:
+helm repo list -o json | jq -r '.[].name' | xargs -n1 helm repo remove
+```
 	# Helm Install with --dry-run command
 	helm install myapp901 stacksimplify/mychart1 --set service.nodePort=31240 --dry-run 
 
