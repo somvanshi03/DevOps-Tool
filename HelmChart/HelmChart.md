@@ -1,9 +1,7 @@
 # HelmChart
+ 
 
-
-## Day 1: 
-
-### Install helm on Ubuntu
+## Install helm on Ubuntu
  	
 	sudo apt update
 	
@@ -41,7 +39,7 @@
 	kubectl get pods -A 
 
 
-### Install helm on windows
+## Install helm on windows
 
 	Download and copy in system32 
 	
@@ -64,7 +62,7 @@
 	
 	kubectl get pods -A 
 
-### List the Kube Context
+## List the Kube Context
 
 	kubectl config get-context 
 	
@@ -72,12 +70,12 @@
 
 
 
-### Helm chart repo 
+## Helm chart repo 
 
 	https://artifacthub.io/ 
 		
 		
-### Helm Commands (List, add, search)
+## Helm Commands (List, add, search)
 
 	helm repo list # Will show which remote repo is added in your local helm server
 	
@@ -89,11 +87,7 @@
 	
 	helm search repo nginx 
 	
-	helm search repo nginx --version 
-	
-
-### Helm Commands (Update, Install, Uninstall, release)	
-	
+	helm search repo nginx --version 	
 	
 	helm repo update 
 	
@@ -114,9 +108,7 @@
 	helm list 
 
 
-### Helm Upgrade with set option
-
-#### Add Custom repo 
+## Helm Upgrade with set option
 
 	helm repo list 
 	
@@ -133,8 +125,6 @@
 	helm ls 
 	
 	helm list 
-	
-#### Upgrade the charts
 
 	helm upgrade myapp1 stacksimplify/mychart1 --set "image.tag=2.0.0"
 	
@@ -148,7 +138,7 @@
 	
 	helm list --suerseded
 	
-#### Helm history and status 
+## Helm history and status 
 
 	helm history myapp1
 	
@@ -163,13 +153,13 @@
 	helm status myapp1 --revision 2
 
 
-#### Helm Uninstall
+## Helm Uninstall
 
 	helm uninstall myapp1
 	
 	
 
-#### Upgrade the charts via chart no 
+## Upgrade the charts via chart no 
 
 	helm search repo mychart2
 	
@@ -177,42 +167,82 @@
 	
 	helm search repo mychart2 --version "0.3.0"
 	
-	helm install myapp101 stacksimplify/mychart2 --versions "0.1.0"
+	helm install myapp1 stacksimplify/mychart2 --version "0.1.0"
 	
 	helm list 
 	
-	helm status myapp101 --show-resources
+	helm status myapp1 --show-resources
 
-	helm upgrade myapp101 stacksimplify/mychart2 --versions "0.2.0"
+	helm upgrade myapp1 stacksimplify/mychart2 --version "0.2.0"
 	
 	helm list 
 	
 	helm ls 
 	
-	helm status myapp101 --show-resources
+	helm status myapp1 --show-resources
 	
 	
 
-#### Rollback 
+## Rollback 
 
-	helm history myapp101
+	helm history myapp1
 	
 	helm list 
 	
-	helm rollback myapp101
+	helm rollback myapp1
 	
-	helm status myapp101
+	helm status myapp1
 	
 	helm list 
 	
-	helm history myapp101
+	helm history myapp1
 	
-	helm rollback myapp101 1 #1 is revision no 
+	helm rollback myapp1 1 #1 is revision no 
 
 
 
-#### Uninstall with keep history 
+## Uninstall with keep history 
 
+	helm list 
+	
+	helm list --suerseded
+	
+	helm list --deployed
+	
+	helm history myapp1
+	
+	helm uninstall myapp1 --keep-history
+	
+	helm list --uninstalled 
+	
+	helm status myapp1
+	
+## Rollback Uinstalled Release 
+
+	helm history myapp1
+	
+	helm rollback myapp 3 
+	
+	helm list 
+	
+	helm history myapp1
+	
+	helm status myapp1 --show-resources
+	
+
+## Install with generate-name flag 
+
+	
+	helm list 
+	
+	helm install stacksimplify/mychart2 --generate-name 
+	
+	helm status myapp1*******
+	
+	
+	
+	
+	
 	
 
 

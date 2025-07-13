@@ -10,301 +10,174 @@
 
 ## 📦 Helm Chart Commands (Detailed)
 
-### ✅ 1. `helm install`
-
-	**Usage:** Install a chart into Kubernetes.
-
-
-	helm install <release_name> <chart> [flags]
-
-
-	* `release_name`: A unique name for the release.
-	* `chart`: The chart directory, URL, or chart name in a repo.
-	* `--values/-f`: Use a values file to override defaults.
-	* `--set`: Set values on the command line.
-
-	🔹 *Example:*
-
-
-	helm install myapp ./mychart -f custom-values.yaml
-
-
-
-
-### 🔁 2. `helm upgrade`
-
-	**Usage:** Upgrade a release with a new chart or values.
-
-
-	helm upgrade <release_name> <chart> [flags]
-
-
-	* `--install`: Install if release doesn't exist.
-	* `--force`: Force resource updates through delete/recreate.
-	* `--reuse-values`: Reuse the last release's values.
-
-	🔹 *Example:*
-
-
-	helm upgrade myapp ./mychart --set image.tag=v2
-
-
-
-
-### 🔄 3. `helm rollback`
-
-	**Usage:** Roll back a release to a previous revision.
-
-
-	helm rollback <release_name> [revision] [flags]
-
-
-	* `revision`: Optional. Defaults to previous release.
-
-	🔹 *Example:*
-
-
-	helm rollback myapp 2
-
-
-
-
-### ❌ 4. `helm uninstall`
-
-	**Usage:** Uninstall a release.
-
-
-	helm uninstall <release_name> [flags]
-
-
-	* `--keep-history`: Retain release history after uninstall.
-
-	🔹 *Example:*
-
-
-	helm uninstall myapp
-
-
-
-
-### 🔍 5. `helm list`
-
-	**Usage:** List releases.
-
-
-	helm list [flags]
-
-
-	* `--all`: Show all releases (including deleted).
-	* `--namespace`: Show releases in a specific namespace.
-
-	🔹 *Example:*
-
-
-	helm list --all-namespaces
-
-
-
-
-### 🔎 6. `helm search`
-
-	Search for charts.
-
-	#### a) `helm search hub`
-
-	Search in the Helm Hub (Artifact Hub).
-
-
-	helm search hub <keyword>
-
-
-	#### b) `helm search repo`
-
-	Search charts in local repos.
-
-
-	helm search repo <chart_name>
-
-
-	🔹 *Example:*
-
-
-	helm search repo nginx
-
-
-
-
-### 🛠️ 7. `helm repo`
-
-	Manage chart repositories.
-
-	#### a) `helm repo add`
-
-	Add a chart repo.
-
-
-	helm repo add <name> <url>
-
-
-	#### b) `helm repo update`
-
-	Update chart repo info.
-
-
-	helm repo update
-
-
-	#### c) `helm repo list`
-
-	List added repositories.
-
-
+## Helm chart repo 
+
+	https://artifacthub.io/ 
+		
+		
+## Helm Commands (List, add, search)
+
+	helm repo list # Will show which remote repo is added in your local helm server
+	
+	helm repo add bitnami101 https://charts.bitnami.com/bitnami
+	
+	helm repo remove bitnami101
+	
+	helm repo list 
+	
+	helm search repo nginx 
+	
+	helm search repo nginx --version 	
+	
+	helm repo update 
+	
+	helm install myfirstrepo bitnami101/nginx  # latest chart will be installed 
+	
+	helm list 
+	
+	helm ls --output=yaml 
+
+	helm list --namespace=default
+	
+	kubectl get ns 
+
+	helm ls 
+	
+	helm uninstall myfirstrepo
+	
+	helm list 
+
+
+## Helm Upgrade with set option
+
+	helm repo list 
+	
+	helm repo add stacksimplify https://stacksimplify.github.io/helm-charts/
+	
 	helm repo list
 
-
-	#### d) `helm repo remove`
-
-	Remove a repo.
-
-	helm repo remove <name>
-
-
-
-
-### 🔧 8. `helm create`
-
-	Create a new chart scaffold.
-
-
-	helm create <chart_name>
-
-
-
-
-### 📦 9. `helm package`
-
-	Package a chart into a `.tgz` archive.
-
-
-	helm package <chart_directory> [flags]
-
-
-
-
-### 📂 10. `helm dependency`
-
-Manage chart dependencies.
-
-#### a) `helm dependency update`
-
-Download charts listed in `Chart.yaml`.
-
-
-helm dependency update <chart_dir>
-
-
-#### b) `helm dependency build`
-
-Build the charts from dependencies.
-
-helm dependency build <chart_dir>
-
-
-
-### 🧪 11. `helm test`
-
-Run tests defined in the chart.
-
-
-helm test <release_name>
-
-
-
-### 🧾 12. `helm status`
-
-Display the status of a release.
-
-
-helm status <release_name>
-
-
-
-### 📜 13. `helm get`
-
-Get info about a release.
-
-* `helm get values <release>` – View user-supplied values.
-* `helm get manifest <release>` – Show rendered manifests.
-* `helm get all <release>` – Show all release info.
-
-
-
-### 🔄 14. `helm template`
-
-Render chart templates locally (no cluster required).
-
-
-helm template <name> <chart> [flags]
-
-
-
-
-### 🔎 15. `helm lint`
-
-Check chart for formatting and validity issues.
-
-
-helm lint <chart_dir>
-
-
-
-
-### 🗂️ 16. `helm show`
-
-Show chart information.
-
-* `helm show values <chart>`
-* `helm show chart <chart>`
-* `helm show readme <chart>`
-
-
-
-### ⚙️ 17. `helm env`
-
-Show Helm environment information.
-
-
-helm env
-
-
-
-
-### 🆘 18. `helm help`
-
-Display help for any command.
-
-
-helm help [command]
-
-
-
-## 🔒 Helm Security & Authentication Related
-
-* `--kubeconfig`: Use a specific kubeconfig file.
-* `--namespace`: Scope to a namespace.
-* `--debug`: Print debugging output.
-
-
-
-## 🚀 Bonus: Useful Flags
-
-| Flag           | Description                                 |
-| -------------- | ------------------------------------------- |
-| `--dry-run`    | Simulate an install/upgrade without changes |
-| `--set`        | Override values via CLI                     |
-| `--set-string` | Force string values                         |
-| `--atomic`     | Rollback on failure                         |
-| `--timeout`    | Set timeouts for operations                 |
+	helm search repo mychart1 
+	
+	helm search repo mychart1 --versions
+
+	helm install myapp1 stacksimplify/mychart1 
+	
+	helm ls 
+	
+	helm list 
+
+	helm upgrade myapp1 stacksimplify/mychart1 --set "image.tag=2.0.0"
+	
+	helm ls
+	
+	helm list 
+	
+	Note: New version of docker image will be deployed.
+	
+	helm list --deployed 
+	
+	helm list --suerseded
+	
+## Helm history and status 
+
+	helm history myapp1
+	
+	helm status myapp1
+
+	helm status myapp1 --show-desc
+	
+	helm status myapp1  --show-resources 
+	
+	helm status RELEASE_NAME --revision int
+	
+	helm status myapp1 --revision 2
+
+
+## Helm Uninstall
+
+	helm uninstall myapp1
+	
+	
+
+## Upgrade the charts via chart no 
+
+	helm search repo mychart2
+	
+	helm search repo mychart2 --versions 
+	
+	helm search repo mychart2 --version "0.3.0"
+	
+	helm install myapp1 stacksimplify/mychart2 --version "0.1.0"
+	
+	helm list 
+	
+	helm status myapp1 --show-resources
+
+	helm upgrade myapp1 stacksimplify/mychart2 --version "0.2.0"
+	
+	helm list 
+	
+	helm ls 
+	
+	helm status myapp1 --show-resources
+	
+	
+
+## Rollback 
+
+	helm history myapp1
+	
+	helm list 
+	
+	helm rollback myapp1
+	
+	helm status myapp1
+	
+	helm list 
+	
+	helm history myapp1
+	
+	helm rollback myapp1 1 #1 is revision no 
+
+
+
+## Uninstall with keep history 
+
+	helm list 
+	
+	helm list --suerseded
+	
+	helm list --deployed
+	
+	helm history myapp1
+	
+	helm uninstall myapp1 --keep-history
+	
+	helm list --uninstalled 
+	
+	helm status myapp1
+	
+## Rollback Uinstalled Release 
+
+	helm history myapp1
+	
+	helm rollback myapp 3 
+	
+	helm list 
+	
+	helm history myapp1
+	
+	helm status myapp1 --show-resources
+	
+
+## Install with generate-name flag 
+
+	
+	helm list 
+	
+	helm install stacksimplify/mychart2 --generate-name 
+	
+	helm status myapp1*******
 
 
 
