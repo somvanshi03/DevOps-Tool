@@ -391,18 +391,18 @@ Observation:
 1. Two pods will be running as we changed replicacount to 2
 2. Service Node Port will be 31250 
 ```
-# Access Application
-http://localhost:31250
-Observation: 
-1. We should see V2 application because we have used the "image tag as 2.0.0"
+	# Access Application
+	http://localhost:31250
+	Observation: 
+	1. We should see V2 application because we have used the "image tag as 2.0.0"
 	
 	
 	
-# helm get values
-helm get values RELEASE_NAME
-helm get values myapp901
-Observation:
-1. Provides the values from current/latest release version 2 from Release myapp901
+	# helm get values
+	helm get values RELEASE_NAME
+	helm get values myapp901
+	Observation:
+	1. Provides the values from current/latest release version 2 from Release myapp901
 
 	## Sample Output
 	Kalyans-MacBook-Pro:09-Helm-Override-Values kalyan$ helm get values myapp901
