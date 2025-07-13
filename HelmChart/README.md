@@ -313,13 +313,13 @@
 ```t 
 # To remove all added repositories in Helm, you can use the following command:
 helm repo list -o json | jq -r '.[].name' | xargs -n1 helm repo remove
+
+# Helm Install with --dry-run command
+helm install myapp901 stacksimplify/mychart1 --set service.nodePort=31240 --dry-run 
+
+# Helm Install with --dry-run and --debug command
+helm install myapp901 stacksimplify/mychart1 --set service.nodePort=31240 --dry-run --debug
 ```
-	# Helm Install with --dry-run command
-	helm install myapp901 stacksimplify/mychart1 --set service.nodePort=31240 --dry-run 
-
-	# Helm Install with --dry-run and --debug command
-	helm install myapp901 stacksimplify/mychart1 --set service.nodePort=31240 --dry-run --debug
-
 	## THE BELOW IS THE SAMPLE OUTPUT WITH DEBUG ADDED
 	NAME: myapp901
 	NAMESPACE: default
