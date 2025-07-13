@@ -181,7 +181,7 @@
 
 
 ## Helm Install Atomic Flag
-
+```t
 # To remove all added repositories in Helm, you can use the following command:
 helm repo list -o json | jq -r '.[].name' | xargs -n1 helm repo remove
 	
@@ -231,7 +231,7 @@ helm uninstall dev101
 
 # List Helm Releases
 helm list
-	
+```	
 
 ## Helm with Kubernetes Namespaces
 ```t
