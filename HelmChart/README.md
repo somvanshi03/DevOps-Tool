@@ -310,7 +310,7 @@
 	
 
 ## Helm Override default values from values.yaml
-``
+
 # To remove all added repositories in Helm, you can use the following command:
 helm repo list -o json | jq -r '.[].name' | xargs -n1 helm repo remove
 
@@ -341,7 +341,7 @@ service:
   nodePort: 31240
   port: 80
   type: NodePort
-
+```
   
 	  
 	  
