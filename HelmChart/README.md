@@ -374,35 +374,35 @@ http://localhost:31240
 	  nodePort: 31250
 	  
 	  
-	  
-	# Verify if myvalues.yaml
-	cd 09-Helm-Override-Values
-	cat myvalues.yaml
+```t	  
+# Verify if myvalues.yaml
+cd 09-Helm-Override-Values
+cat myvalues.yaml
 
-	# helm upgrade with --dry-run and --debug commands
-	helm upgrade myapp901 stacksimplify/mychart1 -f myvalues.yaml --dry-run --debug
+# helm upgrade with --dry-run and --debug commands
+helm upgrade myapp901 stacksimplify/mychart1 -f myvalues.yaml --dry-run --debug
 
-	# helm upgrade
-	helm upgrade myapp901 stacksimplify/mychart1 -f myvalues.yaml
+# helm upgrade
+helm upgrade myapp901 stacksimplify/mychart1 -f myvalues.yaml
 
-	# helm status
-	helm status myapp901 --show-resources
-	Observation: 
-	1. Two pods will be running as we changed replicacount to 2
-	2. Service Node Port will be 31250 
-
-	# Access Application
-	http://localhost:31250
-	Observation: 
-	1. We should see V2 application because we have used the "image tag as 2.0.0"
+# helm status
+helm status myapp901 --show-resources
+Observation: 
+1. Two pods will be running as we changed replicacount to 2
+2. Service Node Port will be 31250 
+```
+# Access Application
+http://localhost:31250
+Observation: 
+1. We should see V2 application because we have used the "image tag as 2.0.0"
 	
 	
 	
-	# helm get values
-	helm get values RELEASE_NAME
-	helm get values myapp901
-	Observation:
-	1. Provides the values from current/latest release version 2 from Release myapp901
+# helm get values
+helm get values RELEASE_NAME
+helm get values myapp901
+Observation:
+1. Provides the values from current/latest release version 2 from Release myapp901
 
 	## Sample Output
 	Kalyans-MacBook-Pro:09-Helm-Override-Values kalyan$ helm get values myapp901
@@ -417,68 +417,68 @@ http://localhost:31240
 	  port: 80
 	  type: NodePort
 
+```t
+# helm history (History prints historical revisions for a given release.)
+helm history myapp901
 
-	# helm history (History prints historical revisions for a given release.)
-	helm history myapp901
 
-
-	# helm get values with --revision
-	helm get values RELEASE-NAME --revision int
-	helm get values myapp901 --revision 1
-
+# helm get values with --revision
+helm get values RELEASE-NAME --revision int
+helm get values myapp901 --revision 1
+```
 	## Sample Output
 	Kalyans-MacBook-Pro:09-Helm-Override-Values kalyan$ helm get values myapp901 --revision 1
 	USER-SUPPLIED VALUES:
 	service:
 	  nodePort: 31240
 	  
-	  
-	# helm get manifest
-	helm get manifest RELEASE-NAME
-	helm get manifest myapp901
+```t	  
+# helm get manifest
+helm get manifest RELEASE-NAME
+helm get manifest myapp901
 
-	# helm get manifest --revision
-	helm get manifest RELEASE-NAME --revision int
-	helm get manifest myapp901 --revision 1
+# helm get manifest --revision
+helm get manifest RELEASE-NAME --revision int
+helm get manifest myapp901 --revision 1
 	
 	
-	# helm get all
-	helm get all RELEASE-NAME
-	helm get all myapp901
+# helm get all
+helm get all RELEASE-NAME
+helm get all myapp901
 	
 	
-	# Uninstall Helm Release
-	helm uninstall myapp901
+# Uninstall Helm Release
+helm uninstall myapp901
 
-	# List Helm Releases
-	helm list
+# List Helm Releases
+helm list
 	
 	
-	# Release: myapp901
-	helm install myapp901 stacksimplify/mychart1 --atomic
-	helm list
-	helm status myapp901 --show-resources
-	http://localhost:31231
+# Release: myapp901
+helm install myapp901 stacksimplify/mychart1 --atomic
+helm list
+helm status myapp901 --show-resources
+http://localhost:31231
 
-	# Release: myapp902
-	helm install myapp902 stacksimplify/mychart1 --atomic
-	helm list
+# Release: myapp902
+helm install myapp902 stacksimplify/mychart1 --atomic
+helm list
 
-	# Option-1: Give desired port other than 31231
-	helm install myapp902 stacksimplify/mychart1 --set service.nodePort=31232 
+# Option-1: Give desired port other than 31231
+helm install myapp902 stacksimplify/mychart1 --set service.nodePort=31232 
 
-	# Option-2: Pass null value to nodePort (service.nodePort=null)
-	helm install myapp902 stacksimplify/mychart1 --set service.nodePort=null --dry-run --debug
-	helm install myapp902 stacksimplify/mychart1 --set service.nodePort=null 
+# Option-2: Pass null value to nodePort (service.nodePort=null)
+helm install myapp902 stacksimplify/mychart1 --set service.nodePort=null --dry-run --debug
+helm install myapp902 stacksimplify/mychart1 --set service.nodePort=null 
 
-	# Additional Notes for understanding
-	1. We will choose option-2 to demonstrate the concept "Deleting a default Key by passing null"
-	2. For NodePort Service, if we dont define the "nodePort" argument, it by default assigns a port dynamically from the port range 30000-32767. 
-	3. In our case already 31231 is used, other than that port it will allocate someother port when we pass null. 
-	4. In short, if we dont want to pass the default values present in values.yaml as-is, we dont need to change the complete chart with a new version, we can just pass null.
+# Additional Notes for understanding
+1. We will choose option-2 to demonstrate the concept "Deleting a default Key by passing null"
+2. For NodePort Service, if we dont define the "nodePort" argument, it by default assigns a port dynamically from the port range 30000-32767. 
+3. In our case already 31231 is used, other than that port it will allocate someother port when we pass null. 
+4. In short, if we dont want to pass the default values present in values.yaml as-is, we dont need to change the complete chart with a new version, we can just pass null.
 
-	# Uninstall Releases
-	helm uninstall myapp901
-	helm uninstall myapp902
-	helm list
-
+# Uninstall Releases
+helm uninstall myapp901
+helm uninstall myapp902
+helm list
+```
