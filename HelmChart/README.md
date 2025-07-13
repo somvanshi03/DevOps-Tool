@@ -314,33 +314,35 @@
 	# To remove all added repositories in Helm, you can use the following command:
 	helm repo list -o json | jq -r '.[].name' | xargs -n1 helm repo remove
 
-	# Helm Install with --dry-run command
-	helm install myapp901 stacksimplify/mychart1 --set service.nodePort=31240 --dry-run 
+```t
+# Helm Install with --dry-run command
+helm install myapp901 stacksimplify/mychart1 --set service.nodePort=31240 --dry-run 
 
-	# Helm Install with --dry-run and --debug command
-	helm install myapp901 stacksimplify/mychart1 --set service.nodePort=31240 --dry-run --debug
+# Helm Install with --dry-run and --debug command
+helm install myapp901 stacksimplify/mychart1 --set service.nodePort=31240 --dry-run --debug
 
-	## THE BELOW IS THE SAMPLE OUTPUT WITH DEBUG ADDED
-	NAME: myapp901
-	NAMESPACE: default
-	STATUS: pending-install
-	REVISION: 1
-		USER-SUPPLIED VALUES:
-	service:
-	  nodePort: 31240
-	COMPUTED VALUES:
-	fullnameOverride: ""
-	image:
-	  pullPolicy: IfNotPresent
-	  repository: ghcr.io/stacksimplify/kubenginx
-	  tag: ""
-	nameOverride: ""
-	podAnnotations: {}
-	replicaCount: 1
-	service:
-	  nodePort: 31240
-	  port: 80
-	  type: NodePort
+## THE BELOW IS THE SAMPLE OUTPUT WITH DEBUG ADDED
+NAME: myapp901
+NAMESPACE: default
+STATUS: pending-install
+REVISION: 1
+	USER-SUPPLIED VALUES:
+service:
+  nodePort: 31240
+COMPUTED VALUES:
+fullnameOverride: ""
+image:
+  pullPolicy: IfNotPresent
+  repository: ghcr.io/stacksimplify/kubenginx
+  tag: ""
+nameOverride: ""
+podAnnotations: {}
+replicaCount: 1
+service:
+  nodePort: 31240
+  port: 80
+  type: NodePort
+```
 	  
 	  
 	  
