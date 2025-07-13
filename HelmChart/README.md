@@ -319,8 +319,7 @@ helm install myapp901 stacksimplify/mychart1 --set service.nodePort=31240 --dry-
 
 # Helm Install with --dry-run and --debug command
 helm install myapp901 stacksimplify/mychart1 --set service.nodePort=31240 --dry-run --debug
-```
-```yaml
+
 ## THE BELOW IS THE SAMPLE OUTPUT WITH DEBUG ADDED
 NAME: myapp901
 NAMESPACE: default
@@ -342,11 +341,8 @@ service:
   nodePort: 31240
   port: 80
   type: NodePort
-```
 
-  
-	  
-```t	  
+  	  
 # Helm Install 
 helm install myapp901 stacksimplify/mychart1 --set service.nodePort=31240 
 
