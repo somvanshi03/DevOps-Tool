@@ -344,18 +344,18 @@ helm install myapp901 stacksimplify/mychart1 --set service.nodePort=31240 --dry-
 
   
 	  
-	  
-	  # Helm Install 
-	helm install myapp901 stacksimplify/mychart1 --set service.nodePort=31240 
+```t	  
+# Helm Install 
+helm install myapp901 stacksimplify/mychart1 --set service.nodePort=31240 
 
-	# helm status --show-resources
-	helm status myapp901 --show-resources
-	Observation:
-	We can see that our NodePort service is running on port 31240
+# helm status --show-resources
+helm status myapp901 --show-resources
+Observation:
+We can see that our NodePort service is running on port 31240
 
-	# Access Application
-	http://localhost:31240
-	
+# Access Application
+http://localhost:31240
+```	
 	
 	# Change-1: change replicas from 1 to 2
 	replicaCount: 2
