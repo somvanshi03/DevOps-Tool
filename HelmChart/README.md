@@ -341,7 +341,7 @@ service:
   nodePort: 31240
   port: 80
   type: NodePort
-```
+
   
 	  
 	  
