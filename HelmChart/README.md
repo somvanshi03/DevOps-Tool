@@ -388,20 +388,20 @@ helm status myapp901 --show-resources
 Observation: 
 1. Two pods will be running as we changed replicacount to 2
 2. Service Node Port will be 31250 
-```
-	# Access Application
-	http://localhost:31250
-	Observation: 
-	1. We should see V2 application because we have used the "image tag as 2.0.0"
-	
-	
-	
-	# helm get values
-	helm get values RELEASE_NAME
-	helm get values myapp901
-	Observation:
-	1. Provides the values from current/latest release version 2 from Release myapp901
 
+# Access Application
+http://localhost:31250
+Observation: 
+1. We should see V2 application because we have used the "image tag as 2.0.0"
+	
+	
+	
+# helm get values
+helm get values RELEASE_NAME
+helm get values myapp901
+Observation:
+1. Provides the values from current/latest release version 2 from Release myapp901
+```
 	## Sample Output
 	Kalyans-MacBook-Pro:09-Helm-Override-Values kalyan$ helm get values myapp901
 	USER-SUPPLIED VALUES:
@@ -423,14 +423,13 @@ helm history myapp901
 # helm get values with --revision
 helm get values RELEASE-NAME --revision int
 helm get values myapp901 --revision 1
-```
-	## Sample Output
-	Kalyans-MacBook-Pro:09-Helm-Override-Values kalyan$ helm get values myapp901 --revision 1
-	USER-SUPPLIED VALUES:
-	service:
-	  nodePort: 31240
+
+## Sample Output
+Kalyans-MacBook-Pro:09-Helm-Override-Values kalyan$ helm get values myapp901 --revision 1
+USER-SUPPLIED VALUES:
+service:
+	nodePort: 31240
 	  
-```t	  
 # helm get manifest
 helm get manifest RELEASE-NAME
 helm get manifest myapp901
@@ -479,4 +478,34 @@ helm install myapp902 stacksimplify/mychart1 --set service.nodePort=null
 helm uninstall myapp901
 helm uninstall myapp902
 helm list
+```
+
+## Understand Helm Chart Folder Structure
+
+```t
+# Helm Create Chart
+helm create <CHART-NAME>
+helm create basechart
+Observation: 
+1. It will create a Helm Chart template 
+2. We can call it like a helm chart created from a default starter chart
+
+└── basechart
+    ├── .helmignore
+    ├── Chart.yaml
+    ├── LICENSE
+    ├── README.md
+    ├── charts
+    ├── templates
+    │   ├── NOTES.txt
+    │   ├── _helpers.tpl
+    │   ├── deployment.yaml
+    │   ├── hpa.yaml
+    │   ├── ingress.yaml
+    │   ├── service.yaml
+    │   ├── serviceaccount.yaml
+    │   └── tests
+    │       └── test-connection.yaml
+    └── values.yaml
+	
 ```
