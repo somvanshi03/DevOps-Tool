@@ -510,3 +510,137 @@ Observation:
     └── values.yaml
 	
 ```
+## Helm Builtin Objects
+
+```t
+    Objects are passed into a template from the template engine.
+    Objects can be simple, and have just one value or they can contain other objects or functions.
+    For example: the Release object contains several objects (like .Release.Name) and the Files object has a few functions.
+
+
+# Helm Builtin Objects
+    Release
+    Chart
+    Values
+    Capabilities
+    Template
+    Files
+
+{{/* Release Object */}}
+Release Name: {{ .Release.Name }}
+Release Namespace: {{ .Release.Namespace }}
+Release IsUpgrade: {{ .Release.IsUpgrade }}
+Release IsInstall: {{ .Release.IsInstall }}
+Release Revision: {{ .Release.Revision }}
+Release Service: {{ .Release.Service }}
+
+# Char Details
+https://helm.sh/docs/topics/charts/#the-chartyaml-file
+Put the below in NOTES.txt and test it
+
+# Helm Install with --dry-run
+helm install myapp101 . --dry-run
+
+
+# Helm Objects: Values, Capabilities, Template
+
+{{/* Values Object */}}
+Replica Count: {{ .Values.replicaCount }}
+Image Repository: {{ .Values.image.repository }}
+Service Type: {{ .Values.service.type }}
+
+{{/* Capabilities Object */}}
+Kubernetes Cluster Version Major: {{ .Capabilities.KubeVersion.Major }}
+Kubernetes Cluster Version Minor: {{ .Capabilities.KubeVersion.Minor }}
+Kubernetes Cluster Version: {{ .Capabilities.KubeVersion }} and {{ .Capabilities.KubeVersion.Version }}
+Helm Version: {{ .Capabilities.HelmVersion }}
+Helm Version Semver: {{ .Capabilities.HelmVersion.Version }}
+
+{{/* Template Object */}}
+Template Name: {{ .Template.Name }} 
+Template Base Path: {{ .Template.BasePath }}
+
+# Change to CHART Directory 
+cd builtinobjects 
+
+# Helm Install with --dry-run
+helm install myapp101 . --dry-run
+
+# Sample Output
+Replica Count: 1
+Image Repository: ghcr.io/stacksimplify/kubenginxhelm
+Service Type: NodePort
+
+Kubernetes Cluster Version Major: 1
+Kubernetes Cluster Version Minor: 27
+Kubernetes Cluster Version: v1.27.2 and v1.27.2
+Helm Version: {v3.12.1 f32a527a060157990e2aa86bf45010dfb3cc8b8d clean go1.20.5}
+Helm Version Semver: v3.12.1
+
+Template Name: builtinobjects/templates/NOTES.txt 
+Template Base Path: builtinobjects/templates
+
+# Helm Objects: Files
+
+
+Files Object:
+Put the below in NOTES.txt and test it
+https://helm.sh/docs/chart_template_guide/accessing_files/
+
+{{/* File Object */}}
+File Get: {{ .Files.Get "myconfig1.toml" }}
+File Glob as Config: {{ (.Files.Glob "config-files/*").AsConfig }}
+File Glob as Secret: {{ (.Files.Glob "config-files/*").AsSecrets }}
+File Lines: {{ .Files.Lines "myconfig1.toml" }}
+File Lines: {{ .Files.Lines "config-files/myconfig2.toml" }}
+File Glob: {{ .Files.Glob "config-files/*" }}
+
+# Change to CHART Directory 
+cd builtinobjects 
+
+# Helm Install with --dry-run
+helm install myapp101 . --dry-run
+
+# Sample Output
+File Get: message1 = Hello from config 1 line1
+message2 = Hello from config 1 line2
+message3 = Hello from config 1 line3
+
+File Glob as Config: myconfig2.toml: |-
+  appName: myapp2
+  appType: db
+  appConfigEnable: true
+myconfig3.toml: |-
+  appName: myapp3
+  appType: app
+  appConfigEnable: false
+File Glob as Secret: myconfig2.toml: YXBwTmFtZTogbXlhcHAyCmFwcFR5cGU6IGRiCmFwcENvbmZpZ0VuYWJsZTogdHJ1ZQ==
+myconfig3.toml: YXBwTmFtZTogbXlhcHAzCmFwcFR5cGU6IGFwcAphcHBDb25maWdFbmFibGU6IGZhbHNl
+File Lines: [message1 = Hello from config 1 line1 message2 = Hello from config 1 line2 message3 = Hello from config 1 line3 ]
+File Lines: [appName: myapp2 appType: db appConfigEnable: true]
+File Glob: map[config-files/myconfig2.toml:[97 112 112 78 97 109 101 58 32 109 121 97 112 112 50 10 97 112 112 84 121 112 101 58 32 100 98 10 97 112 112 67 111 110 102 105 103 69 110 97 98 108 101 58 32 116 114 117 101] config-files/myconfig3.toml:[97 112 112 78 97 109 101 58 32 109 121 97 112 112 51 10 97 112 112 84 121 112 101 58 32 97 112 112 10 97 112 112 67 111 110 102 105 103 69 110 97 98 108 101 58 32 102 97 108 115 101]]
+
+```
+
+## Helm Development Basics
+
+```t 
+Template Actions {{ }}
+Action Elements {{ .Release.Name }}
+Quote Function
+Pipeline
+default Function
+lower function
+Controlling White Spaces {{-  -}}
+indent function
+nindent function
+toYaml
+
+# Template Action "{{ }}"
+Anything in between Template Action {{ .Chart.Name }} is called Action Element
+Anything in between Template Action {{ .Chart.Name }} will be rendered by helm template engine and replace necessary values
+Anything outside of the template action will be printed as it is.
+Action elements defined inside the {{ }} will help us to retrieve data from other sources (example: .Chart.Name).
+
+
+```
