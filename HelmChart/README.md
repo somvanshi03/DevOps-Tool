@@ -642,5 +642,31 @@ Anything in between Template Action {{ .Chart.Name }} will be rendered by helm t
 Anything outside of the template action will be printed as it is.
 Action elements defined inside the {{ }} will help us to retrieve data from other sources (example: .Chart.Name).
 
+# Template Function: quote
+# Add Quote Function 
+  annotations:    
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    # quote function
+    app.kubernetes.io/managed-by: {{ quote .Release.Service }} 
 
+# Change to CHART Directory
+cd helmbasics
+
+# Helm Template Command
+helm template myapp101 .
+
+# Pipeline
+# Add Quote Function with Pipeline
+  annotations:    
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    # quote function
+    app.kubernetes.io/managed-by: {{ quote .Release.Service }} 
+    # quote function with pipeline
+    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}               
+
+# Change to CHART Directory
+cd helmbasics
+
+# Helm Template Command
+helm template myapp101 .
 ```
