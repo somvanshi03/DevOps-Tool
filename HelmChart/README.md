@@ -857,3 +857,166 @@ helm show all myfirstchart/
 helm show all packages/myfirstchart-2.0.0.tgz
 ```
 
+## Helm Subcharts - Dependency Command
+
+```t 
+
+Create Parent Chart
+helm dependency list
+helm dependency update
+helm dependency build
+helm dependency version constraints
+helm dependency repository @REPO vs REPO-URL
+
+# Create Parent Chart
+
+# Create Parent Chart
+helm create parentchart
+
+apiVersion: v2
+name: parentchart
+description: A Helm chart for Kubernetes
+type: application
+version: 0.1.0
+appVersion: "1.16.0"
+dependencies:
+- name: mychart1
+  version: "0.1.0"
+  repository: "https://stacksimplify.github.io/helm-charts/"
+- name: mychart2
+  version: "0.4.0"
+  repository: "https://stacksimplify.github.io/helm-charts/"
+- name: mysql
+  version: "9.9.0"
+  repository: "https://charts.bitnami.com/bitnami"
+  
+  
+# Helm Dependency Commands - List and Update
+# Helm Dependency List
+helm dependency list
+Observation: 
+You should see status "missing" because we still didnt do helm dependency update
+
+# Verify Charts folder in parentchart
+ls parentchart/charts
+Observation: it should be empty. Dependency subcharts not downloaded
+
+# Helm Dependency Update
+helm dependency update CHART-NAME
+helm dependency update parentchart/
+ls parentchart/charts
+Observation: 
+1. We should see both charts (mychart1-0.1.0.tgz, mychart2-0.4.0.tgz, mysql-9.9.0.tgz)downloaded to "parentchart/charts" folder
+2. We should see "Chart.lock" file in "parentchart" folder
+
+# Review Chart.lock file
+cat parentchart/Chart.lock 
+
+# Helm Dependency list
+helm dependency list parentchart/
+Observation: Should see status as "OK"
+
+# Helm Dependency Chart Version Ranges
+Updates to parent chart Chart.yaml
+
+Helm Chart Version Notation: Major.Minor.Patch 
+MySQL Helm Chart Version: 9.10.8
+Major: 9
+Minor: 10
+Patch: 8
+```
+
+## Helm Plugins
+
+```t 
+# Install Helm Plugin
+
+# List Helm Plugins
+helm plugin list
+
+# Install Helm Plugins
+helm plugin install https://github.com/salesforce/helm-starter.git
+
+# List Helm Plugins
+helm plugin list
+
+# Helm env
+helm env 
+Observation:
+1. Find the value for HELM_PLUGINS
+HELM_PLUGINS="/Users/kalyan/Library/helm/plugins"
+
+# Verify in Helm plugins directory
+cd /Users/kalyan/Library/helm/plugins
+ls
+
+# Play with Helm Starter Plugin
+# List Helm Starters
+helm plugin list
+helm <PLUGIN-NAME> <PLUGIN-SUB-COMMAND-AS-PER-PLUGIN>
+helm starter list
+
+# Fetch Helm Starter
+helm starter fetch https://github.com/salesforce/helm-starter-istio.git
+
+# List Helm Starters
+helm starter list
+
+
+# Play with Helm Plugin Commands
+# Update Helm Plugin
+helm plugin list
+helm plugin update PLUGIN-NAME
+helm plugin update starter
+
+# Uninstall Helm Plugin
+helm plugin list
+helm plugin uninstall PLUGIN-NAME
+helm plugin uninstall starter
+helm plugin list
+
+# Install Couple of Releases
+# Helm Rep Add
+helm repo list
+helm repo add stacksimplify https://stacksimplify.github.io/helm-charts/
+helm repo list
+
+# Helm Install dev101
+helm install dev101 stacksimplify/mychart1 --atomic
+helm upgrade dev101 stacksimplify/mychart1 --atomic --set replicaCount=2
+helm upgrade dev101 stacksimplify/mychart1 --atomic --set replicaCount=3
+
+# Helm Install dev102
+helm install dev102 stacksimplify/mychart2 --atomic
+
+# List Helm Releases
+helm list
+
+# (Optional) Lets install Helm Dashboard Plugin
+# List Helm Plugins
+helm plugin list
+
+# Install Helm Plugin
+helm plugin install https://github.com/komodorio/helm-dashboard.git
+
+# Start Helm Plugin: dashboard
+helm dashboard
+
+# Review Dashboard Concepts
+1. Clusters
+2. Installed Charts
+    - Release: dev101 
+        - Resources
+        - Manifests
+        - Values
+        - Notes
+    - Revision: 1, 2, 3 
+    - Revision Differences
+3. Repository
+4. Logout 
+
+# Uninstall Releases
+# Helm Uninstall
+helm uninstall dev101
+helm uninstall dev102
+```
