@@ -1165,4 +1165,103 @@ Observation:
 Kalyans-Mac-mini:myhelmcharts kalyanreddy$ helm install myapp1 myfirstchart-0.1.0.tgz --verify --keyring public-key/dummy-publickey.gpg --atomic
 Error: INSTALLATION FAILED: openpgp: signature made by unknown entity
 Kalyans-Mac-mini:myhelmcharts kalyanreddy$ 
+```
+## OCI Registry: Docker Hub
+```t 
+# SigUp and SignIn to Docker Hub
+https://hub.docker.com
 
+# command line: docker login
+docker login
+Username: xxxxxxxxx
+Password: xxxxxxxxx
+
+# Push Helm Chart to Docker Hub
+cd 47-Helm-Use-OCI-based-Registries
+helm push <HELM-PACKAGE>  oci://registry-1.docker.io/<DOCKER-NAMESPACE>
+helm push myocidemo-0.1.0.tgz  oci://registry-1.docker.io/stacksimplify
+
+# Verify ons Docker Hub
+Review Tabs
+1. General
+2. Tags
+
+# Update and Push Chart Version: 0.2.0
+
+# Package with Chart Version and App Version 0.2.0
+helm package myocidemo --version "0.2.0" --app-version "0.2.0"
+
+# Push Helm Chart to Docker Hub
+helm push myocidemo-0.2.0.tgz  oci://registry-1.docker.io/stacksimplify
+
+# Pull Helm Chart from OCI Registry
+# Create Directory
+mkdir mypackages
+
+# Helm Pull
+helm pull oci://registry-1.docker.io/stacksimplify/myocidemo --version 0.1.0
+helm pull oci://registry-1.docker.io/stacksimplify/myocidemo --version 0.2.0
+
+# Helm Template and Show Commands
+# Helm Template Command
+helm template <my-release> oci://registry-1.docker.io/stacksimplify/myocidemo --version 0.1.0
+helm template myapp1 oci://registry-1.docker.io/stacksimplify/myocidemo --version 0.1.0
+helm template myapp1 oci://registry-1.docker.io/stacksimplify/myocidemo --version 0.2.0
+
+# Helm Show Command
+helm show all oci://registry-1.docker.io/stacksimplify/myocidemo --version 0.1.0
+helm show all oci://registry-1.docker.io/stacksimplify/myocidemo --version 0.2.0
+
+# Helm Install and Upgrade from OCI Registry
+# Helm Install
+helm install <my-release> oci://registry-1.docker.io/stacksimplify/myocidemo --version 0.1.0
+helm install myapp1 oci://registry-1.docker.io/stacksimplify/myocidemo --version 0.1.0
+
+# Helm Status
+helm status myapp1 --show-resources 
+
+# List k8s services
+kubectl get svc
+
+# Access Application
+http://localhost:<get-from-svc-output>
+
+# Helm Upgrade
+helm upgrade <my-release> oci://registry-1.docker.io/stacksimplify/myocidemo --version 0.2.0
+
+# List k8s services
+kubectl get svc
+
+# Access Application
+http://localhost:<get-from-svc-output>
+
+
+# Migrate from Classic Chart Repository to OCI Registry
+# List and add Helm Chart Repository
+helm repo list
+helm repo add mygithelmrepo https://stacksimplify.github.io/helm-charts-repo/
+helm repo update
+
+# Search Helm Repository
+helm search repo myfirstchart
+
+# Create folder migrate
+mkdir migrate
+cd migrate
+
+# Helm Pull (downloads latest chart version - in our case it is 0.2.0)
+helm pull mygithelmrepo/myfirstchart
+
+# Helm Pull --version (downloads specified chart version)
+helm pull mygithelmrepo/myfirstchart --version 0.1.0
+
+# Docker Login (if not logged in)
+docker login
+
+# Helm Push
+helm push myfirstchart-0.1.0.tgz  oci://registry-1.docker.io/stacksimplify
+helm push myfirstchart-0.2.0.tgz  oci://registry-1.docker.io/stacksimplify
+
+# Verify on Docker Hub
+https://hub.docker.com
+``` 
