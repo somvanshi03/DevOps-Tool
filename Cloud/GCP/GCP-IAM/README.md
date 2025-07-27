@@ -21,7 +21,6 @@ IAM Role is a collection of Permission
 Compute Admin, Storage Admin 
 
 #IAM Role Type:
-
 Basic Roles(Privileged Roles): 
 	Owner > Full Access
 	Editor: Edit + View
