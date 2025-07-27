@@ -1,9 +1,6 @@
 # GCP IAM
 
 ```t
-https://github.com/stacksimplify/google-cloud-certifications/tree/main/Cloud-IAM
-
-
 # IAM Permission Example
 
 # IAM Permission: Permissions are operations that allowed on a resources
