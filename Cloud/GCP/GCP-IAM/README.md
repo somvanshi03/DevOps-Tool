@@ -31,6 +31,8 @@ Compute Admin, Storage Admin
 	  compute Network Viewer
 	
 # Custom Roles
-
-
+	We can create new role by assigning desired permission to it.
+	# Example
+	  CustomRole101
+	  [compute.instance.start,compute.instance.stop]
 ```
