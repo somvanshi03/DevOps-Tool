@@ -36,4 +36,21 @@ Compute Admin, Storage Admin
 	  CustomRole101
 	  [compute.instance.start,compute.instance.stop]
 ```
+```t 
+#Principle: 
+Principle are users, groups, domains or service account
+```
+# IAM Policy
+```t 
+# IAM Role binding
+	Binding one or more Principle to an individual IAM Role 
+	Principle or members + IAM Role
+# IAM Policy(Default: Allow Policy)
+	* Collection of Role bindings that binds one or more Principle to an individual Role
+	* IAM Policy can have one or more role bindings.
+	* An Allow Policy is attachated to a resources.
+	Example: Org, Folder, Projects or Cloud resources
+	(Storage Bucket, VM instance)
 
+
+```
