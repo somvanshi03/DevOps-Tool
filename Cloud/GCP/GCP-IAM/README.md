@@ -20,5 +20,14 @@ IAM Role is a collection of Permission
 # Example:
 Compute Admin, Storage Admin 
 
+#IAM Role Type:
+
+Basic Roles(Privileged Roles): 
+	Owner > Full Access
+	Editor: Edit + View
+	Viewer: View only Or Read only
+Predefined Roles
+Custom Roles
+
 
 ```
