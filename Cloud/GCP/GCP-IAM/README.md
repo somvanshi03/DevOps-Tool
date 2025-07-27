@@ -1,5 +1,6 @@
 # GCP IAM
 
+## IAM Role 
 ```t
 # IAM Permission Example
 
@@ -40,7 +41,7 @@ Compute Admin, Storage Admin
 #Principle: 
 Principle are users, groups, domains or service account
 ```
-# IAM Policy
+## IAM Policy
 ```t 
 # IAM Role binding
 	Binding one or more Principle to an individual IAM Role 
