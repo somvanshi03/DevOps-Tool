@@ -17,13 +17,20 @@ IAM Role is a collection of Permission
 # Example:
 Compute Admin, Storage Admin 
 
-#IAM Role Type:
-Basic Roles(Privileged Roles): 
+# IAM Role Type:
+# Basic Roles(Privileged Roles): 
 	Owner > Full Access
 	Editor: Edit + View
 	Viewer: View only Or Read only
-Predefined Roles
-Custom Roles
+# Predefined Roles
+	Predefined Roles: Precreated by Google and ready to use.
+	# Example:
+	  compute Admin
+	  Compute Viewer
+	  Compute Network Admin
+	  compute Network Viewer
+	
+# Custom Roles
 
 
 ```
