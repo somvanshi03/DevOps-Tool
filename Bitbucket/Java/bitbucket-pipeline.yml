@@ -1,0 +1,48 @@
+image: maven:3.8.1-jdk-11
+
+pipelines:
+  default:
+    - step:
+        name: Build & Push api-gateway
+        services:
+          - docker
+        caches:
+          - maven
+        script:
+          - export SERVICE_NAME=api-gateway
+          - cd $SERVICE_NAME
+          - mvn clean package
+          - docker build -t mridul08/$SERVICE_NAME:$BITBUCKET_BUILD_NUMBER .
+          - echo $DockerHub_Password | docker login -u $DockerHub_UserName --password-stdin
+          - docker push mridul08/$SERVICE_NAME:$BITBUCKET_BUILD_NUMBER
+    - step:
+        name: Build & Push car-service
+        services:
+          - docker
+        caches:
+          - maven
+        script:
+          - export SERVICE_NAME=car-service
+          - cd $SERVICE_NAME
+          - mvn clean package
+          - docker build -t mridul08/$SERVICE_NAME:$BITBUCKET_BUILD_NUMBER .
+          - echo $DockerHub_Password | docker login -u $DockerHub_UserName --password-stdin
+          - docker push mridul08/$SERVICE_NAME:$BITBUCKET_BUILD_NUMBER
+    - step:
+        name: Build & Push discovery-service
+        services:
+          - docker
+        caches:
+          - maven
+        script:
+          - export SERVICE_NAME=discovery-service
+          - cd $SERVICE_NAME
+          - mvn clean package
+          - docker build -t mridul08/$SERVICE_NAME:$BITBUCKET_BUILD_NUMBER .
+          - echo $DockerHub_Password | docker login -u $DockerHub_UserName --password-stdin
+          - docker push mridul08/$SERVICE_NAME:$BITBUCKET_BUILD_NUMBER
+
+definitions:
+  services:
+    docker:
+      memory: 2048

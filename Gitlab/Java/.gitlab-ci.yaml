@@ -1,0 +1,55 @@
+---
+image: maven:3.8.7-eclipse-temurin-17
+stages:
+  - build
+  - dockerize
+  - push-image
+variables:
+  DOCKER_DRIVER: overlay2
+  MAVEN_CLI_OPTS: "--batch-mode --errors --fail-at-end"
+  REGISTRY: $CI_REGISTRY
+  PROJECT_PATH: $CI_PROJECT_PATH
+  IMAGE_TAG: $CI_COMMIT_SHORT_SHA
+  MAVEN_CLI_OPTS: -B -DskipTests
+build_microservice_api-gateway:
+  stage: build
+  script:
+    - cd api-gateway
+    - mvn $MAVEN_CLI_OPTS clean install
+  artifacts:
+    paths:
+      - api-gateway/target
+build_microservice_car-service:
+  stage: build
+  script:
+    - cd car-service
+    - mvn $MAVEN_CLI_OPTS clean install
+  artifacts:
+    paths:
+      - car-service/target
+build_microservice_discovery-service:
+  stage: build
+  script:
+    - cd discovery-service
+    - mvn $MAVEN_CLI_OPTS clean install
+  artifacts:
+    paths:
+      - discovery-service/target
+docker-build:
+  stage: dockerize
+  image: docker:latest
+  services:
+    - docker:dind
+  script:
+    - docker build -t $REGISTRY/$PROJECT_PATH/api-gateway:$IMAGE_TAG api-gateway/
+    - docker build -t $REGISTRY/$PROJECT_PATH/car-service:$IMAGE_TAG car-service/
+    - docker build -t $REGISTRY/$PROJECT_PATH/discovery-service:$IMAGE_TAG discovery-service/
+
+    - docker images
+
+    - echo "Logging into GitLab container registry..."
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+
+    - docker push $REGISTRY/$PROJECT_PATH/api-gateway:$IMAGE_TAG
+    - docker push $REGISTRY/$PROJECT_PATH/car-service:$IMAGE_TAG
+    - docker push $REGISTRY/$PROJECT_PATH/discovery-service:$IMAGE_TAG

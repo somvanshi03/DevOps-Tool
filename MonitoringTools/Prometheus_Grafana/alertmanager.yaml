@@ -1,0 +1,28 @@
+global:
+  resolve_timeout: 1m
+
+route:
+  group_by: ['alertname']
+  group_wait: 30s
+  group_interval: 5m
+  repeat_interval: 1h
+  receiver: 'email_notifications'
+receivers:
+  - name: 'email_notifications'
+    email_configs:
+      - smarthost: 'smtp.gmail.com:587'
+        auth_username: your-email@gmail.com
+        auth_password: your-app-password
+		auth_identity: test@gmail.com
+        from: 'your-email@gmail.com'
+        to: 'recipient-email@gmail.com'
+		send_resolved: true
+        headers:
+          subject: 'Prometheus Mail Alerts'  
+  
+inhibit_rules:
+  - source_match:
+      severity: 'critical'
+    target_match:
+      severity: 'warning'
+    equal: ['alertname', 'dev', 'instance']
