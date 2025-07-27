@@ -38,7 +38,7 @@ Compute Admin, Storage Admin
 	  [compute.instance.start,compute.instance.stop]
 ```
 ```t 
-#Principle: 
+# Principle: 
 Principle are users, groups, domains or service account
 ```
 ## IAM Policy
@@ -53,5 +53,8 @@ Principle are users, groups, domains or service account
 	Example: Org, Folder, Projects or Cloud resources
 	(Storage Bucket, VM instance)
 
-
+# IAM Role binding
+	* add-iam-policy-binding: Add IAM policy binding for a resource.
+	* remove-iam-policy-binding: Remove IAM Policy binding for a resource.
+	* set-iam-policy: Set IAM Policy for a resource.
 ```
