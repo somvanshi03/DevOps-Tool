@@ -23,7 +23,6 @@
    sudo apt install unzip -y
    sudo unzip -o jfrog-artifactory-oss-6.9.6.zip -d /opt/
    sudo mv /opt/artifactory-oss-6.9.6 /opt/jfrog
-   ./bin/artifactory.sh start
    ```
 
 
@@ -45,7 +44,7 @@ Group=artifactory
 ExecStart=/opt/jfrog/bin/artifactory.sh start
 ExecStop=/opt/jfrog/bin/artifactory.sh stop
 ExecReload=/opt/jfrog/bin/artifactory.sh restart
-PIDFile=/opt/jfrog/artifactory/app/var/artifactory.pid
+#PIDFile=/opt/jfrog/artifactory/app/var/artifactory.pid
 Restart=on-failure
 RestartSec=10
 
