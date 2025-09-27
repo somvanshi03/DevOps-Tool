@@ -1,19 +1,20 @@
 # Setup ElasticSearch on Ubuntu
 
+```bash 
+ELK
+E : Elasticsearch
+L: LogStash
+K: Kibana
 
-## Ref:
-	Windows:
-	https://www.elastic.co/downloads/kibana
-	https://www.elastic.co/downloads/elasticsearch
+Elasticsearch: Store, Search, analyze
+Kibana:  Visualization and Manage
+LogStash: Analysing and Transform the logs
 
-	Centos:
-	https://www.elastic.co/guide/en/elasticsearch/reference/current/rpm.html 
-	https://www.elastic.co/guide/en/kibana/current/rpm.html
+Elasticsearch Ports:
 
-	Ubuntu:
-	https://www.elastic.co/guide/en/elasticsearch/reference/current/install-elasticsearch.html
-	https://www.elastic.co/guide/en/kibana/current/deb.html
-	
+9200  is for REST
+9300 for nodes communication, discovery and transport module port.
+```	
 ## Install Java:
 
 	apt install openjdk-17-jre-headless
@@ -103,3 +104,16 @@
 	Sharding is a way to divide indics into smaller size
 	Each piece is refered as a shard
 	sharding is done at the index level
+	
+## Ref:
+	Windows:
+	https://www.elastic.co/downloads/kibana
+	https://www.elastic.co/downloads/elasticsearch
+
+	Centos:
+	https://www.elastic.co/guide/en/elasticsearch/reference/current/rpm.html 
+	https://www.elastic.co/guide/en/kibana/current/rpm.html
+
+	Ubuntu:
+	https://www.elastic.co/guide/en/elasticsearch/reference/current/install-elasticsearch.html
+	https://www.elastic.co/guide/en/kibana/current/deb.html
