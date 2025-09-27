@@ -17,9 +17,9 @@ Elasticsearch Ports:
 ```	
 ## Install Java:
 ```bash 
-	apt install openjdk-17-jre-headless
+	sudo apt install openjdk-17-jre-headless
 
-	vi .bashrc
+	sudo vi .bashrc
 	export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
 	export PATH=$JAVA_HOME/bin:$PATH
 	. .bashrc
@@ -31,18 +31,18 @@ Elasticsearch Ports:
 ## Install ElasticSearch:
 ```bash 
 
-	apt update
-	wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo gpg --dearmor -o /usr/share/keyrings/elasticsearch-keyring.gpg
+	sudo apt update
+	sudo wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo gpg --dearmor -o /usr/share/keyrings/elasticsearch-keyring.gpg
 	sudo apt-get install apt-transport-https
-	echo "deb [signed-by=/usr/share/keyrings/elasticsearch-keyring.gpg] https://artifacts.elastic.co/packages/8.x/apt stable main" | sudo tee /etc/apt/sources.list.d/elastic-8.x.list
+	sudo echo "deb [signed-by=/usr/share/keyrings/elasticsearch-keyring.gpg] https://artifacts.elastic.co/packages/8.x/apt stable main" | sudo tee /etc/apt/sources.list.d/elastic-8.x.list
 	sudo apt-get update && sudo apt-get install elasticsearch
 ```
 
 ## Install Kibana:
 ```bash 
-	wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo gpg --dearmor -o /usr/share/keyrings/elasticsearch-keyring.gpg
+	sudo wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo gpg --dearmor -o /usr/share/keyrings/elasticsearch-keyring.gpg
 	sudo apt-get install apt-transport-https
-	echo "deb [signed-by=/usr/share/keyrings/elasticsearch-keyring.gpg] https://artifacts.elastic.co/packages/8.x/apt stable main" | sudo tee /etc/apt/sources.list.d/elastic-8.x.list
+	sudo echo "deb [signed-by=/usr/share/keyrings/elasticsearch-keyring.gpg] https://artifacts.elastic.co/packages/8.x/apt stable main" | sudo tee /etc/apt/sources.list.d/elastic-8.x.list
 	sudo apt-get update && sudo apt-get install kibana
 ```
 
@@ -50,40 +50,40 @@ Elasticsearch Ports:
 
 ```bash 
 	uncomment below
-	vi /etc/elasticsearch/elasticsearch.yaml
+	sudo vi /etc/elasticsearch/elasticsearch.yaml
 	
 	cluster.name
 	network.host: 0.0.0.0
 	http.port: 9200 
 	
-	vi /etc/kibana/kibana.yaml
+	sudo vi /etc/kibana/kibana.yaml
 	
 	server.port: 5601
 	server.host: "0.0.0.0"
 ```
 ## Restart Kibana and ElasticSearch Service
 ```bash
-	systemctl start elasticsearch
-	systemctl enable elasticsearch
-	systemctl start kibana
-	systemctl enable kibana
+	sudo systemctl start elasticsearch
+	sudo systemctl enable elasticsearch
+	sudo systemctl start kibana
+	sudo systemctl enable kibana
 ```
 	
 ## Generate an enrollment token for Kibana instance:
 ```bash 
-	/usr/share/elasticsearch/bin/elasticsearch-create-enrollment-token -s kibana
+	sudo /usr/share/elasticsearch/bin/elasticsearch-create-enrollment-token -s kibana
 ```
 ## Generate Kibana Token:
 ```bash 
-	cd /usr/share/kibana/bin/
-	./kibana-verification-code
+	sudo cd /usr/share/kibana/bin/
+	sudo ./kibana-verification-code
 ```
 
 
 ## Reset elastic user pass:
 ```bash
 
-	/bin/elasticsearch-reset-password -u elastic
+	sudo /bin/elasticsearch-reset-password -u elastic
 ```
 	
 ## Inspect Cluster:
