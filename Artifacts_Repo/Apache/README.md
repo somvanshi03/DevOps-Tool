@@ -49,8 +49,8 @@ sudo wget https://archive.apache.org/dist/archiva/2.2.9/binaries/apache-archiva-
 
 ```bash
 cd /opt
-sudo tar xzvf apache-archiva-2.2.10-bin.tar.gz
-sudo mv apache-archiva-2.2.10 archiva
+sudo tar xzvf apache-archiva-2*
+sudo mv apache-archiva-2* archiva
 ```
 
 You might want to standardize the path, e.g.:
@@ -66,62 +66,8 @@ sudo useradd -r -m archiva
 sudo chown -R archiva:archiva /opt/archiva
 ```
 
-## 5. Configure Archiva
 
-* In the Archiva folder, there is a `conf/jetty.xml` (or similar) where you can set the HTTP port (default 8080). ([Oracle Docs][1])
-* Adjust memory or Java options in `bin/archiva` or `bin/archiva-env.sh` (if present).
-* You may want to configure base URLs, repositories (internal, snapshots), users, etc., via the web admin once it’s running. ([Oracle Docs][1])
-
-
-
-## 6. Start Archiva
-
-Switch to the archiva user (if you created one) or run directly:
-
-```bash
-cd /opt/archiva/bin
-sudo -u archiva ./archiva start
-```
-
-Or, if not using a special user:
-
-```bash
-./archiva start
-```
-
-You can also run in console mode (foreground) with:
-
-```bash
-./archiva console
-```
-
-This will keep logs on stdout. 
-
-Check logs:
-
-```bash
-tail -f ../logs/*.log
-```
-
-
-## 7. Access the Web UI
-
-Open a browser and navigate to:
-
-```
-http://<your-server-ip>:8080/
-```
-
-You’ll be prompted to set up the admin user, set password, etc. 
-
-By default, Archiva provides two repositories:
-
-* `internal` (for released artifacts, proxying Maven Central) 
-* `snapshots` for in‑progress snapshot artifacts. 
-
----
-
-## 8. (Optional) Run as a systemd service
+## 5. (Optional) Run as a systemd service
 
 To make Archiva start on boot, you can create a `service` file under `/etc/systemd/system/archiva.service`. Example:
 
