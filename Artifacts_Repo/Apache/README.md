@@ -50,6 +50,7 @@ sudo wget https://archive.apache.org/dist/archiva/2.2.9/binaries/apache-archiva-
 ```bash
 cd /opt
 sudo tar xzvf apache-archiva-2*
+sudo rm -rf apache-archiva-2.2.9-bin.tar.gz
 sudo mv apache-archiva-2* archiva
 ```
 
@@ -94,6 +95,11 @@ Reload systemd:
 sudo systemctl daemon-reload
 sudo systemctl enable archiva
 sudo systemctl start archiva
+sudo systemctl status archiva
+```
+## Access apache UI
+```bash
+<ip:8081>
 ```
 
 
