@@ -71,11 +71,11 @@
 
 8. **Access Nexus**
    ```t 
-   #Open your browser and go to:
+   # Open your browser and go to:
   
    http://<your-server-ip>:8081
    
-   #Default admin password is in:
+   # Default admin password is in:
    
    cat /opt/sonatype-work/nexus3/admin.password
    
