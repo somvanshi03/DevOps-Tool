@@ -99,7 +99,9 @@ sudo systemctl status archiva
 ```
 ## Access apache UI
 ```bash
-<ip:8081>
+ss -tnlp
+
+<ip:8080>
 ```
 
 
