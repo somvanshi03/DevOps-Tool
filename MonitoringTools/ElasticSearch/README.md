@@ -17,108 +17,107 @@ Elasticsearch Ports:
 ```	
 ## Install Java:
 ```bash 
-	sudo apt install openjdk-17-jre-headless
+sudo apt install openjdk-17-jre-headless
 
-	sudo vi .bashrc
-	export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
-	export PATH=$JAVA_HOME/bin:$PATH
-	. .bashrc
+sudo vi .bashrc
+export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
+export PATH=$JAVA_HOME/bin:$PATH
+. .bashrc
 
-	java -version
-	which java
+java -version
+which java
 ```
 
 ## Install ElasticSearch:
 ```bash 
 
-	sudo apt update
-	sudo wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo gpg --dearmor -o /usr/share/keyrings/elasticsearch-keyring.gpg
-	sudo apt-get install apt-transport-https
-	sudo echo "deb [signed-by=/usr/share/keyrings/elasticsearch-keyring.gpg] https://artifacts.elastic.co/packages/8.x/apt stable main" | sudo tee /etc/apt/sources.list.d/elastic-8.x.list
-	sudo apt-get update && sudo apt-get install elasticsearch
+sudo apt update
+sudo wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo gpg --dearmor -o /usr/share/keyrings/elasticsearch-keyring.gpg
+sudo apt-get install apt-transport-https
+sudo echo "deb [signed-by=/usr/share/keyrings/elasticsearch-keyring.gpg] https://artifacts.elastic.co/packages/8.x/apt stable main" |  tee /etc/apt/sources.list.d/elastic-8.x.list
+sudo apt-get update && sudo apt-get install elasticsearch
 ```
 
 ## Install Kibana:
 ```bash 
-	sudo wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo gpg --dearmor -o /usr/share/keyrings/elasticsearch-keyring.gpg
-	sudo apt-get install apt-transport-https
-	sudo echo "deb [signed-by=/usr/share/keyrings/elasticsearch-keyring.gpg] https://artifacts.elastic.co/packages/8.x/apt stable main" | sudo tee /etc/apt/sources.list.d/elastic-8.x.list
-	sudo apt-get update && sudo apt-get install kibana
+sudo wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo gpg --dearmor -o /usr/share/keyrings/elasticsearch-keyring.gpg
+sudo apt-get install apt-transport-https
+sudo echo "deb [signed-by=/usr/share/keyrings/elasticsearch-keyring.gpg] https://artifacts.elastic.co/packages/8.x/apt stable main" |  tee /etc/apt/sources.list.d/elastic-8.x.list
+sudo apt-get update && sudo apt-get install kibana
 ```
 
 ## Change the IP and Server URL
 
 ```bash 
-	uncomment below
-	sudo vi /etc/elasticsearch/elasticsearch.yaml
+uncomment below
+sudo vi /etc/elasticsearch/elasticsearch.yaml
 	
-	cluster.name
-	network.host: 0.0.0.0
-	http.port: 9200 
+cluster.name
+network.host: 0.0.0.0
+http.port: 9200 
 	
-	sudo vi /etc/kibana/kibana.yaml
+sudo vi /etc/kibana/kibana.yaml
 	
-	server.port: 5601
-	server.host: "0.0.0.0"
+server.port: 5601
+server.host: "0.0.0.0"
 ```
 ## Restart Kibana and ElasticSearch Service
 ```bash
-	sudo systemctl start elasticsearch
-	sudo systemctl enable elasticsearch
-	sudo systemctl start kibana
-	sudo systemctl enable kibana
+sudo systemctl start elasticsearch
+sudo systemctl enable elasticsearch
+sudo systemctl start kibana
+sudo systemctl enable kibana
 ```
 	
 ## Generate an enrollment token for Kibana instance:
 ```bash 
-	sudo /usr/share/elasticsearch/bin/elasticsearch-create-enrollment-token -s kibana
+sudo /usr/share/elasticsearch/bin/elasticsearch-create-enrollment-token -s kibana
 ```
 ## Generate Kibana Token:
 ```bash 
-	sudo cd /usr/share/kibana/bin/
-	sudo ./kibana-verification-code
+sudo cd /usr/share/kibana/bin/
+sudo ./kibana-verification-code
 ```
 
 
 ## Reset elastic user pass:
 ```bash
-
-	sudo /bin/elasticsearch-reset-password -u elastic
+sudo /bin/elasticsearch-reset-password -u elastic
 ```
 	
 ## Inspect Cluster:
 ```bash
 
-	GET /_cluster/health
-	GET /_cluster/state
-	GET /_cluster/stats
-	GET /_cluster/settings
+GET /_cluster/health
+GET /_cluster/state
+GET /_cluster/stats
+GET /_cluster/settings
 
-	GET /_cat/nodes
-	GET /_cat/indices?v
-	GET /_cat/indices?v&expand_wildcards=all
+GET /_cat/nodes
+GET /_cat/indices?v
+GET /_cat/indices?v&expand_wildcards=all
 
 
 
-	curl -X GET https://192.168.1.114:9200
+curl -X GET https://192.168.1.114:9200
 
-	curl --cacert config/certs/http_ca.cert -u elastic -X GET https://localhost:9200
+curl --cacert config/certs/http_ca.cert -u elastic -X GET https://localhost:9200
 
-	Sharding is a way to divide indics into smaller size
-	Each piece is refered as a shard
-	sharding is done at the index level
+Sharding is a way to divide indics into smaller size
+Each piece is refered as a shard
+sharding is done at the index level
 ```	
 ## Ref:
 ```bash 
-	Windows:
-	https://www.elastic.co/downloads/kibana
-	https://www.elastic.co/downloads/elasticsearch
+#Windows:
+https://www.elastic.co/downloads/kibana
+https://www.elastic.co/downloads/elasticsearch
 
-	Centos:
-	https://www.elastic.co/guide/en/elasticsearch/reference/current/rpm.html 
-	https://www.elastic.co/guide/en/kibana/current/rpm.html
+#Centos:
+https://www.elastic.co/guide/en/elasticsearch/reference/current/rpm.html 
+https://www.elastic.co/guide/en/kibana/current/rpm.html
 
-	Ubuntu:
-	https://www.elastic.co/guide/en/elasticsearch/reference/current/install-elasticsearch.html
-	https://www.elastic.co/guide/en/kibana/current/deb.html
+#Ubuntu:
+https://www.elastic.co/guide/en/elasticsearch/reference/current/install-elasticsearch.html
+https://www.elastic.co/guide/en/kibana/current/deb.html
 ```
