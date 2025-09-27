@@ -38,7 +38,7 @@ You can use `wget` (example):
 
 ```bash
 cd /opt
-sudo wget https://downloads.apache.org/archiva/2.2.10/binaries/apache-archiva-2.2.10-bin.tar.gz
+sudo wget https://archive.apache.org/dist/archiva/2.2.9/binaries/apache-archiva-2.2.9-bin.tar.gz
 ```
 
 (Verify URL; mirrored sites might differ.)
