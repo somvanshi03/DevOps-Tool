@@ -45,6 +45,60 @@ sudo echo "deb [signed-by=/usr/share/keyrings/elasticsearch-keyring.gpg] https:/
 sudo apt-get update && sudo apt-get install kibana -y 
 ```
 
+## Install LogStash 
+```bash
+sudo apt install -y logstash
+sudo systemctl enable logstash
+sudo systemctl start logstash
+sudo systemctl status logstash
+```
+### Basic Logstash Test
+```bash
+#Create a simple pipeline file:
+sudo vi /etc/logstash/conf.d/test-pipeline.conf
+#Paste this:
+input {
+  stdin { }
+}
+
+output {
+  stdout { codec => rubydebug }
+}
+
+#Run Logstash:
+sudo /usr/share/logstash/bin/logstash -f /etc/logstash/conf.d/test-pipeline.conf
+
+```
+## Connect Logstash → Elasticsearch → Kibana
+```bash
+#/etc/logstash/conf.d/elk-pipeline.conf
+
+input {
+  file {
+    path => "/var/log/syslog"
+    start_position => "beginning"
+  }
+}
+
+filter {
+  grok {
+    match => { "message" => "%{SYSLOGTIMESTAMP:timestamp} %{HOSTNAME:hostname} %{DATA:program}: %{GREEDYDATA:logmessage}" }
+  }
+}
+
+output {
+  elasticsearch {
+    hosts => ["http://localhost:9200"]
+    index => "syslog-index"
+  }
+  stdout { codec => rubydebug }
+}
+# Restart Service 
+sudo systemctl restart logstash
+# Check Logs 
+Now, in Kibana → Discover → select syslog-index to explore logs.
+```
+
 ## Change the IP and Server URL
 
 ```bash 
@@ -87,6 +141,8 @@ Above Verificatoin code will help while login into elastic dashboard.
 ```bash
 cd /usr/share/elasticsearch/bin
 sudo /bin/elasticsearch-reset-password -u elastic
+#Note
+Above password will help to login.
 ```
 	
 ## Inspect Cluster:
