@@ -72,16 +72,21 @@ sudo systemctl enable kibana
 ## Generate an enrollment token for Kibana instance:
 ```bash 
 sudo /usr/share/elasticsearch/bin/elasticsearch-create-enrollment-token -s kibana
+#Note:
+Above token will help while login into elastic dashboard.
 ```
 ## Generate Kibana Token:
 ```bash 
 sudo cd /usr/share/kibana/bin/
 sudo ./kibana-verification-code
+#Note:
+Above token will help while login into elastic dashboard.
 ```
 
 
 ## Reset elastic user pass:
 ```bash
+cd /usr/share/elasticsearch/bin
 sudo /bin/elasticsearch-reset-password -u elastic
 ```
 	
