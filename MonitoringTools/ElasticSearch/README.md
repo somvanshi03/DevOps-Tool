@@ -227,7 +227,136 @@ Above password will help to login.
 
 * `/etc/elasticsearch/elasticsearch.yml`
 * `/etc/kibana/kibana.yml`
-	
+
+## 🔹 **Elasticsearch Commands**
+
+### Service Management
+
+```bash
+# Start Elasticsearch
+sudo systemctl start elasticsearch
+
+# Stop Elasticsearch
+sudo systemctl stop elasticsearch
+
+# Restart Elasticsearch
+sudo systemctl restart elasticsearch
+
+# Enable on boot
+sudo systemctl enable elasticsearch
+
+# Check status
+sudo systemctl status elasticsearch
+```
+
+### API Examples
+
+```bash
+# Check cluster health
+curl -X GET "http://localhost:9200/_cluster/health?pretty"
+
+# List indices
+curl -X GET "http://localhost:9200/_cat/indices?v"
+
+# Create an index
+curl -X PUT "http://localhost:9200/test-index"
+
+# Index (insert) a document
+curl -X POST "http://localhost:9200/test-index/_doc/1" -H 'Content-Type: application/json' -d '{
+  "name": "Laptop",
+  "price": 1200
+}'
+
+# Search documents
+curl -X GET "http://localhost:9200/test-index/_search?q=name:Laptop&pretty"
+```
+
+---
+
+## 🔹 **Kibana Commands**
+
+### Service Management
+
+```bash
+# Start Kibana
+sudo systemctl start kibana
+
+# Stop Kibana
+sudo systemctl stop kibana
+
+# Restart Kibana
+sudo systemctl restart kibana
+
+# Enable on boot
+sudo systemctl enable kibana
+
+# Check status
+sudo systemctl status kibana
+```
+
+### CLI Commands
+
+Kibana binary lives in `/usr/share/kibana/bin/`
+
+```bash
+# Check version
+/usr/share/kibana/bin/kibana --version
+
+# Run Kibana manually in foreground (for debugging)
+/usr/share/kibana/bin/kibana
+```
+
+Access UI in browser: 👉 `http://localhost:5601`
+
+---
+
+## 🔹 **Elastic Agent Commands**
+
+Elastic Agent is used for **Fleet & Beats replacement** (log/metrics shipping).
+
+### Service Management
+
+```bash
+# Start Elastic Agent
+sudo systemctl start elastic-agent
+
+# Stop Elastic Agent
+sudo systemctl stop elastic-agent
+
+# Restart Elastic Agent
+sudo systemctl restart elastic-agent
+
+# Enable on boot
+sudo systemctl enable elastic-agent
+
+# Check status
+sudo systemctl status elastic-agent
+```
+
+### CLI Commands
+
+Binary: `/usr/share/elastic-agent/elastic-agent`
+
+```bash
+# Check version
+/usr/share/elastic-agent/elastic-agent version
+
+# Enroll the agent in Fleet
+sudo /usr/share/elastic-agent/elastic-agent enroll \
+  http://localhost:8220 \
+  <ENROLLMENT_TOKEN> \
+  --fleet-server-es=https://localhost:9200 \
+  --fleet-server-service-token=<SERVICE_TOKEN>
+
+# Show status
+/usr/share/elastic-agent/elastic-agent status
+
+# List running integrations
+/usr/share/elastic-agent/elastic-agent inspect
+```
+
+
+
 ## Inspect Cluster:
 ```bash
 
