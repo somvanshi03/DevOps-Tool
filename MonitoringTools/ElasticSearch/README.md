@@ -30,12 +30,11 @@ which java
 
 ## Install ElasticSearch:
 ```bash 
-
 sudo apt update
 sudo wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo gpg --dearmor -o /usr/share/keyrings/elasticsearch-keyring.gpg
 sudo apt-get install apt-transport-https
 sudo echo "deb [signed-by=/usr/share/keyrings/elasticsearch-keyring.gpg] https://artifacts.elastic.co/packages/8.x/apt stable main" |  tee /etc/apt/sources.list.d/elastic-8.x.list
-sudo apt-get update && sudo apt-get install elasticsearch
+sudo apt-get update && sudo apt-get install elasticsearch -y 
 ```
 
 ## Install Kibana:
@@ -43,20 +42,20 @@ sudo apt-get update && sudo apt-get install elasticsearch
 sudo wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo gpg --dearmor -o /usr/share/keyrings/elasticsearch-keyring.gpg
 sudo apt-get install apt-transport-https
 sudo echo "deb [signed-by=/usr/share/keyrings/elasticsearch-keyring.gpg] https://artifacts.elastic.co/packages/8.x/apt stable main" |  tee /etc/apt/sources.list.d/elastic-8.x.list
-sudo apt-get update && sudo apt-get install kibana
+sudo apt-get update && sudo apt-get install kibana -y 
 ```
 
 ## Change the IP and Server URL
 
 ```bash 
 uncomment below
-sudo vi /etc/elasticsearch/elasticsearch.yaml
+sudo vi /etc/elasticsearch/elasticsearch.yml
 	
 cluster.name
 network.host: 0.0.0.0
 http.port: 9200 
 	
-sudo vi /etc/kibana/kibana.yaml
+sudo vi /etc/kibana/kibana.yml
 	
 server.port: 5601
 server.host: "0.0.0.0"
