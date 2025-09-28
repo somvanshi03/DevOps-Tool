@@ -45,14 +45,14 @@ sudo echo "deb [signed-by=/usr/share/keyrings/elasticsearch-keyring.gpg] https:/
 sudo apt-get update && sudo apt-get install kibana -y 
 ```
 
-## Install LogStash 
+## Install LogStash (Optional)
 ```bash
 sudo apt install -y logstash
 sudo systemctl enable logstash
 sudo systemctl start logstash
 sudo systemctl status logstash
 ```
-### Basic Logstash Test
+### Basic Logstash Test (Optional)
 ```bash
 #Create a simple pipeline file:
 sudo vi /etc/logstash/conf.d/test-pipeline.conf
@@ -69,7 +69,7 @@ output {
 sudo /usr/share/logstash/bin/logstash -f /etc/logstash/conf.d/test-pipeline.conf
 
 ```
-## Connect Logstash → Elasticsearch → Kibana
+## Connect Logstash → Elasticsearch → Kibana (Optional)
 ```bash
 #/etc/logstash/conf.d/elk-pipeline.conf
 
