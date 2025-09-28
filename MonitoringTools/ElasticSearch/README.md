@@ -144,6 +144,89 @@ sudo /bin/elasticsearch-reset-password -u elastic
 #Note
 Above password will help to login.
 ```
+
+## 🔹 Elasticsearch Paths
+
+* **Config files:**
+
+  ```
+  /etc/elasticsearch/
+  ```
+
+  * `elasticsearch.yml` → main config
+  * `jvm.options` → JVM heap settings
+  * `log4j2.properties` → logging config
+
+* **Data directory (indices, shards):**
+
+  ```
+  /var/lib/elasticsearch/
+  ```
+
+* **Logs directory:**
+
+  ```
+  /var/log/elasticsearch/
+  ```
+
+* **Binary/executables:**
+
+  ```
+  /usr/share/elasticsearch/bin/
+  ```
+
+  (e.g., `elasticsearch`, `elasticsearch-plugin`)
+
+* **Service file (systemd):**
+
+  ```
+  /lib/systemd/system/elasticsearch.service
+  ```
+
+---
+
+## 🔹 Kibana Paths
+
+* **Config files:**
+
+  ```
+  /etc/kibana/
+  ```
+
+  * `kibana.yml` → main config
+
+* **Data directory (runtime data, uuid, etc.):**
+
+  ```
+  /var/lib/kibana/
+  ```
+
+* **Logs directory:**
+
+  ```
+  /var/log/kibana/
+  ```
+
+* **Binary/executables:**
+
+  ```
+  /usr/share/kibana/bin/
+  ```
+
+  (e.g., `kibana`, `kibana-plugin`)
+
+* **Service file (systemd):**
+
+  ```
+  /lib/systemd/system/kibana.service
+  ```
+
+---
+
+✅ So the **main ones you usually edit** are:
+
+* `/etc/elasticsearch/elasticsearch.yml`
+* `/etc/kibana/kibana.yml`
 	
 ## Inspect Cluster:
 ```bash
