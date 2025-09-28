@@ -80,7 +80,7 @@ Above token will help while login into elastic dashboard.
 sudo cd /usr/share/kibana/bin/
 sudo ./kibana-verification-code
 #Note:
-Above token will help while login into elastic dashboard.
+Above Verificatoin code will help while login into elastic dashboard.
 ```
 
 
