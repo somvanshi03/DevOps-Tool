@@ -17,7 +17,8 @@ Elasticsearch Ports:
 ```	
 ## Install Java:
 ```bash 
-sudo apt install openjdk-17-jre-headless
+sudo apt update 
+sudo apt install -y openjdk-17-jre-headless
 
 sudo vi .bashrc
 export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
