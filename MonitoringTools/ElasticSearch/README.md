@@ -86,7 +86,7 @@ Above Verificatoin code will help while login into elastic dashboard.
 ## Reset elastic user pass:
 ```bash
 cd /usr/share/elasticsearch/bin
-sudo /bin/elasticsearch-reset-password -u elastic
+./elasticsearch-reset-password -u elastic
 #Note
 Above password will help to login.
 ```
