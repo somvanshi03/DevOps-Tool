@@ -64,6 +64,8 @@ sudo systemctl start elasticsearch
 sudo systemctl enable elasticsearch
 sudo systemctl start kibana
 sudo systemctl enable kibana
+sudo systemctl restart elasticsearch
+sudo systemctl restart kibana.service
 ```
 	
 ## Generate an enrollment token for Kibana instance:
@@ -74,8 +76,8 @@ Above token will help while login into elastic dashboard.
 ```
 ## Generate Kibana Token:
 ```bash 
-sudo cd /usr/share/kibana/bin/
-sudo ./kibana-verification-code
+cd /usr/share/kibana/bin/
+./kibana-verification-code
 #Note:
 Above Verificatoin code will help while login into elastic dashboard.
 ```
