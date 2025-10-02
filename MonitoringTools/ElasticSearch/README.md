@@ -39,10 +39,53 @@ sudo apt-get update && sudo apt-get install elasticsearch -y
 
 ## Install Kibana:
 ```bash 
-sudo wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo gpg --dearmor -o /usr/share/keyrings/elasticsearch-keyring.gpg
-sudo apt-get install apt-transport-https
-sudo echo "deb [signed-by=/usr/share/keyrings/elasticsearch-keyring.gpg] https://artifacts.elastic.co/packages/8.x/apt stable main" |  tee /etc/apt/sources.list.d/elastic-8.x.list
-sudo apt-get update && sudo apt-get install kibana -y 
+sudo apt-get install kibana -y 
+```
+
+## Change the IP and Server URL
+
+```bash 
+uncomment below
+sudo vi /etc/elasticsearch/elasticsearch.yml
+	
+cluster.name
+network.host: 0.0.0.0
+http.port: 9200 
+	
+sudo vi /etc/kibana/kibana.yml
+	
+server.port: 5601
+server.host: "0.0.0.0"
+```
+## Restart Kibana and ElasticSearch Service
+```bash
+sudo systemctl start elasticsearch
+sudo systemctl enable elasticsearch
+sudo systemctl start kibana
+sudo systemctl enable kibana
+```
+	
+## Generate an enrollment token for Kibana instance:
+```bash 
+sudo /usr/share/elasticsearch/bin/elasticsearch-create-enrollment-token -s kibana
+#Note:
+Above token will help while login into elastic dashboard.
+```
+## Generate Kibana Token:
+```bash 
+sudo cd /usr/share/kibana/bin/
+sudo ./kibana-verification-code
+#Note:
+Above Verificatoin code will help while login into elastic dashboard.
+```
+
+
+## Reset elastic user pass:
+```bash
+cd /usr/share/elasticsearch/bin
+sudo /bin/elasticsearch-reset-password -u elastic
+#Note
+Above password will help to login.
 ```
 
 ## Install LogStash (Optional)
@@ -99,51 +142,7 @@ sudo systemctl restart logstash
 Now, in Kibana → Discover → select syslog-index to explore logs.
 ```
 
-## Change the IP and Server URL
 
-```bash 
-uncomment below
-sudo vi /etc/elasticsearch/elasticsearch.yml
-	
-cluster.name
-network.host: 0.0.0.0
-http.port: 9200 
-	
-sudo vi /etc/kibana/kibana.yml
-	
-server.port: 5601
-server.host: "0.0.0.0"
-```
-## Restart Kibana and ElasticSearch Service
-```bash
-sudo systemctl start elasticsearch
-sudo systemctl enable elasticsearch
-sudo systemctl start kibana
-sudo systemctl enable kibana
-```
-	
-## Generate an enrollment token for Kibana instance:
-```bash 
-sudo /usr/share/elasticsearch/bin/elasticsearch-create-enrollment-token -s kibana
-#Note:
-Above token will help while login into elastic dashboard.
-```
-## Generate Kibana Token:
-```bash 
-sudo cd /usr/share/kibana/bin/
-sudo ./kibana-verification-code
-#Note:
-Above Verificatoin code will help while login into elastic dashboard.
-```
-
-
-## Reset elastic user pass:
-```bash
-cd /usr/share/elasticsearch/bin
-sudo /bin/elasticsearch-reset-password -u elastic
-#Note
-Above password will help to login.
-```
 
 ## 🔹 Elasticsearch Paths
 
