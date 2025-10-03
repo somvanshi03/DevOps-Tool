@@ -74,3 +74,21 @@ Other commands:
     transit              Interact with Vault's Transit Secrets Engine
     version-history      Prints the version history of the target Vault server
 ```
+
+## Start Vault in Dev mode
+```bash
+vault server -dev 
+
+export VAULT_ADDR='http://127.0.0.1:8200'
+
+vault login
+
+vault list secrets
+vault status
+
+vault kv put secret/myapp/config username="admin" password="s3cr3tP@ss"
+
+vault kv list secret/myapp
+
+vault kv get secret/myapp/config
+```
