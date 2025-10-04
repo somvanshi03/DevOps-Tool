@@ -89,7 +89,7 @@ http://localhost:8200/ui/vault/dashboard
 # Note:
 Provide token code which we got while starting the vault.
 ``` 
-### Read, Write and Delete secret
+### Read, Write, List and Delete secret
 ```bash
 # Enable the Path first
 export VAULT_ADDR='http://127.0.0.1:8200'
@@ -106,23 +106,8 @@ vault kv get -format=json mykv101/secret101
 
 # Delete secret
 vault kv delete mykv101/secret101
-```
 
+# List of secret
+vault secrets list
 
-
-
-
-export VAULT_ADDR='http://127.0.0.1:8200'
-
-vault login
-
-vault list secrets
-
-vault status
-
-vault kv put secret/myapp/config username="admin" password="s3cr3tP@ss"
-
-vault kv list secret/myapp
-
-vault kv get secret/myapp/config
 ```
