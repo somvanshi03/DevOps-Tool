@@ -1,6 +1,9 @@
 # Install Hashicorp on Ubuntu
 
-
+## Installation link
+```bash 
+https://developer.hashicorp.com/vault/install
+```
 ### Update Your System
 Start by updating your local package index:
 ```
@@ -74,16 +77,47 @@ Other commands:
     transit              Interact with Vault's Transit Secrets Engine
     version-history      Prints the version history of the target Vault server
 ```
-
-## Start Vault in Dev mode
+### Start and Stop Vault
 ```bash
-vault server -dev 
+vault server -dev
+# Port: 8200
+# Storage: inmem (In-Memory)
+# Unseal key
+# Root Token
+# Access Vault on browser
+http://localhost:8200/ui/vault/dashboard
+# Note:
+Provide token code which we got while starting the vault.
+``` 
+### Read, Write and Delete secret
+```bash
+# Enable the Path first
+export VAULT_ADDR='http://127.0.0.1:8200'
+
+# Enable secret
+vault secrets enable -path=mykv101 kv 
+
+# Crete secret
+vault kv put mykv101/secret101 username="admin" password="s3cr3tP@ss"
+
+# Read secret
+vault kv get mykv101/secret101
+vault kv get -format=json mykv101/secret101
+
+# Delete secret
+vault kv delete mykv101/secret101
+```
+
+
+
+
 
 export VAULT_ADDR='http://127.0.0.1:8200'
 
 vault login
 
 vault list secrets
+
 vault status
 
 vault kv put secret/myapp/config username="admin" password="s3cr3tP@ss"
