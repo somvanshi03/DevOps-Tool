@@ -7,36 +7,35 @@ sudo apt update
 apt install default-jre default-jdk vim -y 
 
 #Export the java path to the variable JAVA_HOME,
+export JAVA_HOME=/usr/lib/jvm/java-21-openjdk-amd64
+echo $JAVA_HOME
 
-	export JAVA_HOME=/usr/lib/jvm/java-21-openjdk-amd64
-	echo $JAVA_HOME
+# Before installing and setting up OpenSearch make sure that vm.max_map_count is set to at least 262144.
 
-Before installing and setting up OpenSearch make sure that vm.max_map_count is set to at least 262144.
+vi /etc/sysctl.conf
+vm.max_map_count=262144 
 
-	vi /etc/sysctl.conf
-	vm.max_map_count=262144 
+# Reload to update the changes using,
 
-Reload to update the changes using,
+sudo sysctl -p
 
-	sudo sysctl -p
+wget https://artifacts.opensearch.org/releases/bundle/opensearch/3.3.2/opensearch-3.3.2-linux-x64.deb
 
-	wget https://artifacts.opensearch.org/releases/bundle/opensearch/3.3.2/opensearch-3.3.2-linux-x64.deb
+sudo env OPENSEARCH_INITIAL_ADMIN_PASSWORD=S%}7sLIMmJ8Lmv8G dpkg -i opensearch-3.3.2-linux-x64.deb
 
-	sudo env OPENSEARCH_INITIAL_ADMIN_PASSWORD=S%}7sLIMmJ8Lmv8G dpkg -i opensearch-3.3.2-linux-x64.deb
+# Reload and enable opensearch,
 
-Reload and enable opensearch,
-
-	sudo systemctl daemon-reload
-	sudo systemctl enable opensearch
+sudo systemctl daemon-reload
+sudo systemctl enable opensearch
 	
-Start and check the status of OpenSearch
+# Start and check the status of OpenSearch
 
-	sudo systemctl start opensearch
-	sudo systemctl status opensearch
+sudo systemctl start opensearch
+sudo systemctl status opensearch
 	
-Curl the opensearch url running on port 9200, with username and password as admin.
+# Curl the opensearch url running on port 9200, with username and password as admin.
 
-	curl -X GET https://localhost:9200 -u 'admin:S%}7sLIMmJ8Lmv8G' --insecure
+curl -X GET https://localhost:9200 -u 'admin:S%}7sLIMmJ8Lmv8G' --insecure
 	
 
 vi /etc/opensearch/opensearch.yml
@@ -45,8 +44,9 @@ network.host: 0.0.0.0
 discovery.type: single-node
 plugins.security.disabled: false
 
-	sudo systemctl restart opensearch
-	sudo systemctl status opensearch
+# Restart the services
+sudo systemctl restart opensearch
+sudo systemctl status opensearch
 ```
 ## Install Opensearch Dashborad
 ```bash
