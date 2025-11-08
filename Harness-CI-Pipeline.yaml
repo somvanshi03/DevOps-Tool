@@ -1,23 +1,55 @@
 pipeline:
-  name: Build_Microservice_Pipeline
-  identifier: Build_Microservice_Pipeline
+  name: Maven_Build_and_Push_Microservice
+  identifier: Maven_Build_and_Push_Microservice
   projectIdentifier: your_project_id
   orgIdentifier: your_org_id
   tags: {}
 
-  # ==============================
-  #  Runtime Inputs (Dropdowns)
-  # ==============================
   properties:
     ci:
       codebase:
-        connectorRef: your_repo_connector
-        repoName: <+input>
-        build: <+input>
+        connectorRef: your_git_connector
+        repoName: your_repo_name
+        # Runtime input for branch selection from dropdown
+        build:
+          type: branch
+          spec:
+            branch: <+input>.allowedValues(main, develop, release, feature/new-feature)
+
+  variables:
+    # 1️⃣ Java version dropdown
+    - name: java_version
+      type: String
+      description: "Select Java version for build"
+      value: <+input>.allowedValues(8, 11, 17, 21)
+
+    # 2️⃣ Microservice selection dropdown
+    - name: microservice_name
+      type: String
+      description: "Select which microservice to build"
+      value: <+input>.allowedValues(oneTruService, regionalService, paymentService, customerService, notificationService)
+
+    # 3️⃣ JFrog registry details
+    - name: JFROG_URL
+      type: String
+      value: your.jfrog.io
+
+    - name: JFROG_REPO
+      type: String
+      value: your_docker_repo
+
+    - name: JFROG_USER
+      type: Secret
+      value: jfrog_user_secret
+
+    - name: JFROG_PASS
+      type: Secret
+      value: jfrog_password_secret
+
   stages:
     - stage:
-        name: Build_Microservice
-        identifier: Build_Microservice
+        name: Build_and_Push
+        identifier: Build_and_Push
         type: CI
         spec:
           cloneCodebase: true
@@ -27,61 +59,60 @@ pipeline:
               connectorRef: your_k8s_connector
               namespace: harness-ci
               automountServiceAccountToken: true
-              nodeSelector: {}
               os: Linux
               containerSecurityContext:
                 privileged: true
+
           execution:
             steps:
-
-              # ========================================
-              # Step 1: Select Java Version
-              # ========================================
+              # ================================================
+              # Step 1: Set Java Version
+              # ================================================
               - step:
-                  name: Set_Java_Version
-                  identifier: Set_Java_Version
+                  name: Select_Java_Version
+                  identifier: Select_Java_Version
                   type: Run
                   spec:
                     connectorRef: docker_connector
                     image: maven:<+pipeline.variables.java_version>-jdk
                     command: |
-                      echo "Selected Java Version: <+pipeline.variables.java_version>"
+                      echo "Using Java version: <+pipeline.variables.java_version>"
                       java -version
 
-              # ========================================
-              # Step 2: Build Selected Microservice
-              # ========================================
+              # ================================================
+              # Step 2: Build Microservice with Maven
+              # ================================================
               - step:
-                  name: Build_Microservice
-                  identifier: Build_Microservice
+                  name: Maven_Build
+                  identifier: Maven_Build
                   type: Run
                   spec:
                     connectorRef: docker_connector
                     image: maven:<+pipeline.variables.java_version>-jdk
                     command: |
-                      echo "Building Microservice: <+pipeline.variables.microservice_name>"
+                      echo "Building Microservice: <+pipeline.variables.microservice_name> on branch <+codebase.branch>"
                       cd <+pipeline.variables.microservice_name>
                       mvn clean package -DskipTests
 
-              # ========================================
+              # ================================================
               # Step 3: Build Docker Image
-              # ========================================
+              # ================================================
               - step:
                   name: Build_Docker_Image
                   identifier: Build_Docker_Image
                   type: BuildAndPushDockerRegistry
                   spec:
                     connectorRef: jfrog_docker_connector
-                    repo: <+pipeline.variables.microservice_name>
+                    repo: <+pipeline.variables.JFROG_REPO>/<+pipeline.variables.microservice_name>
                     tags:
                       - <+pipeline.sequenceId>
                       - latest
                     dockerfile: <+pipeline.variables.microservice_name>/Dockerfile
                     context: <+pipeline.variables.microservice_name>
 
-              # ========================================
-              # Step 4: Wiz Seal Scan (Container Security)
-              # ========================================
+              # ================================================
+              # Step 4: Wiz Seal Scan
+              # ================================================
               - step:
                   name: Wiz_Seal_Scan
                   identifier: Wiz_Seal_Scan
@@ -91,46 +122,23 @@ pipeline:
                     image: wizio/seal-cli:latest
                     command: |
                       echo "Running Wiz Seal Scan for <+pipeline.variables.microservice_name>"
-                      seal scan --image <+pipeline.variables.microservice_name>:<+pipeline.sequenceId> --output result.json
+                      seal scan --image <+pipeline.variables.JFROG_URL>/<+pipeline.variables.JFROG_REPO>/<+pipeline.variables.microservice_name>:<+pipeline.sequenceId> --output result.json
                       cat result.json
 
-              # ========================================
+              # ================================================
               # Step 5: Push Docker Image to JFrog Registry
-              # ========================================
+              # ================================================
               - step:
-                  name: Push_Docker_Image
-                  identifier: Push_Docker_Image
+                  name: Push_to_JFrog
+                  identifier: Push_to_JFrog
                   type: Run
                   spec:
                     connectorRef: docker_connector
                     image: docker:latest
                     command: |
-                      echo "Pushing image to JFrog Registry"
+                      echo "Logging into JFrog Docker Registry..."
                       docker login -u $JFROG_USER -p $JFROG_PASS $JFROG_URL
-                      docker push $JFROG_URL/<+pipeline.variables.microservice_name>:<+pipeline.sequenceId>
 
-  # ==============================
-  #  Runtime Variables
-  # ==============================
-  variables:
-    - name: java_version
-      type: String
-      value: <+input>.allowedValues(8, 11, 17, 21)
-      description: "Select Java version for build"
+                      echo "Pushing image to JFrog..."
+                      docker push $JFROG_URL/<+pipeline.variables.JFROG_REPO>/<+pipeline.variables.microservice_name>:<+pipeline.sequenceId>
 
-    - name: microservice_name
-      type: String
-      value: <+input>.allowedValues(oneTruService, regionalService, paymentService, customerService, notificationService)
-      description: "Select microservice to build"
-
-    - name: JFROG_URL
-      type: String
-      value: your_jfrog_registry_url
-
-    - name: JFROG_USER
-      type: Secret
-      value: jfrog_user_secret
-
-    - name: JFROG_PASS
-      type: Secret
-      value: jfrog_password_secret
