@@ -1,0 +1,136 @@
+pipeline:
+  name: Build_Microservice_Pipeline
+  identifier: Build_Microservice_Pipeline
+  projectIdentifier: your_project_id
+  orgIdentifier: your_org_id
+  tags: {}
+
+  # ==============================
+  #  Runtime Inputs (Dropdowns)
+  # ==============================
+  properties:
+    ci:
+      codebase:
+        connectorRef: your_repo_connector
+        repoName: <+input>
+        build: <+input>
+  stages:
+    - stage:
+        name: Build_Microservice
+        identifier: Build_Microservice
+        type: CI
+        spec:
+          cloneCodebase: true
+          infrastructure:
+            type: KubernetesDirect
+            spec:
+              connectorRef: your_k8s_connector
+              namespace: harness-ci
+              automountServiceAccountToken: true
+              nodeSelector: {}
+              os: Linux
+              containerSecurityContext:
+                privileged: true
+          execution:
+            steps:
+
+              # ========================================
+              # Step 1: Select Java Version
+              # ========================================
+              - step:
+                  name: Set_Java_Version
+                  identifier: Set_Java_Version
+                  type: Run
+                  spec:
+                    connectorRef: docker_connector
+                    image: maven:<+pipeline.variables.java_version>-jdk
+                    command: |
+                      echo "Selected Java Version: <+pipeline.variables.java_version>"
+                      java -version
+
+              # ========================================
+              # Step 2: Build Selected Microservice
+              # ========================================
+              - step:
+                  name: Build_Microservice
+                  identifier: Build_Microservice
+                  type: Run
+                  spec:
+                    connectorRef: docker_connector
+                    image: maven:<+pipeline.variables.java_version>-jdk
+                    command: |
+                      echo "Building Microservice: <+pipeline.variables.microservice_name>"
+                      cd <+pipeline.variables.microservice_name>
+                      mvn clean package -DskipTests
+
+              # ========================================
+              # Step 3: Build Docker Image
+              # ========================================
+              - step:
+                  name: Build_Docker_Image
+                  identifier: Build_Docker_Image
+                  type: BuildAndPushDockerRegistry
+                  spec:
+                    connectorRef: jfrog_docker_connector
+                    repo: <+pipeline.variables.microservice_name>
+                    tags:
+                      - <+pipeline.sequenceId>
+                      - latest
+                    dockerfile: <+pipeline.variables.microservice_name>/Dockerfile
+                    context: <+pipeline.variables.microservice_name>
+
+              # ========================================
+              # Step 4: Wiz Seal Scan (Container Security)
+              # ========================================
+              - step:
+                  name: Wiz_Seal_Scan
+                  identifier: Wiz_Seal_Scan
+                  type: Run
+                  spec:
+                    connectorRef: docker_connector
+                    image: wizio/seal-cli:latest
+                    command: |
+                      echo "Running Wiz Seal Scan for <+pipeline.variables.microservice_name>"
+                      seal scan --image <+pipeline.variables.microservice_name>:<+pipeline.sequenceId> --output result.json
+                      cat result.json
+
+              # ========================================
+              # Step 5: Push Docker Image to JFrog Registry
+              # ========================================
+              - step:
+                  name: Push_Docker_Image
+                  identifier: Push_Docker_Image
+                  type: Run
+                  spec:
+                    connectorRef: docker_connector
+                    image: docker:latest
+                    command: |
+                      echo "Pushing image to JFrog Registry"
+                      docker login -u $JFROG_USER -p $JFROG_PASS $JFROG_URL
+                      docker push $JFROG_URL/<+pipeline.variables.microservice_name>:<+pipeline.sequenceId>
+
+  # ==============================
+  #  Runtime Variables
+  # ==============================
+  variables:
+    - name: java_version
+      type: String
+      value: <+input>.allowedValues(8, 11, 17, 21)
+      description: "Select Java version for build"
+
+    - name: microservice_name
+      type: String
+      value: <+input>.allowedValues(oneTruService, regionalService, paymentService, customerService, notificationService)
+      description: "Select microservice to build"
+
+    - name: JFROG_URL
+      type: String
+      value: your_jfrog_registry_url
+
+    - name: JFROG_USER
+      type: Secret
+      value: jfrog_user_secret
+
+    - name: JFROG_PASS
+      type: Secret
+      value: jfrog_password_secret
